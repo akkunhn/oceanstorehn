@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
@@ -39,13 +40,19 @@
       padding:24px 16px 80px;
       text-align:center;
       overflow:hidden;
+      padding-bottom: 120px; /* Aumentar el padding para el nuevo botón */
     }
     header img{
       max-width:380px;width:90%;display:block;margin:0 auto 8px;
     }
-    header h1{margin:6px 0 0;font-size:48px;color:var(--azul)}
-    header p{
+    header h1{
       margin:6px 0 0;
+      font-size:60px;
+      color:var(--azul);
+      font-family:'Poppins', sans-serif;
+    }
+    header p{
+      margin:6px 0 16px;
       color:var(--azul);
       font-family:'Playfair Display', serif;
       font-size:24px;
@@ -179,12 +186,19 @@
       overflow-y:auto;
       flex:1;
     }
-    .menu a{
-      display:block;text-decoration:none;color:var(--azul);
-      background:#f0f6ff;border:1px solid #e1edff;border-radius:12px;padding:12px 16px;text-align:left; /* Alineación izquierda */
+    .menu-grid a {
+      display: block;
+      text-decoration: none;
+      color: var(--azul);
+      background: #f0f6ff;
+      border: 1px solid #e1edff;
+      border-radius: 12px;
+      padding: 12px 16px;
+      text-align: left;
       transition: transform .2s ease, background .2s ease, color .2s ease;
+      cursor: pointer;
     }
-    .menu a.active, .menu a:hover{
+    .menu-grid a.active, .menu-grid a:hover{
       background:var(--azul-claro);
       color:var(--blanco);
       transform:scale(1.02);
@@ -194,7 +208,8 @@
       border-top:1px solid #eee;
     }
     .menu-footer a{
-      text-decoration:none;color:#fff;background:var(--azul);padding:8px 12px;border-radius:999px
+      text-decoration:none;color:#fff;background:var(--azul);padding:8px 12px;border-radius:999px;
+      cursor: pointer;
     }
 
     /* Sección categoría + carrusel */
@@ -339,6 +354,7 @@
     <img src="img/logo.png" alt="Logo Ocean Store">
     <h1>OCEAN STORE</h1>
     <p>Camisas con estampados DTF únicos y de alta calidad</p>
+    <a href="#categorias" class="btn-prim" style="position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%); z-index: 10; padding: 12px 24px; font-size: 18px;">¡Explora Ahora!</a>
 
     <div class="olas" aria-hidden="true">
       <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
