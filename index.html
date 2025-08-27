@@ -280,7 +280,14 @@
 
     /* Sección categoría + carrusel */
     .categoria{
-      max-width:1200px;margin:28px auto;padding:0 16px;
+      max-width:1200px;
+      margin:28px auto;
+      padding:0 16px;
+      display: none; /* Oculta todas las categorías por defecto */
+    }
+    /* Muestra solo la categoría con la clase 'active' */
+    .categoria.active {
+      display: block;
     }
     .categoria-header{
       display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;
@@ -447,14 +454,14 @@
       <button id="closeMenu" class="icon-btn" aria-label="Cerrar menú"><i class="fa-solid fa-xmark" style="color:#0B2C4A"></i></button>
     </div>
     <div class="menu-grid">
-      <a href="#cat-camisas">Camisas</a>
-      <a href="#cat-hoodies">Hoodies</a>
-      <a href="#cat-gorras">Gorras</a>
-      <a href="#cat-mousepads">Mousepads</a>
-      <a href="#cat-vasos">Vasos</a>
-      <a href="#cat-tazas">Tazas</a>
-      <a href="#cat-decoracion">Decoración para fiestas</a>
-      <a href="#cat-regalos">Regalos</a>
+      <a data-target="cat-camisas">Camisas</a>
+      <a data-target="cat-hoodies">Hoodies</a>
+      <a data-target="cat-gorras">Gorras</a>
+      <a data-target="cat-mousepads">Mousepads</a>
+      <a data-target="cat-vasos">Vasos</a>
+      <a data-target="cat-tazas">Tazas</a>
+      <a data-target="cat-decoracion">Decoración para fiestas</a>
+      <a data-target="cat-regalos">Regalos</a>
     </div>
     <div class="menu-footer">
       <a href="#instrucciones">Instrucciones</a>
@@ -622,7 +629,42 @@
       CATS.forEach(cat=>{
         main.appendChild(crearSeccionCategoria(cat));
       });
+      // Muestra la primera categoría al inicio
+      mostrarCategoria('cat-camisas');
     }
+
+    /* ==========
+       Lógica de pestañas para categorías
+       ========== */
+    const enlacesMenu = document.querySelectorAll('.menu-grid a');
+    const seccionesCategorias = document.querySelectorAll('.categoria');
+
+    function mostrarCategoria(id){
+      seccionesCategorias.forEach(sec=>{
+        sec.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+
+      enlacesMenu.forEach(link=>{
+        link.classList.remove('active');
+        if(link.dataset.target === id){
+          link.classList.add('active');
+        }
+      });
+      // Desplazarse a la sección
+      document.getElementById(id).scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+
+    enlacesMenu.forEach(link=>{
+      link.addEventListener('click', (e)=>{
+        e.preventDefault(); // Evita el comportamiento por defecto del enlace
+        const targetId = e.currentTarget.dataset.target;
+        if(targetId){
+          mostrarCategoria(targetId);
+        }
+        toggleMenu(false); // Cierra el menú al seleccionar
+      });
+    });
 
     /* ==========
        Menú desplegable
@@ -640,14 +682,6 @@
     btnMenu.addEventListener('click',()=>toggleMenu(true));
     closeMenu.addEventListener('click',()=>toggleMenu(false));
     menuBackdrop.addEventListener('click',()=>toggleMenu(false));
-    
-    // Cierra el menú cuando se hace clic en un enlace de navegación
-    const menuLinks = document.querySelectorAll('.menu-grid a');
-    menuLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            toggleMenu(false);
-        });
-    });
 
     /* ==========
        Modal compra
@@ -802,6 +836,7 @@
   </script>
 </body>
 </html>
+
 
 
 
