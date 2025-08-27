@@ -35,7 +35,7 @@
     /* Instrucciones */
     .instrucciones {background:white;margin:30px;padding:20px;border-radius:10px;
       box-shadow:0 2px 6px rgba(0,0,0,.1);}
-    .instrucciones h2 {text-align:center;margin-bottom:15px;}
+    .instrucciones h2 {text-align:left;margin-bottom:15px;}
     /* Contacto */
     #contacto {text-align:center;padding:40px 20px;background:#87B4E3;color:white;}
     .social-links a {margin:10px;font-size:24px;color:white;background:#0B2C4A;padding:12px;
@@ -111,6 +111,7 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   const carritoBtn = document.getElementById("carrito-btn");
   const carritoContenido = document.getElementById("carrito-contenido");
   const listaCarrito = document.getElementById("lista-carrito");
@@ -156,10 +157,12 @@
     mensaje+=total.textContent;
     window.open(`https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`,"_blank");
   });
+});
 </script>
 
 </body>
 </html>
+
 
 
 
