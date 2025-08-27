@@ -5,6 +5,7 @@
   <title>OCEAN STORE</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     body {
       margin: 0;
@@ -13,157 +14,260 @@
       color: #0B2C4A;
       scroll-behavior: smooth;
     }
+
     header {
       background-color: white;
       text-align: center;
-      padding: 20px 0 60px 0;
+      padding: 20px 0;
       position: relative;
       overflow: hidden;
     }
+
     header img {
       max-width: 400px;
       width: 100%;
       display: block;
       margin: 0 auto 10px;
     }
-    header h1 { margin: 0; font-size: 50px; color: #0B2C4A; }
-    header p { margin: 5px 0 0; color: #FFD23F; font-size: 25px; }
+
+    header h1 {
+      margin: 0;
+      font-size: 50px;
+      color: #0B2C4A;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      color: #FFD23F;
+      font-size: 25px;
+    }
 
     /* Ola animada */
     .wave {
       position: absolute;
-      bottom: 0; left: 0;
-      width: 200%; height: 100px;
-      background: url('img/wave.svg') repeat-x;
+      bottom: -20px;
+      left: 0;
+      width: 200%;
+      height: 100px;
+      background: url('img/ola.png') repeat-x;
       background-size: 1000px 100px;
       animation: wave 10s linear infinite;
     }
+
     @keyframes wave {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
     }
 
-    /* Menú hamburguesa */
-    .menu-btn {
+    /* Menú */
+    nav {
+      background-color: #0B2C4A;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
       position: fixed;
-      top: 20px; left: 20px;
-      z-index: 1100;
-      font-size: 30px;
-      color: #0B2C4A;
-      cursor: pointer;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
     }
-    .side-menu {
-      position: fixed;
-      top: 0; left: -250px;
-      width: 250px; height: 100%;
-      background: #0B2C4A;
+
+    .logo-menu {
+      font-size: 20px;
       color: white;
-      padding-top: 60px;
-      transition: 0.3s;
-      z-index: 1200;
     }
-    .side-menu a {
+
+    .hamburguesa {
+      font-size: 25px;
+      color: white;
+      cursor: pointer;
       display: block;
-      padding: 15px;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      background: #0B2C4A;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .menu a {
       color: white;
       text-decoration: none;
-      font-size: 18px;
+      padding: 15px;
+      border-bottom: 1px solid #444;
+      text-align: center;
     }
-    .side-menu a:hover { background: #FFD23F; color: #0B2C4A; }
-    .side-menu.show { left: 0; }
 
-    /* Productos */
-    section { padding: 40px 20px; }
-    h2 { text-align: center; margin-bottom: 20px; color: #0B2C4A; }
-    .productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+    .menu a:hover {
+      background: #FFD23F;
+      color: #0B2C4A;
     }
+
+    .productos {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 30px;
+      scroll-behavior: smooth;
+    }
+
     .producto {
       background: white;
       border-radius: 10px;
+      min-width: 200px;
       padding: 15px;
       text-align: center;
       box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
       transition: transform 0.2s;
+      flex-shrink: 0;
     }
-    .producto:hover { transform: scale(1.05); }
-    .producto img { width: 100%; border-radius: 10px; }
+
+    .producto:hover {
+      transform: scale(1.05);
+    }
+
+    .producto img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .producto h3 {
+      margin: 10px 0 5px;
+      font-size: 20px;
+      color: #0B2C4A;
+    }
+
+    .producto p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
     .btn {
-      display: inline-block; margin-top: 10px;
-      padding: 10px 15px; background: #FFD23F;
-      color: #0B2C4A; text-decoration: none;
-      border-radius: 5px; font-weight: bold;
-      cursor: pointer; transition: 0.3s;
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #FFD23F;
+      color: #0B2C4A;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
     }
-    .btn:hover { background: #87B4E3; color: white; }
+
+    .btn:hover {
+      background: #87B4E3;
+      color: white;
+      transform: scale(1.1);
+    }
 
     /* Carrito */
     #carrito {
-      position: fixed; top: 20px; right: 20px;
-      background: #0B2C4A; color: white;
-      padding: 15px; border-radius: 10px;
-      width: 300px; max-height: 400px;
-      overflow-y: auto; display: none;
-      z-index: 1100;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #FFD23F;
+      padding: 10px 15px;
+      border-radius: 10px;
+      color: #0B2C4A;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
     }
-    #carrito h3 { margin-top: 0; }
-    #carrito button { margin-top: 10px; width: 100%; }
 
-    /* Modal */
+    #contacto {
+      text-align: center;
+      padding: 40px 20px;
+      background: #87B4E3;
+      color: white;
+    }
+
+    #contacto h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 10px;
+      font-size: 24px;
+      color: white;
+      background: #0B2C4A;
+      padding: 12px;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .social-links a:hover {
+      background: #FFD23F;
+      color: #0B2C4A;
+      transform: scale(1.1);
+    }
+
+    footer {
+      background-color: #0B2C4A;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
     .modal {
-      display: none; position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      display: none; 
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.6);
-      justify-content: center; align-items: center;
-      z-index: 1500;
+      justify-content: center;
+      align-items: center;
     }
-    .modal-content {
-      background: white; padding: 20px;
-      border-radius: 10px; text-align: center;
-      width: 300px;
-    }
-    .modal .btn { margin: 5px; }
 
-    /* Instrucciones */
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 300px;
+      width: 90%;
+    }
+
+    .modal h3 {
+      margin-bottom: 15px;
+    }
+
+    .tallas select, .modal input {
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      width: 100%;
+    }
+
+    .modal .btn {
+      margin: 5px;
+    }
+
     .instrucciones {
       background: white;
-      margin: 30px auto;
+      margin: 30px;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-      max-width: 700px;
       text-align: center;
     }
+
     .instrucciones ol {
-      padding: 0;
-      list-style-position: inside;
       text-align: left;
       display: inline-block;
-    }
-    footer {
-      background: #0B2C4A; color: white;
-      text-align: center; padding: 15px;
-      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-
-  <!-- Menú -->
-  <div class="menu-btn"><i class="fas fa-bars"></i></div>
-  <div class="side-menu" id="sideMenu">
-    <a href="#camisas">Camisas</a>
-    <a href="#hoodies">Hoodies</a>
-    <a href="#gorras">Gorras</a>
-    <a href="#mousepads">Mousepads</a>
-    <a href="#tazas">Tazas</a>
-    <a href="#vasos">Vasos</a>
-    <a href="#decoracion">Decoración</a>
-    <a href="#regalos">Regalos</a>
-    <a href="#contacto">Contacto</a>
-  </div>
 
   <header>
     <img src="img/logo.png" alt="Logo Ocean Store">
@@ -172,51 +276,144 @@
     <div class="wave"></div>
   </header>
 
+  <!-- Menú -->
+  <nav>
+    <div class="logo-menu">☰ Menú</div>
+    <div class="hamburguesa" onclick="toggleMenu()">&#9776;</div>
+    <div class="menu" id="menu">
+      <a href="#camisas">Camisas</a>
+      <a href="#hoodies">Hoodies</a>
+      <a href="#gorras">Gorras</a>
+      <a href="#mousepads">Mousepads</a>
+      <a href="#vasos">Vasos</a>
+      <a href="#tazas">Tazas</a>
+      <a href="#decoracion">Decoración</a>
+      <a href="#regalos">Regalos</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <!-- Carrito -->
+  <div id="carrito">🛒 Carrito (0)</div>
+
   <!-- Categorías -->
-  <section id="camisas"><h2>Camisas</h2><div class="productos">
-    <!-- 10 camisas -->
-    ${Array(10).fill(`<div class="producto"><img src="img/camisa.png"><h3>Camisa Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Anime" data-precio="500" data-categoria="ropa">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="camisas">
+    <h2 style="text-align:center;">Camisas</h2>
+    <div class="productos">
+      <!-- 10 productos camisas -->
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/camisa.png" alt="Camisa">
+        <h3>Camisa Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Camisa Anime" data-precio="500" data-talla="true">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
-  <section id="hoodies"><h2>Hoodies</h2><div class="productos">
-    ${Array(10).fill(`<div class="producto"><img src="img/hoodie.png"><h3>Hoodie Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Hoodie Anime" data-precio="500" data-categoria="ropa">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="hoodies">
+    <h2 style="text-align:center;">Hoodies</h2>
+    <div class="productos">
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/hoodie.png" alt="Hoodie">
+        <h3>Hoodie Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Hoodie Anime" data-precio="500" data-talla="true">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
-  <section id="gorras"><h2>Gorras</h2><div class="productos">
-    ${Array(10).fill(`<div class="producto"><img src="img/gorra.png"><h3>Gorra Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Gorra Anime" data-precio="500" data-categoria="ropa">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="gorras">
+    <h2 style="text-align:center;">Gorras</h2>
+    <div class="productos">
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/gorra.png" alt="Gorra">
+        <h3>Gorra Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Gorra Anime" data-precio="500" data-talla="true">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
-  <section id="mousepads"><h2>Mousepads</h2><div class="productos">
-    ${Array(10).fill(`<div class="producto"><img src="img/mousepad.png"><h3>Mousepad Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Mousepad Anime" data-precio="500" data-categoria="ropa">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="mousepads">
+    <h2 style="text-align:center;">Mousepads</h2>
+    <div class="productos">
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/mousepad.png" alt="Mousepad">
+        <h3>Mousepad Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Mousepad Anime" data-precio="500" data-talla="true">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
-  <section id="tazas"><h2>Tazas</h2><div class="productos">
-    ${Array(10).fill(`<div class="producto"><img src="img/taza.png"><h3>Taza Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Taza Anime" data-precio="500" data-categoria="otros">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="vasos">
+    <h2 style="text-align:center;">Vasos</h2>
+    <div class="productos">
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/vaso.png" alt="Vaso">
+        <h3>Vaso Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Vaso Anime" data-precio="500">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
-  <section id="vasos"><h2>Vasos</h2><div class="productos">
-    ${Array(10).fill(`<div class="producto"><img src="img/vaso.png"><h3>Vaso Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Vaso Anime" data-precio="500" data-categoria="otros">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="tazas">
+    <h2 style="text-align:center;">Tazas</h2>
+    <div class="productos">
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/taza.png" alt="Taza">
+        <h3>Taza Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Taza Anime" data-precio="500">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
-  <section id="decoracion"><h2>Decoración</h2><div class="productos">
-    ${Array(10).fill(`<div class="producto"><img src="img/decoracion.png"><h3>Decoración Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Decoración Anime" data-precio="500" data-categoria="otros">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="decoracion">
+    <h2 style="text-align:center;">Decoración</h2>
+    <div class="productos">
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/decoracion.png" alt="Decoracion">
+        <h3>Decoración Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Decoración Anime" data-precio="500">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
-  <section id="regalos"><h2>Regalos</h2><div class="productos">
-    ${Array(10).fill(`<div class="producto"><img src="img/regalo.png"><h3>Regalo Anime</h3><p>L500.00</p><button class="btn comprar" data-producto="Regalo Anime" data-precio="500" data-categoria="otros">Comprar</button></div>`).join("")}
-  </div></section>
+  <section id="regalos">
+    <h2 style="text-align:center;">Regalos</h2>
+    <div class="productos">
+      ${Array(10).fill(`
+      <div class="producto">
+        <img src="img/regalo.png" alt="Regalo">
+        <h3>Regalo Anime</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Regalo Anime" data-precio="500">Comprar</button>
+      </div>`).join("")}
+    </div>
+  </section>
 
   <!-- Instrucciones -->
   <section class="instrucciones">
     <h2>🛒 Instrucciones para Comprar</h2>
     <ol>
-      <li>Haz clic en <b>Comprar</b> en el producto que quieras.</li>
-      <li>Selecciona talla (si aplica) y cantidad.</li>
-      <li>Agrega al carrito y revisa tus productos.</li>
-      <li>Confirma tu pedido por WhatsApp.</li>
+      <li>Haz clic en <b>Comprar</b> en el producto que te guste.</li>
+      <li>Selecciona tu talla y cantidad (si aplica) y confirma.</li>
+      <li>Serás redirigido a WhatsApp con los detalles de tu pedido.</li>
       <li>Realiza la transferencia a nuestra cuenta BAC Credomatic:</li>
     </ol>
-    <p><b>Banco:</b> BAC Credomatic<br><b>Número de cuenta:</b> 751240361<br><b>Tipo:</b> Ahorros</p>
+    <p><b>Banco:</b> BAC Credomatic<br>
+       <b>Número de cuenta:</b> 751240361<br>
+       <b>Tipo:</b> Ahorros</p>
   </section>
 
   <!-- Contacto -->
@@ -229,49 +426,85 @@
     </div>
   </section>
 
-  <footer><p>© 2025 OCEAN STORE - Todos los derechos reservados</p></footer>
-
-  <!-- Carrito -->
-  <div id="carrito">
-    <h3>🛒 Carrito</h3>
-    <ul id="carrito-lista"></ul>
-    <p id="total"></p>
-    <button class="btn" id="finalizar">Finalizar Compra</button>
-  </div>
+  <footer>
+    <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
+  </footer>
 
   <!-- Modal -->
   <div class="modal" id="modal">
     <div class="modal-content">
-      <h3 id="modal-producto"></h3>
-      <p id="modal-precio"></p>
-      <div id="talla-box">
-        <label for="talla">Talla:</label>
-        <select id="talla"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+      <h3 id="producto-nombre"></h3>
+      <p id="producto-precio"></p>
+      <div class="tallas" id="talla-section">
+        <label for="talla">Elige tu talla:</label>
+        <select id="talla">
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
       </div>
-      <label>Cantidad:</label>
-      <input type="number" id="cantidad" value="1" min="1">
-      <br><br>
-      <button class="btn" id="agregar-carrito">Agregar</button>
+      <div>
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" value="1" min="1">
+      </div>
+      <button class="btn" id="confirmar">Confirmar</button>
       <button class="btn" id="cerrar">Cancelar</button>
     </div>
   </div>
 
-<script>
-const sideMenu=document.getElementById('sideMenu');
-document.querySelector('.menu-btn').addEventListener('click',()=>sideMenu.classList.toggle('show'));
-const modal=document.getElementById('modal'),productoModal=document.getElementById('modal-producto'),precioModal=document.getElementById('modal-precio'),tallaBox=document.getElementById('talla-box'),tallaSelect=document.getElementById('talla'),cantidadInput=document.getElementById('cantidad');let productoSeleccionado='',precioSeleccionado='',categoriaSeleccionada='';document.querySelectorAll('.comprar').forEach(b=>{b.addEventListener('click',()=>{productoSeleccionado=b.dataset.producto;precioSeleccionado=b.dataset.precio;categoriaSeleccionada=b.dataset.categoria;productoModal.textContent=productoSeleccionado;precioModal.textContent="Precio: L"+precioSeleccionado;tallaBox.style.display=(categoriaSeleccionada==="ropa")?"block":"none";cantidadInput.value=1;modal.style.display='flex';});});document.getElementById('cerrar').addEventListener('click',()=>modal.style.display='none');const carritoLista=document.getElementById('carrito-lista'),total=document.getElementById('total');let carrito=[];function actualizarCarrito(){carritoLista.innerHTML='';let t=0;carrito.forEach((item,i)=>{let li=document.createElement('li');li.textContent=`${item.cantidad}x ${item.nombre} ${item.talla?`(Talla: ${item.talla})`:''} - L${item.precio*item.cantidad}`;carritoLista.appendChild(li);t+=item.precio*item.cantidad;});total.textContent="Total: L"+t;document.getElementById('carrito').style.display=carrito.length?'block':'none';}
-document.getElementById('agregar-carrito').addEventListener('click',()=>{let talla=(categoriaSeleccionada==="ropa")?tallaSelect.value:null;let cantidad=parseInt(cantidadInput.value);carrito.push({nombre:productoSeleccionado,precio:parseInt(precioSeleccionado),talla,cantidad});actualizarCarrito();modal.style.display='none';});
-document.getElementById('finalizar').addEventListener('click',()=>{let mensaje="Hola, quiero ordenar:\n";carrito.forEach(i=>{mensaje+=`${i.cantidad}x ${i.nombre} ${i.talla?`(Talla: ${i.talla})`:''} - L${i.precio*i.cantidad}\n`;});let totalCompra=carrito.reduce((s,i)=>s+i.precio*i.cantidad,0);mensaje+=`Total: L${totalCompra}`;window.open(`https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`,'_blank');});
-</script>
+  <script>
+    // Menú hamburguesa
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    const modal = document.getElementById('modal');
+    const productoNombre = document.getElementById('producto-nombre');
+    const productoPrecio = document.getElementById('producto-precio');
+    const tallaSelect = document.getElementById('talla');
+    const tallaSection = document.getElementById('talla-section');
+    const cantidadInput = document.getElementById('cantidad');
+    let carrito = [];
+    let producto = '';
+    let precio = '';
+    let requiereTalla = false;
+
+    document.querySelectorAll('.comprar').forEach(boton => {
+      boton.addEventListener('click', () => {
+        producto = boton.dataset.producto;
+        precio = boton.dataset.precio;
+        requiereTalla = boton.dataset.talla === "true";
+        productoNombre.textContent = producto;
+        productoPrecio.textContent = "Precio: L" + precio;
+        tallaSection.style.display = requiereTalla ? 'block' : 'none';
+        cantidadInput.value = 1;
+        modal.style.display = 'flex';
+      });
+    });
+
+    document.getElementById('cerrar').addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    document.getElementById('confirmar').addEventListener('click', () => {
+      const talla = requiereTalla ? tallaSelect.value : '';
+      const cantidad = parseInt(cantidadInput.value);
+      carrito.push({ producto, precio, talla, cantidad });
+      document.getElementById('carrito').textContent = "🛒 Carrito (" + carrito.length + ")";
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
