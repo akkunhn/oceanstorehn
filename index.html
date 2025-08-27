@@ -5,7 +5,7 @@
   <title>OCEAN STORE</title>
   <!-- Fuente Oswald -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Iconos de redes -->
+  <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
@@ -48,12 +48,12 @@
       justify-content: center;
       align-items: center;
       padding: 10px;
+      gap: 20px;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      margin: 0 15px;
       font-size: 18px;
       transition: 0.3s;
     }
@@ -63,18 +63,27 @@
     }
 
     .carrito-icon {
-      margin-left: auto;
-      margin-right: 20px;
+      color: white;
       font-size: 22px;
       cursor: pointer;
-      color: white;
+      margin-left: auto;
+    }
+
+    .productos-seccion {
+      padding: 30px;
+    }
+
+    .productos-seccion h2 {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #0B2C4A;
     }
 
     .productos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 30px;
     }
 
     .producto {
@@ -162,8 +171,8 @@
       margin-top: 30px;
     }
 
-    /* Modal */
-    .modal {
+    /* Carrito */
+    #carritoModal {
       display: none;
       position: fixed;
       z-index: 1000;
@@ -174,34 +183,23 @@
       align-items: center;
     }
 
-    .modal-content {
+    #carritoContenido {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      text-align: center;
-      max-width: 300px;
       width: 90%;
+      max-width: 400px;
+      text-align: center;
     }
 
-    .modal h3 {
+    #carritoContenido h3 {
       margin-bottom: 15px;
     }
 
-    .tallas select, .tallas input {
-      padding: 8px;
-      font-size: 16px;
-      margin-bottom: 15px;
-      width: 100%;
-    }
-
-    /* Carrito */
-    #carritoModal .modal-content {
-      max-width: 500px;
-    }
-
-    #carrito-lista {
-      text-align: left;
-      margin-bottom: 15px;
+    .carrito-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
 
     .instrucciones {
@@ -233,52 +231,102 @@
 
   <nav>
     <a href="#">Inicio</a>
-    <a href="#">Productos</a>
+    <a href="#productos">Productos</a>
     <a href="#contacto">Contacto</a>
     <i class="fas fa-shopping-cart carrito-icon" id="abrirCarrito"></i>
   </nav>
 
   <!-- Productos -->
-  <section class="productos">
-    <div class="producto">
-      <img src="img/camisa.png" alt="Naruto">
-      <h3>Camisa Naruto</h3>
-      <p>L500.00</p>
-      <button class="btn comprar" data-producto="Camisa Naruto" data-precio="500">Agregar al carrito</button>
+  <section id="productos" class="productos-seccion">
+    <h2>👕 Camisas</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="img/camisa.png" alt="Naruto">
+        <h3>Camisa Naruto</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Camisa Naruto" data-precio="500">Agregar al carrito</button>
+      </div>
+      <div class="producto">
+        <img src="img/camisa.png" alt="Dragon Ball">
+        <h3>Camisa Dragon Ball</h3>
+        <p>L500.00</p>
+        <button class="btn comprar" data-producto="Camisa Dragon Ball" data-precio="500">Agregar al carrito</button>
+      </div>
     </div>
 
-    <div class="producto">
-      <img src="img/camisa.png" alt="Dragon Ball">
-      <h3>Camisa Dragon Ball</h3>
-      <p>L500.00</p>
-      <button class="btn comprar" data-producto="Camisa Dragon Ball" data-precio="500">Agregar al carrito</button>
+    <h2>🧥 Hoodies</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="img/hoodie.png" alt="Hoodie One Piece">
+        <h3>Hoodie One Piece</h3>
+        <p>L850.00</p>
+        <button class="btn comprar" data-producto="Hoodie One Piece" data-precio="850">Agregar al carrito</button>
+      </div>
     </div>
 
-    <div class="producto">
-      <img src="img/camisa.png" alt="One Piece">
-      <h3>Camisa One Piece</h3>
-      <p>L500.00</p>
-      <button class="btn comprar" data-producto="Camisa One Piece" data-precio="500">Agregar al carrito</button>
+    <h2>🧢 Gorras</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="img/gorra.png" alt="Gorra Logo">
+        <h3>Gorra Ocean</h3>
+        <p>L300.00</p>
+        <button class="btn comprar" data-producto="Gorra Ocean" data-precio="300">Agregar al carrito</button>
+      </div>
     </div>
 
-    <!-- Puedes seguir agregando más productos aquí -->
+    <h2>🥤 Vasos</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="img/vaso.png" alt="Vaso Anime">
+        <h3>Vaso Anime</h3>
+        <p>L250.00</p>
+        <button class="btn comprar" data-producto="Vaso Anime" data-precio="250">Agregar al carrito</button>
+      </div>
+    </div>
+
+    <h2>🖱️ Mousepads</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="img/mousepad.png" alt="Mousepad Naruto">
+        <h3>Mousepad Naruto</h3>
+        <p>L400.00</p>
+        <button class="btn comprar" data-producto="Mousepad Naruto" data-precio="400">Agregar al carrito</button>
+      </div>
+    </div>
+
+    <h2>🎉 Decoración para Fiestas</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="img/decoracion.png" alt="Decoración cumpleaños">
+        <h3>Decoración Cumpleaños</h3>
+        <p>L1200.00</p>
+        <button class="btn comprar" data-producto="Decoración Cumpleaños" data-precio="1200">Agregar al carrito</button>
+      </div>
+    </div>
+
+    <h2>🎁 Regalos</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="img/regalo.png" alt="Regalo Personalizado">
+        <h3>Regalo Personalizado</h3>
+        <p>L600.00</p>
+        <button class="btn comprar" data-producto="Regalo Personalizado" data-precio="600">Agregar al carrito</button>
+      </div>
+    </div>
   </section>
 
   <!-- Instrucciones -->
   <section class="instrucciones">
     <h2>🛒 Instrucciones para Comprar</h2>
     <ol>
-      <li>Explora nuestros productos y agrega al carrito los que desees.</li>
-      <li>Puedes elegir la cantidad y talla antes de confirmar.</li>
-      <li>Cuando termines, abre tu carrito y revisa tu pedido.</li>
-      <li>Confirma la compra y serás redirigido a WhatsApp con todos los detalles.</li>
+      <li>Haz clic en <b>Agregar al carrito</b> en los productos que desees.</li>
+      <li>Cuando termines, abre el carrito y confirma tu pedido.</li>
+      <li>Serás redirigido a WhatsApp con los detalles de tu orden.</li>
       <li>Realiza la transferencia a nuestra cuenta BAC Credomatic:</li>
     </ol>
-    <p>
-      <b>Banco:</b> BAC Credomatic<br>
-      <b>Número de cuenta:</b> 751240361<br>
-      <b>Tipo:</b> Ahorros
-    </p>
+    <p><b>Banco:</b> BAC Credomatic<br>
+       <b>Número de cuenta:</b> 751240361<br>
+       <b>Tipo:</b> Ahorros</p>
   </section>
 
   <!-- Contacto -->
@@ -295,116 +343,93 @@
     <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
   </footer>
 
-  <!-- Modal para producto -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <h3 id="producto-nombre"></h3>
-      <p id="producto-precio"></p>
-      <div class="tallas">
-        <label for="talla">Elige tu talla:</label>
-        <select id="talla">
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-        </select>
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" value="1" min="1">
-      </div>
-      <button class="btn" id="agregarCarrito">Agregar</button>
-      <button class="btn" id="cerrar">Cancelar</button>
-    </div>
-  </div>
-
-  <!-- Modal Carrito -->
-  <div class="modal" id="carritoModal">
-    <div class="modal-content">
+  <!-- Carrito Modal -->
+  <div id="carritoModal">
+    <div id="carritoContenido">
       <h3>🛒 Tu Carrito</h3>
-      <div id="carrito-lista"></div>
-      <p id="total"></p>
-      <button class="btn" id="confirmarCompra">Confirmar Compra</button>
+      <div id="carritoItems"></div>
+      <p><b>Total:</b> L<span id="carritoTotal">0</span></p>
+      <button class="btn" id="finalizarCompra">Finalizar Compra</button>
       <button class="btn" id="cerrarCarrito">Cerrar</button>
     </div>
   </div>
 
   <script>
-    const modal = document.getElementById('modal');
-    const productoNombre = document.getElementById('producto-nombre');
-    const productoPrecio = document.getElementById('producto-precio');
-    const tallaSelect = document.getElementById('talla');
-    const cantidadInput = document.getElementById('cantidad');
-    let producto = '';
-    let precio = '';
-    let carrito = [];
+    const carrito = [];
+    const carritoModal = document.getElementById('carritoModal');
+    const carritoItems = document.getElementById('carritoItems');
+    const carritoTotal = document.getElementById('carritoTotal');
+    const abrirCarrito = document.getElementById('abrirCarrito');
+    const cerrarCarrito = document.getElementById('cerrarCarrito');
+    const finalizarCompra = document.getElementById('finalizarCompra');
 
     document.querySelectorAll('.comprar').forEach(boton => {
       boton.addEventListener('click', () => {
-        producto = boton.dataset.producto;
-        precio = boton.dataset.precio;
-        productoNombre.textContent = producto;
-        productoPrecio.textContent = "Precio: L" + precio;
-        cantidadInput.value = 1;
-        modal.style.display = 'flex';
+        const producto = boton.dataset.producto;
+        const precio = parseFloat(boton.dataset.precio);
+        const item = carrito.find(i => i.producto === producto);
+
+        if (item) {
+          item.cantidad++;
+        } else {
+          carrito.push({ producto, precio, cantidad: 1 });
+        }
+
+        actualizarCarrito();
       });
     });
 
-    document.getElementById('cerrar').addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    document.getElementById('agregarCarrito').addEventListener('click', () => {
-      const talla = tallaSelect.value;
-      const cantidad = parseInt(cantidadInput.value);
-      carrito.push({ producto, precio, talla, cantidad });
-      modal.style.display = 'none';
-      alert("Producto agregado al carrito 🛒");
-    });
-
-    // Carrito
-    const carritoModal = document.getElementById('carritoModal');
-    const carritoLista = document.getElementById('carrito-lista');
-    const totalTexto = document.getElementById('total');
-
-    document.getElementById('abrirCarrito').addEventListener('click', () => {
-      carritoLista.innerHTML = '';
+    function actualizarCarrito() {
+      carritoItems.innerHTML = '';
       let total = 0;
+
       carrito.forEach(item => {
         total += item.precio * item.cantidad;
-        carritoLista.innerHTML += `<p>${item.cantidad} x ${item.producto} (Talla ${item.talla}) - L${item.precio * item.cantidad}</p>`;
+        carritoItems.innerHTML += `
+          <div class="carrito-item">
+            <span>${item.producto} (x${item.cantidad})</span>
+            <span>L${item.precio * item.cantidad}</span>
+          </div>`;
       });
-      totalTexto.textContent = "Total: L" + total;
+
+      carritoTotal.textContent = total;
+    }
+
+    abrirCarrito.addEventListener('click', () => {
       carritoModal.style.display = 'flex';
     });
 
-    document.getElementById('cerrarCarrito').addEventListener('click', () => {
+    cerrarCarrito.addEventListener('click', () => {
       carritoModal.style.display = 'none';
     });
 
-    document.getElementById('confirmarCompra').addEventListener('click', () => {
+    finalizarCompra.addEventListener('click', () => {
       if (carrito.length === 0) {
         alert("Tu carrito está vacío");
         return;
       }
-      let mensaje = "Hola, quiero comprar:\n";
-      let total = 0;
+
+      let mensaje = "Hola, quiero realizar el siguiente pedido:\n\n";
       carrito.forEach(item => {
-        mensaje += `${item.cantidad} x ${item.producto} (Talla ${item.talla}) - L${item.precio * item.cantidad}\n`;
-        total += item.precio * item.cantidad;
+        mensaje += `- ${item.producto} x${item.cantidad} = L${item.precio * item.cantidad}\n`;
       });
-      mensaje += `\nTotal: L${total}`;
+      mensaje += `\nTotal: L${carritoTotal.textContent}`;
+
       const url = `https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
       carritoModal.style.display = 'none';
     });
 
     window.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
-      if (e.target === carritoModal) carritoModal.style.display = 'none';
+      if (e.target === carritoModal) {
+        carritoModal.style.display = 'none';
+      }
     });
   </script>
 
 </body>
 </html>
+
 
 
 
