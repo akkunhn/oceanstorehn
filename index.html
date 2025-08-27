@@ -163,7 +163,11 @@
       background:#f0f6ff;border:1px solid #e1edff;border-radius:12px;padding:10px 12px;text-align:left; /* Alineación izquierda */
       transition:.2s transform,.2s background;
     }
-    .menu a:hover{background:#e6f0ff;transform:translateY(-2px)}
+    .menu a.active, .menu a:hover{
+      background:var(--azul-claro);
+      color:var(--blanco);
+      transform:translateY(-2px);
+    }
     .menu-footer{
       display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px
     }
@@ -174,6 +178,10 @@
     /* Sección categoría + carrusel */
     .categoria{
       max-width:1200px;margin:28px auto;padding:0 16px;
+      display: none; /* Ocultar por defecto */
+    }
+    .categoria.active {
+      display: block; /* Mostrar solo la activa */
     }
     .categoria-header{
       display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;
@@ -336,14 +344,14 @@
     <div class="menu">
       <h3>Categorías</h3>
       <div class="menu-grid">
-        <a href="#cat-camisas">Camisas</a>
-        <a href="#cat-hoodies">Hoodies</a>
-        <a href="#cat-gorras">Gorras</a>
-        <a href="#cat-mousepads">Mousepads</a>
-        <a href="#cat-vasos">Vasos</a>
-        <a href="#cat-tazas">Tazas</a>
-        <a href="#cat-decoracion">Decoración para fiestas</a>
-        <a href="#cat-regalos">Regalos</a>
+        <a data-target="cat-camisas">Camisas</a>
+        <a data-target="cat-hoodies">Hoodies</a>
+        <a data-target="cat-gorras">Gorras</a>
+        <a data-target="cat-mousepads">Mousepads</a>
+        <a data-target="cat-vasos">Vasos</a>
+        <a data-target="cat-tazas">Tazas</a>
+        <a data-target="cat-decoracion">Decoración para fiestas</a>
+        <a data-target="cat-regalos">Regalos</a>
       </div>
       <div class="menu-footer">
         <a href="#instrucciones">Instrucciones</a>
@@ -512,27 +520,58 @@
       CATS.forEach(cat=>{
         main.appendChild(crearSeccionCategoria(cat));
       });
+      // Muestra la primera categoría al inicio
+      mostrarCategoria('cat-camisas');
     }
+
+    /* ==========
+       Lógica de pestañas para categorías
+       ========== */
+    const enlacesMenu = document.querySelectorAll('.menu-grid a');
+    const seccionesCategorias = document.querySelectorAll('.categoria');
+
+    function mostrarCategoria(id){
+      seccionesCategorias.forEach(sec=>{
+        sec.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+
+      enlacesMenu.forEach(link=>{
+        link.classList.remove('active');
+        if(link.dataset.target === id){
+          link.classList.add('active');
+        }
+      });
+    }
+
+    enlacesMenu.forEach(link=>{
+      link.addEventListener('click', (e)=>{
+        e.preventDefault(); // Evita el comportamiento por defecto del enlace
+        const targetId = e.currentTarget.dataset.target;
+        if(targetId){
+          mostrarCategoria(targetId);
+        }
+        toggleMenu(false); // Cierra el menú al seleccionar
+      });
+    });
 
     /* ==========
        Menú desplegable
        ========== */
     const btnMenu = document.getElementById('btnMenu');
     const menuOverlay = document.getElementById('menuOverlay');
-    const menuContent = menuOverlay.querySelector('.menu'); // El contenido del menú
+    const menuContent = menuOverlay.querySelector('.menu');
     let menuAbierto = false;
 
     function toggleMenu(open){
       menuAbierto = (open!==undefined) ? open : !menuAbierto;
       if(menuAbierto){
         menuOverlay.classList.add('open');
-        // El contenido del menú ya tiene su propia transición de opacidad y transform
       } else {
         menuOverlay.classList.remove('open');
       }
     }
     btnMenu.addEventListener('click',()=>toggleMenu());
-    // Cerrar menú si se hace clic en el overlay o en un enlace
     menuOverlay.addEventListener('click',(e)=>{ 
       if(e.target === menuOverlay || e.target.closest('.menu a')) {
         toggleMenu(false); 
@@ -649,7 +688,6 @@
     }
 
     function agregarAlCarrito(prod, qty=1, talla=null){
-      // combinar por (id + talla)
       const keyMatch = (it)=> it.id===prod.id && (it.talla||null)===(talla||null);
       const existente = carrito.find(keyMatch);
       if(existente){
@@ -688,8 +726,6 @@
 
     // Render inicial
     renderCategorias();
-
-    // Actualizar el carrito al cargar la página
     actualizarCarritoUI();
 
   </script>
