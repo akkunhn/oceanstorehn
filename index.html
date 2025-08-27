@@ -95,6 +95,16 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       transition: all 0.3s ease-in-out;
     }
+    .topbar-right{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .topbar-left{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
 
     /* Efecto de sombra al hacer scroll */
     body.scrolled .topbar {
@@ -122,11 +132,41 @@
       letter-spacing:1px;
       font-weight:bold;
     }
-
-    .acciones{
-      display:flex;
-      align-items:center;
-      gap:12px;
+    
+    /* Search bar */
+    .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 999px;
+        padding: 6px 14px;
+        transition: all 0.3s ease;
+        width: 250px;
+    }
+    .search-bar:focus-within {
+        background-color: #fff;
+        box-shadow: 0 0 0 2px var(--amarillo);
+    }
+    .search-bar i {
+        color: rgba(255, 255, 255, 0.8);
+        transition: color 0.3s ease;
+    }
+    .search-bar:focus-within i {
+        color: var(--azul);
+    }
+    .search-bar input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        padding: 0 8px;
+        width: 100%;
+    }
+    .search-bar:focus-within input {
+        color: var(--azul);
+    }
+    .search-bar input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
     }
 
     .btn-prim{
@@ -275,6 +315,9 @@
       text-decoration:none;color:#fff;background:var(--azul);padding:8px 12px;border-radius:999px;
       cursor: pointer;
     }
+    .menu-grid a, .menu-footer a {
+        user-select: none;
+    }
 
     /* Secciones de contenido */
     .content-section {
@@ -282,11 +325,6 @@
       margin: 28px auto;
       padding: 0 16px;
     }
-
-    .categoria {
-      display: block; /* Se oculta por defecto */
-    }
-    
     .categoria-header{
       display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;
     }
@@ -429,15 +467,8 @@
         left: 10px;
         padding: 10px 12px;
       }
-      .topbar {
-        padding: 10px 14px;
-        justify-content: flex-end;
-      }
       .topbar .brand {
         display: none;
-      }
-      .acciones {
-        gap: 10px;
       }
     }
   </style>
@@ -461,8 +492,14 @@
   <button id="btnMenu" class="icon-btn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
 
   <div class="topbar">
-    <a class="brand" href="#top"><img src="img/logo.png" alt="logo"><span>OCEAN STORE</span></a>
-    <div class="acciones">
+    <div class="topbar-left">
+      <a class="brand" href="#top"><img src="img/logo.png" alt="logo"><span>OCEAN STORE</span></a>
+    </div>
+    <div class="topbar-right">
+      <div class="search-bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="Buscar productos...">
+      </div>
       <a href="#categorias" class="btn-prim">Productos</a>
       <button id="btnCart" class="icon-btn" aria-label="Abrir carrito">
         <i class="fa-solid fa-cart-shopping"></i>
@@ -494,7 +531,16 @@
     </div>
   </aside>
 
-  <main id="categorias"></main>
+  <main id="categorias">
+    <section id="searchResults" class="content-section" style="display:none">
+        <div class="categoria-header">
+            <h2>Resultados de búsqueda</h2>
+        </div>
+        <div class="carrusel">
+            <div id="searchTrack" class="track"></div>
+        </div>
+    </section>
+  </main>
 
   <section id="instrucciones" class="instrucciones">
     <div class="card-ins">
@@ -565,32 +611,108 @@
   <script>
     /* ==========
        Datos de productos (10 por categoría)
-       Imagen: usando la que ya tienes -> img/camisa.png
        ========== */
-    const IMG = "img/camisa.png"; // puedes reemplazar por imágenes específicas luego
-
-    const CATS = [
-      { id:"cat-camisas",   titulo:"Camisas",   talla:true,  base:500 },
-      { id:"cat-hoodies",   titulo:"Hoodies",   talla:true,  base:800 },
-      { id:"cat-gorras",    titulo:"Gorras",    talla:true,  base:350 },
-      { id:"cat-mousepads", titulo:"Mousepads", talla:true,  base:250 },
-      { id:"cat-vasos",     titulo:"Vasos",     talla:false, base:200 },
-      { id:"cat-tazas",     titulo:"Tazas",     talla:false, base:220 },
-      { id:"cat-decoracion",titulo:"Decoración para fiestas", talla:false, base:400 },
-      { id:"cat-regalos",   titulo:"Regalos",   talla:false, base:300 },
+    const productos = [
+      // Camisas
+      { id:"camisa-1",   nombre:"Camisa 1",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-2",   nombre:"Camisa 2",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-3",   nombre:"Camisa 3",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-4",   nombre:"Camisa 4",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-5",   nombre:"Camisa 5",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-6",   nombre:"Camisa 6",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-7",   nombre:"Camisa 7",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-8",   nombre:"Camisa 8",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-9",   nombre:"Camisa 9",   precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      { id:"camisa-10",  nombre:"Camisa 10",  precio:500, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-camisas" },
+      // Hoodies
+      { id:"hoodie-1",   nombre:"Hoodie 1",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-2",   nombre:"Hoodie 2",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-3",   nombre:"Hoodie 3",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-4",   nombre:"Hoodie 4",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-5",   nombre:"Hoodie 5",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-6",   nombre:"Hoodie 6",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-7",   nombre:"Hoodie 7",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-8",   nombre:"Hoodie 8",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-9",   nombre:"Hoodie 9",   precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      { id:"hoodie-10",  nombre:"Hoodie 10",  precio:800, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-hoodies" },
+      // Gorras
+      { id:"gorra-1",    nombre:"Gorra 1",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-2",    nombre:"Gorra 2",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-3",    nombre:"Gorra 3",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-4",    nombre:"Gorra 4",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-5",    nombre:"Gorra 5",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-6",    nombre:"Gorra 6",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-7",    nombre:"Gorra 7",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-8",    nombre:"Gorra 8",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-9",    nombre:"Gorra 9",    precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      { id:"gorra-10",   nombre:"Gorra 10",   precio:350, imagen:"img/camisa.png", requiereTalla:true, categoria:"cat-gorras" },
+      // Mousepads
+      { id:"mousepad-1", nombre:"Mousepad 1", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-2", nombre:"Mousepad 2", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-3", nombre:"Mousepad 3", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-4", nombre:"Mousepad 4", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-5", nombre:"Mousepad 5", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-6", nombre:"Mousepad 6", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-7", nombre:"Mousepad 7", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-8", nombre:"Mousepad 8", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-9", nombre:"Mousepad 9", precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      { id:"mousepad-10",nombre:"Mousepad 10",precio:250, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-mousepads" },
+      // Vasos
+      { id:"vaso-1",     nombre:"Vaso 1",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-2",     nombre:"Vaso 2",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-3",     nombre:"Vaso 3",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-4",     nombre:"Vaso 4",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-5",     nombre:"Vaso 5",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-6",     nombre:"Vaso 6",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-7",     nombre:"Vaso 7",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-8",     nombre:"Vaso 8",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-9",     nombre:"Vaso 9",     precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      { id:"vaso-10",    nombre:"Vaso 10",    precio:200, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-vasos" },
+      // Tazas
+      { id:"taza-1",     nombre:"Taza 1",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-2",     nombre:"Taza 2",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-3",     nombre:"Taza 3",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-4",     nombre:"Taza 4",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-5",     nombre:"Taza 5",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-6",     nombre:"Taza 6",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-7",     nombre:"Taza 7",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-8",     nombre:"Taza 8",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-9",     nombre:"Taza 9",     precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      { id:"taza-10",    nombre:"Taza 10",    precio:220, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-tazas" },
+      // Decoración para fiestas
+      { id:"dec-1",      nombre:"Decoración 1",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-2",      nombre:"Decoración 2",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-3",      nombre:"Decoración 3",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-4",      nombre:"Decoración 4",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-5",      nombre:"Decoración 5",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-6",      nombre:"Decoración 6",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-7",      nombre:"Decoración 7",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-8",      nombre:"Decoración 8",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-9",      nombre:"Decoración 9",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      { id:"dec-10",     nombre:"Decoración 10",precio:400, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-decoracion" },
+      // Regalos
+      { id:"regalo-1",   nombre:"Regalo 1",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-2",   nombre:"Regalo 2",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-3",   nombre:"Regalo 3",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-4",   nombre:"Regalo 4",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-5",   nombre:"Regalo 5",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-6",   nombre:"Regalo 6",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-7",   nombre:"Regalo 7",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-8",   nombre:"Regalo 8",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-9",   nombre:"Regalo 9",   precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
+      { id:"regalo-10",  nombre:"Regalo 10",  precio:300, imagen:"img/camisa.png", requiereTalla:false, categoria:"cat-regalos" },
     ];
 
-    // Genera 10 productos por categoría
-    const productosPorCategoria = {};
-    CATS.forEach(cat=>{
-      productosPorCategoria[cat.id] = Array.from({length:10}).map((_,i)=>({
-        id:`${cat.id}-${i+1}`,
-        nombre:`${cat.titulo} ${i+1}`,
-        precio:cat.base,
-        imagen:IMG,
-        requiereTalla:cat.talla
-      }));
-    });
+    const CATS = [
+      { id:"cat-camisas",    titulo:"Camisas" },
+      { id:"cat-hoodies",    titulo:"Hoodies" },
+      { id:"cat-gorras",     titulo:"Gorras" },
+      { id:"cat-mousepads",  titulo:"Mousepads" },
+      { id:"cat-vasos",      titulo:"Vasos" },
+      { id:"cat-tazas",      titulo:"Tazas" },
+      { id:"cat-decoracion", titulo:"Decoración para fiestas" },
+      { id:"cat-regalos",    titulo:"Regalos" },
+    ];
 
     /* ==========
        Render de categorías y carruseles
@@ -616,9 +738,23 @@
       `;
 
       const track = sec.querySelector('.track');
-      const lista = productosPorCategoria[cat.id];
+      const lista = productos.filter(p=>p.categoria===cat.id);
 
       lista.forEach(prod=>{
+        const card = crearTarjetaProducto(prod);
+        track.appendChild(card);
+      });
+
+      // Controles scroll
+      const prev = sec.querySelector('.prev');
+      const next = sec.querySelector('.next');
+      prev.addEventListener('click', ()=> track.scrollBy({left: - (track.offsetWidth * 0.8), behavior:'smooth'}));
+      next.addEventListener('click', ()=> track.scrollBy({left: (track.offsetWidth * 0.8), behavior:'smooth'}));
+
+      return sec;
+    }
+    
+    function crearTarjetaProducto(prod) {
         const card = document.createElement('article');
         card.className = 'card';
         card.innerHTML = `
@@ -631,25 +767,8 @@
             <button class="btn-add" data-id="${prod.id}">Comprar</button>
           </div>
         `;
-        track.appendChild(card);
-      });
-
-      // Controles scroll
-      const prev = sec.querySelector('.prev');
-      const next = sec.querySelector('.next');
-      prev.addEventListener('click', ()=> track.scrollBy({left: - (window.innerWidth*0.8), behavior:'smooth'}));
-      next.addEventListener('click', ()=> track.scrollBy({left: (window.innerWidth*0.8), behavior:'smooth'}));
-
-      // Delegación para abrir modal
-      track.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.btn-add');
-        if(!btn) return;
-        const id = btn.dataset.id;
-        const prod = lista.find(p=>p.id===id);
-        abrirModal(prod);
-      });
-
-      return sec;
+        card.querySelector('.btn-add').addEventListener('click', () => abrirModal(prod));
+        return card;
     }
 
     function renderCategorias(){
@@ -657,6 +776,35 @@
         main.appendChild(crearSeccionCategoria(cat));
       });
     }
+
+    /* ==========
+       Buscador
+       ========== */
+    const searchInput = document.getElementById('searchInput');
+    const searchResultsSection = document.getElementById('searchResults');
+    const searchTrack = document.getElementById('searchTrack');
+    const allCategories = document.querySelectorAll('.categoria');
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        searchTrack.innerHTML = '';
+        if (query.length > 0) {
+            const resultados = productos.filter(p => p.nombre.toLowerCase().includes(query));
+            if (resultados.length > 0) {
+                resultados.forEach(prod => {
+                    searchTrack.appendChild(crearTarjetaProducto(prod));
+                });
+                searchResultsSection.style.display = 'block';
+                allCategories.forEach(cat => cat.style.display = 'none');
+            } else {
+                searchResultsSection.style.display = 'none';
+                allCategories.forEach(cat => cat.style.display = 'block');
+            }
+        } else {
+            searchResultsSection.style.display = 'none';
+            allCategories.forEach(cat => cat.style.display = 'block');
+        }
+    });
 
     /* ==========
        Menú desplegable lateral
@@ -833,6 +981,7 @@
   </script>
 </body>
 </html>
+
 
 
 
