@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
@@ -40,7 +39,6 @@
       padding:24px 16px 80px;
       text-align:center;
       overflow:hidden;
-      padding-bottom: 120px; /* Aumentar el padding para el nuevo botón */
     }
     header img{
       max-width:380px;width:90%;display:block;margin:0 auto 8px;
@@ -49,7 +47,7 @@
       margin:6px 0 0;
       font-size:60px;
       color:var(--azul);
-      font-family:'Poppins', sans-serif;
+      font-family:'Playfair Display', serif;
     }
     header p{
       margin:6px 0 16px;
@@ -57,7 +55,7 @@
       font-family:'Playfair Display', serif;
       font-size:24px;
     }
-
+    
     /* Olas decorativas (fijas en header) */
     .olas{
       position:absolute;left:0;right:0;bottom:0;height:80px;pointer-events:none;
@@ -278,26 +276,6 @@
       cursor: pointer;
     }
 
-    /* Barra de búsqueda */
-    #searchBar{
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid #ddd;
-      width: 200px;
-      transition: width 0.3s ease;
-      font-size: 16px;
-      background: rgba(255,255,255,0.9);
-      color: var(--azul);
-    }
-    #searchBar::placeholder {
-      color: #999;
-    }
-    #searchBar:focus{
-      outline: none;
-      width: 250px;
-      background: var(--blanco);
-    }
-
     /* Secciones de contenido */
     .content-section {
       max-width: 1200px;
@@ -305,32 +283,14 @@
       padding: 0 16px;
     }
 
-    .categoria, .search-results-section {
-      display: none; /* Se ocultan por defecto */
-    }
-
-    .categoria.active, .search-results-section.active {
-      display: block;
+    .categoria {
+      display: block; /* Se oculta por defecto */
     }
     
-    .search-results-section .track {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        justify-content: center;
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 30px;
-      color: #666;
-      font-size: 1.2em;
-    }
-
     .categoria-header{
       display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;
     }
-    .categoria-header h2{margin:0;font-size:26px}
+    .categoria-header h2{margin:0;font-size:26px; font-family:'Playfair Display', serif;}
     .scroll-ctrls{display:flex;gap:8px}
     .scroll-ctrls button{
       background:var(--azul);color:#fff;border:none;border-radius:10px;padding:8px 10px;cursor:pointer
@@ -363,7 +323,11 @@
       padding:10px;display:flex;gap:8px;justify-content:space-between
     }
     .btn-add{
-      flex:1;background:var(--amarillo);color:var(--azul);border:none;border-radius:10px;padding:8px 10px;font-weight:700;cursor:pointer
+      flex:1;background:var(--amarillo);color:var(--azul);border:none;border-radius:10px;padding:8px 10px;font-weight:700;cursor:pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-add:hover{
+      background: #ffdb58;
     }
 
     /* Instrucciones de compra (título centrado junto al bloque) */
@@ -375,6 +339,7 @@
     }
     .instrucciones .card-ins h2{
       margin:0 0 8px;text-align:center;font-size:26px;color:var(--azul);
+      font-family:'Playfair Display', serif;
     }
     .instrucciones .card-ins ol{margin:0;padding-left:22px}
     .instrucciones .card-ins p{margin:10px 0 0}
@@ -397,11 +362,24 @@
     .modal{
       display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.55);
       align-items:center;justify-content:center;padding:16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+    .modal.active{
+        display: flex;
+        opacity: 1;
+        visibility: visible;
     }
     .modal-content{
-      width:100%;max-width:360px;background:#fff;border-radius:16px;padding:16px;box-shadow:var(--sombra)
+      width:100%;max-width:360px;background:#fff;border-radius:16px;padding:16px;box-shadow:var(--sombra);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
     }
-    .modal-content h3{margin:0 0 6px}
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+    .modal-content h3{margin:0 0 6px; font-family:'Playfair Display', serif;}
     .modal-row{display:flex;gap:10px;margin:8px 0}
     .modal select,.modal input[type="number"]{
       flex:1;padding:10px;border:1px solid #e1e5ef;border-radius:10px;font-size:16px
@@ -409,10 +387,12 @@
     .modal .btn-bar{display:flex;gap:8px;margin-top:10px}
     .modal .btn{flex:1}
     .btn{
-      display:inline-block;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700
+      display:inline-block;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700;
+      transition: all 0.3s ease;
     }
     .btn-confirm{background:var(--amarillo);color:var(--azul)}
     .btn-cancel{background:#e9eef7;color:#2a2a2a}
+    .btn:hover{transform: translateY(-2px)}
 
     /* Carrito lateral */
     .cart-panel{
@@ -432,11 +412,13 @@
     .muted{font-size:12px;color:#64748b;margin-top:2px}
     .qty-row{display:flex;align-items:center;gap:6px;margin-top:6px}
     .qty-row input{width:60px;padding:6px;border:1px solid #e1e5ef;border-radius:8px}
-    .remove{background:transparent;border:none;color:#d10c2f;cursor:pointer}
+    .remove{background:transparent;border:none;color:#d10c2f;cursor:pointer; transition: all 0.3s ease;}
+    .remove:hover{transform: scale(1.1);}
     .cart-footer .total{display:flex;justify-content:space-between;align-items:center;font-size:18px;margin:8px 0}
     .cart-footer .cta{display:flex;gap:8px}
-    .btn-wa{flex:1;background:#25D366;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
-    .btn-clear{background:#ffe8e8;color:#b30021;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+    .btn-wa{flex:1;background:#25D366;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;transition: all 0.3s ease;}
+    .btn-clear{background:#ffe8e8;color:#b30021;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;transition: all 0.3s ease;}
+    .btn-wa:hover, .btn-clear:hover {transform: translateY(-2px)}
 
     /* Responsive ajustes */
     @media (max-width:700px){
@@ -447,20 +429,15 @@
         left: 10px;
         padding: 10px 12px;
       }
-      .menu {
-        top: 10px;
-        left: 10px;
-        max-width: 250px;
-      }
-      .topbar .acciones {
-        flex-grow: 1;
+      .topbar {
+        padding: 10px 14px;
         justify-content: flex-end;
       }
-      #searchBar {
-        width: 120px;
+      .topbar .brand {
+        display: none;
       }
-      #searchBar:focus {
-        width: 150px;
+      .acciones {
+        gap: 10px;
       }
     }
   </style>
@@ -471,7 +448,6 @@
     <img src="img/logo.png" alt="Logo Ocean Store">
     <h1>OCEAN STORE</h1>
     <p>Camisas con estampados DTF únicos y de alta calidad</p>
-    <a href="#categorias" class="btn-prim" style="position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%); z-index: 10; padding: 12px 24px; font-size: 18px;">¡Explora Ahora!</a>
 
     <div class="olas" aria-hidden="true">
       <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
@@ -481,19 +457,19 @@
       </svg>
     </div>
   </header>
+  
+  <button id="btnMenu" class="icon-btn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
 
   <div class="topbar">
     <a class="brand" href="#top"><img src="img/logo.png" alt="logo"><span>OCEAN STORE</span></a>
     <div class="acciones">
-      <input type="search" id="searchBar" placeholder="Buscar productos...">
+      <a href="#categorias" class="btn-prim">Productos</a>
       <button id="btnCart" class="icon-btn" aria-label="Abrir carrito">
         <i class="fa-solid fa-cart-shopping"></i>
         <span id="cartCount" class="badge">0</span>
       </button>
     </div>
   </div>
-
-  <button id="btnMenu" class="icon-btn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
 
   <div id="menuBackdrop" class="menu-backdrop"></div>
   <aside id="menuPanel" class="menu-panel">
@@ -518,17 +494,7 @@
     </div>
   </aside>
 
-  <main id="categorias">
-    <section id="search-results-section" class="content-section search-results-section">
-      <div class="categoria-header">
-        <h2>Resultados de búsqueda</h2>
-      </div>
-      <div class="carrusel">
-        <div class="track"></div>
-      </div>
-      <div class="no-results" style="display:none">No se encontraron resultados que coincidan con la búsqueda.</div>
-    </section>
-  </main>
+  <main id="categorias"></main>
 
   <section id="instrucciones" class="instrucciones">
     <div class="card-ins">
@@ -599,40 +565,37 @@
   <script>
     /* ==========
        Datos de productos (10 por categoría)
+       Imagen: usando la que ya tienes -> img/camisa.png
        ========== */
+    const IMG = "img/camisa.png"; // puedes reemplazar por imágenes específicas luego
+
     const CATS = [
-      { id:"cat-camisas",   titulo:"camisa",   talla:true,  base:500 },
-      { id:"cat-hoodies",   titulo:"hoodie",   talla:true,  base:800 },
-      { id:"cat-gorras",    titulo:"gorra",    talla:true,  base:350 },
-      { id:"cat-mousepads", titulo:"mousepad", talla:true,  base:250 },
-      { id:"cat-vasos",     titulo:"vaso",     talla:false, base:200 },
-      { id:"cat-tazas",     titulo:"taza",     talla:false, base:220 },
-      { id:"cat-decoracion",titulo:"decoracion",talla:false, base:400 },
-      { id:"cat-regalos",   titulo:"regalo",   talla:false, base:300 },
+      { id:"cat-camisas",   titulo:"Camisas",   talla:true,  base:500 },
+      { id:"cat-hoodies",   titulo:"Hoodies",   talla:true,  base:800 },
+      { id:"cat-gorras",    titulo:"Gorras",    talla:true,  base:350 },
+      { id:"cat-mousepads", titulo:"Mousepads", talla:true,  base:250 },
+      { id:"cat-vasos",     titulo:"Vasos",     talla:false, base:200 },
+      { id:"cat-tazas",     titulo:"Tazas",     talla:false, base:220 },
+      { id:"cat-decoracion",titulo:"Decoración para fiestas", talla:false, base:400 },
+      { id:"cat-regalos",   titulo:"Regalos",   talla:false, base:300 },
     ];
-    
-    // Genera 10 productos por categoría y unifica en un solo array
+
+    // Genera 10 productos por categoría
     const productosPorCategoria = {};
-    const todosLosProductos = [];
     CATS.forEach(cat=>{
-      const productos = Array.from({length:10}).map((_,i)=>({
+      productosPorCategoria[cat.id] = Array.from({length:10}).map((_,i)=>({
         id:`${cat.id}-${i+1}`,
-        nombre:`${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)} ${i+1}`,
+        nombre:`${cat.titulo} ${i+1}`,
         precio:cat.base,
-        imagen:`img/${cat.titulo}.png`,
+        imagen:IMG,
         requiereTalla:cat.talla
       }));
-      productosPorCategoria[cat.id] = productos;
-      todosLosProductos.push(...productos);
     });
 
     /* ==========
        Render de categorías y carruseles
        ========== */
     const main = document.getElementById('categorias');
-    const noResultsDiv = document.querySelector('.no-results');
-    const searchResultsSection = document.getElementById('search-results-section');
-    const searchResultsTrack = searchResultsSection.querySelector('.track');
 
     function crearSeccionCategoria(cat){
       const sec = document.createElement('section');
@@ -641,7 +604,7 @@
 
       sec.innerHTML = `
         <div class="categoria-header">
-          <h2>${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)}</h2>
+          <h2>${cat.titulo}</h2>
           <div class="scroll-ctrls">
             <button class="prev" aria-label="Deslizar a la izquierda"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="next" aria-label="Deslizar a la derecha"><i class="fa-solid fa-chevron-right"></i></button>
@@ -656,7 +619,18 @@
       const lista = productosPorCategoria[cat.id];
 
       lista.forEach(prod=>{
-        const card = crearCardProducto(prod);
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${prod.imagen}" alt="${prod.nombre}">
+          <div class="info">
+            <h3>${prod.nombre}</h3>
+            <p class="precio">L${prod.precio.toFixed(2)}</p>
+          </div>
+          <div class="acciones">
+            <button class="btn-add" data-id="${prod.id}">Comprar</button>
+          </div>
+        `;
         track.appendChild(card);
       });
 
@@ -671,111 +645,21 @@
         const btn = e.target.closest('.btn-add');
         if(!btn) return;
         const id = btn.dataset.id;
-        const prod = todosLosProductos.find(p=>p.id===id);
-        if (prod) abrirModal(prod);
+        const prod = lista.find(p=>p.id===id);
+        abrirModal(prod);
       });
 
       return sec;
-    }
-
-    function crearCardProducto(prod) {
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${prod.imagen}" alt="${prod.nombre}">
-          <div class="info">
-            <h3>${prod.nombre}</h3>
-            <p class="precio">L${prod.precio.toFixed(2)}</p>
-          </div>
-          <div class="acciones">
-            <button class="btn-add" data-id="${prod.id}">Comprar</button>
-          </div>
-        `;
-        return card;
     }
 
     function renderCategorias(){
       CATS.forEach(cat=>{
         main.appendChild(crearSeccionCategoria(cat));
       });
-      // Muestra la primera categoría al inicio
-      mostrarSeccion('cat-camisas');
     }
 
     /* ==========
-       Lógica de pestañas y visibilidad
-       ========== */
-    const enlacesMenu = document.querySelectorAll('.menu-grid a');
-    const seccionesCategorias = document.querySelectorAll('.categoria');
-
-    function mostrarSeccion(id){
-      seccionesCategorias.forEach(sec=>{
-        sec.classList.remove('active');
-      });
-      searchResultsSection.classList.remove('active');
-      
-      const targetSection = document.getElementById(id);
-      if(targetSection) {
-        targetSection.classList.add('active');
-        targetSection.scrollIntoView({behavior: 'smooth', block: 'start'});
-      }
-    }
-
-    enlacesMenu.forEach(link=>{
-      link.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const targetId = e.currentTarget.dataset.target;
-        if(targetId){
-          mostrarSeccion(targetId);
-          searchBar.value = ''; // Limpiar la barra de búsqueda
-          searchBar.blur(); // Quitar el foco
-        }
-        toggleMenu(false);
-      });
-    });
-
-    /* ==========
-       Funcionalidad de búsqueda global
-       ========== */
-    const searchBar = document.getElementById('searchBar');
-
-    searchBar.addEventListener('keyup', (e) => {
-      const searchTerm = e.target.value.toLowerCase().trim();
-      searchResultsTrack.innerHTML = '';
-      noResultsDiv.style.display = 'none';
-
-      if (searchTerm.length === 0) {
-        mostrarSeccion(document.querySelector('.menu-grid a.active').dataset.target);
-        return;
-      }
-      
-      // Ocultar categorías y mostrar sección de resultados
-      seccionesCategorias.forEach(sec => sec.classList.remove('active'));
-      searchResultsSection.classList.add('active');
-
-      const resultados = todosLosProductos.filter(prod =>
-        prod.nombre.toLowerCase().includes(searchTerm)
-      );
-
-      if (resultados.length > 0) {
-        resultados.forEach(prod => {
-          const card = crearCardProducto(prod);
-          searchResultsTrack.appendChild(card);
-        });
-        searchResultsTrack.addEventListener('click', (e) => {
-            const btn = e.target.closest('.btn-add');
-            if(!btn) return;
-            const id = btn.dataset.id;
-            const prod = todosLosProductos.find(p=>p.id===id);
-            if(prod) abrirModal(prod);
-        });
-      } else {
-        noResultsDiv.style.display = 'block';
-      }
-    });
-
-    /* ==========
-       Menú desplegable
+       Menú desplegable lateral
        ========== */
     const body = document.body;
     const btnMenu = document.getElementById('btnMenu');
@@ -812,9 +696,9 @@
       filaTalla.style.display = prod.requiereTalla ? 'flex' : 'none';
       selectTalla.value = 'M';
       inputCantidad.value = 1;
-      modal.style.display = 'flex';
+      modal.classList.add('active');
     }
-    function cerrarModal(){ modal.style.display = 'none'; productoActual = null; }
+    function cerrarModal(){ modal.classList.remove('active'); productoActual = null; }
 
     btnCancelar.addEventListener('click', cerrarModal);
     modal.addEventListener('click', (e)=>{ if(e.target===modal) cerrarModal(); });
@@ -901,6 +785,7 @@
     }
 
     function agregarAlCarrito(prod, qty=1, talla=null){
+      // combinar por (id + talla)
       const keyMatch = (it)=> it.id===prod.id && (it.talla||null)===(talla||null);
       const existente = carrito.find(keyMatch);
       if(existente){
@@ -939,11 +824,16 @@
 
     // Render inicial
     renderCategorias();
-    document.querySelector('.menu-grid a').classList.add('active'); // Seleccionar primera categoría por defecto
-    actualizarCarritoUI();
+
+    // Cerrar menú al navegar en anclas dentro del mismo
+    document.querySelectorAll('.menu-grid a').forEach(a=>{
+      a.addEventListener('click', ()=>toggleMenu(false));
+    });
+
   </script>
 </body>
 </html>
+
 
 
 
