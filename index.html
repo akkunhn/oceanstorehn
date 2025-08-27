@@ -46,6 +46,7 @@
       background-color: #0B2C4A;
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 10px;
     }
 
@@ -59,6 +60,14 @@
 
     nav a:hover {
       color: #FFD23F;
+    }
+
+    .carrito-icon {
+      margin-left: auto;
+      margin-right: 20px;
+      font-size: 22px;
+      cursor: pointer;
+      color: white;
     }
 
     .productos {
@@ -153,8 +162,9 @@
       margin-top: 30px;
     }
 
+    /* Modal */
     .modal {
-      display: none; 
+      display: none;
       position: fixed;
       z-index: 1000;
       left: 0; top: 0;
@@ -177,14 +187,21 @@
       margin-bottom: 15px;
     }
 
-    .tallas select {
+    .tallas select, .tallas input {
       padding: 8px;
       font-size: 16px;
       margin-bottom: 15px;
+      width: 100%;
     }
 
-    .modal .btn {
-      margin: 5px;
+    /* Carrito */
+    #carritoModal .modal-content {
+      max-width: 500px;
+    }
+
+    #carrito-lista {
+      text-align: left;
+      margin-bottom: 15px;
     }
 
     .instrucciones {
@@ -218,6 +235,7 @@
     <a href="#">Inicio</a>
     <a href="#">Productos</a>
     <a href="#contacto">Contacto</a>
+    <i class="fas fa-shopping-cart carrito-icon" id="abrirCarrito"></i>
   </nav>
 
   <!-- Productos -->
@@ -226,38 +244,41 @@
       <img src="img/camisa.png" alt="Naruto">
       <h3>Camisa Naruto</h3>
       <p>L500.00</p>
-      <button class="btn comprar" data-producto="Camisa Naruto" data-precio="500">Comprar</button>
+      <button class="btn comprar" data-producto="Camisa Naruto" data-precio="500">Agregar al carrito</button>
     </div>
 
     <div class="producto">
       <img src="img/camisa.png" alt="Dragon Ball">
       <h3>Camisa Dragon Ball</h3>
       <p>L500.00</p>
-      <button class="btn comprar" data-producto="Camisa Dragon Ball" data-precio="500">Comprar</button>
+      <button class="btn comprar" data-producto="Camisa Dragon Ball" data-precio="500">Agregar al carrito</button>
     </div>
 
     <div class="producto">
       <img src="img/camisa.png" alt="One Piece">
       <h3>Camisa One Piece</h3>
       <p>L500.00</p>
-      <button class="btn comprar" data-producto="Camisa One Piece" data-precio="500">Comprar</button>
+      <button class="btn comprar" data-producto="Camisa One Piece" data-precio="500">Agregar al carrito</button>
     </div>
 
-    <!-- (Agrega el resto de productos igual con precio L500.00 y data-precio="500") -->
+    <!-- Puedes seguir agregando más productos aquí -->
   </section>
 
   <!-- Instrucciones -->
   <section class="instrucciones">
     <h2>🛒 Instrucciones para Comprar</h2>
     <ol>
-      <li>Haz clic en <b>Comprar</b> en la camisa que te guste.</li>
-      <li>Selecciona tu talla y confirma.</li>
-      <li>Serás redirigido a WhatsApp con los detalles de tu pedido.</li>
+      <li>Explora nuestros productos y agrega al carrito los que desees.</li>
+      <li>Puedes elegir la cantidad y talla antes de confirmar.</li>
+      <li>Cuando termines, abre tu carrito y revisa tu pedido.</li>
+      <li>Confirma la compra y serás redirigido a WhatsApp con todos los detalles.</li>
       <li>Realiza la transferencia a nuestra cuenta BAC Credomatic:</li>
     </ol>
-    <p><b>Banco:</b> BAC Credomatic<br>
-       <b>Número de cuenta:</b> 751240361<br>
-       <b>Tipo:</b> Ahorros</p>
+    <p>
+      <b>Banco:</b> BAC Credomatic<br>
+      <b>Número de cuenta:</b> 751240361<br>
+      <b>Tipo:</b> Ahorros
+    </p>
   </section>
 
   <!-- Contacto -->
@@ -274,7 +295,7 @@
     <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
   </footer>
 
-  <!-- Modal -->
+  <!-- Modal para producto -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <h3 id="producto-nombre"></h3>
@@ -287,9 +308,22 @@
           <option value="L">L</option>
           <option value="XL">XL</option>
         </select>
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" value="1" min="1">
       </div>
-      <button class="btn" id="confirmar">Confirmar</button>
+      <button class="btn" id="agregarCarrito">Agregar</button>
       <button class="btn" id="cerrar">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- Modal Carrito -->
+  <div class="modal" id="carritoModal">
+    <div class="modal-content">
+      <h3>🛒 Tu Carrito</h3>
+      <div id="carrito-lista"></div>
+      <p id="total"></p>
+      <button class="btn" id="confirmarCompra">Confirmar Compra</button>
+      <button class="btn" id="cerrarCarrito">Cerrar</button>
     </div>
   </div>
 
@@ -298,8 +332,10 @@
     const productoNombre = document.getElementById('producto-nombre');
     const productoPrecio = document.getElementById('producto-precio');
     const tallaSelect = document.getElementById('talla');
+    const cantidadInput = document.getElementById('cantidad');
     let producto = '';
     let precio = '';
+    let carrito = [];
 
     document.querySelectorAll('.comprar').forEach(boton => {
       boton.addEventListener('click', () => {
@@ -307,6 +343,7 @@
         precio = boton.dataset.precio;
         productoNombre.textContent = producto;
         productoPrecio.textContent = "Precio: L" + precio;
+        cantidadInput.value = 1;
         modal.style.display = 'flex';
       });
     });
@@ -315,18 +352,54 @@
       modal.style.display = 'none';
     });
 
-    document.getElementById('confirmar').addEventListener('click', () => {
+    document.getElementById('agregarCarrito').addEventListener('click', () => {
       const talla = tallaSelect.value;
-      const mensaje = `Hola, quiero comprar la ${producto} en talla ${talla} por L${precio}.`;
+      const cantidad = parseInt(cantidadInput.value);
+      carrito.push({ producto, precio, talla, cantidad });
+      modal.style.display = 'none';
+      alert("Producto agregado al carrito 🛒");
+    });
+
+    // Carrito
+    const carritoModal = document.getElementById('carritoModal');
+    const carritoLista = document.getElementById('carrito-lista');
+    const totalTexto = document.getElementById('total');
+
+    document.getElementById('abrirCarrito').addEventListener('click', () => {
+      carritoLista.innerHTML = '';
+      let total = 0;
+      carrito.forEach(item => {
+        total += item.precio * item.cantidad;
+        carritoLista.innerHTML += `<p>${item.cantidad} x ${item.producto} (Talla ${item.talla}) - L${item.precio * item.cantidad}</p>`;
+      });
+      totalTexto.textContent = "Total: L" + total;
+      carritoModal.style.display = 'flex';
+    });
+
+    document.getElementById('cerrarCarrito').addEventListener('click', () => {
+      carritoModal.style.display = 'none';
+    });
+
+    document.getElementById('confirmarCompra').addEventListener('click', () => {
+      if (carrito.length === 0) {
+        alert("Tu carrito está vacío");
+        return;
+      }
+      let mensaje = "Hola, quiero comprar:\n";
+      let total = 0;
+      carrito.forEach(item => {
+        mensaje += `${item.cantidad} x ${item.producto} (Talla ${item.talla}) - L${item.precio * item.cantidad}\n`;
+        total += item.precio * item.cantidad;
+      });
+      mensaje += `\nTotal: L${total}`;
       const url = `https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
-      modal.style.display = 'none';
+      carritoModal.style.display = 'none';
     });
 
     window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
+      if (e.target === modal) modal.style.display = 'none';
+      if (e.target === carritoModal) carritoModal.style.display = 'none';
     });
   </script>
 
