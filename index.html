@@ -474,25 +474,24 @@
        Datos de productos (10 por categoría)
        ========== */
     const CATS = [
-      { id:"cat-camisas",   titulo:"Camisas",   talla:true,  base:500 },
-      { id:"cat-hoodies",   titulo:"Hoodies",   talla:true,  base:800 },
-      { id:"cat-gorras",    titulo:"Gorras",    talla:true,  base:350 },
-      { id:"cat-mousepads", titulo:"Mousepads", talla:true,  base:250 },
-      { id:"cat-vasos",     titulo:"Vasos",     talla:false, base:200 },
-      { id:"cat-tazas",     titulo:"Tazas",     talla:false, base:220 },
-      { id:"cat-decoracion",titulo:"Decoración para fiestas", talla:false, base:400 },
-      { id:"cat-regalos",   titulo:"Regalos",   talla:false, base:300 },
+      { id:"cat-camisas",   titulo:"camisa",   talla:true,  base:500 },
+      { id:"cat-hoodies",   titulo:"hoodie",   talla:true,  base:800 },
+      { id:"cat-gorras",    titulo:"gorra",    talla:true,  base:350 },
+      { id:"cat-mousepads", titulo:"mousepad", talla:true,  base:250 },
+      { id:"cat-vasos",     titulo:"vaso",     talla:false, base:200 },
+      { id:"cat-tazas",     titulo:"taza",     talla:false, base:220 },
+      { id:"cat-decoracion",titulo:"decoracion",talla:false, base:400 },
+      { id:"cat-regalos",   titulo:"regalo",   talla:false, base:300 },
     ];
 
     // Genera 10 productos por categoría
     const productosPorCategoria = {};
     CATS.forEach(cat=>{
-      const imageName = cat.titulo.toLowerCase().replace(/\s/g, ''); // Elimina espacios
       productosPorCategoria[cat.id] = Array.from({length:10}).map((_,i)=>({
         id:`${cat.id}-${i+1}`,
         nombre:`${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)} ${i+1}`,
         precio:cat.base,
-        imagen:`img/${imageName}.png`,
+        imagen:`img/${cat.titulo}.png`,
         requiereTalla:cat.talla
       }));
     });
@@ -509,7 +508,7 @@
 
       sec.innerHTML = `
         <div class="categoria-header">
-          <h2>${cat.titulo}</h2>
+          <h2>${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)}</h2>
           <div class="scroll-ctrls">
             <button class="prev" aria-label="Deslizar a la izquierda"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="next" aria-label="Deslizar a la derecha"><i class="fa-solid fa-chevron-right"></i></button>
