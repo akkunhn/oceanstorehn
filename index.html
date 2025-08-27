@@ -6,14 +6,45 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body {margin:0;font-family:'Oswald',sans-serif;background:#f9f9f9;color:#0B2C4A;}
-    header {background:white;text-align:center;padding:20px;position:relative;}
+    body {
+      margin:0;
+      font-family:'Oswald',sans-serif;
+      color:#0B2C4A;
+      background:linear-gradient(180deg, #87CEEB 0%, #f9f9f9 100%);
+      position:relative;
+      overflow-x:hidden;
+    }
+
+    /* Fondo de olas */
+    .olas {
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:100%;
+      height:150px;
+      z-index:-1;
+      overflow:hidden;
+    }
+    .olas svg {
+      position:absolute;
+      bottom:0;
+      left:0;
+      width:200%;
+      height:100%;
+      animation:moverOlas 12s linear infinite;
+    }
+    @keyframes moverOlas {
+      from {transform:translateX(0);}
+      to {transform:translateX(-50%);}
+    }
+
+    header {background:white;text-align:center;padding:20px;position:relative;z-index:1;}
     header img {max-width:250px;width:100%;margin-bottom:10px;}
     header h1 {margin:0;font-size:45px;color:#0B2C4A;}
     header p {margin:5px 0 0;color:#FFD23F;font-size:22px;}
 
     /* Menú */
-    nav {background:#0B2C4A;}
+    nav {background:#0B2C4A;z-index:1;position:relative;}
     .menu-container {display:flex;justify-content:space-between;align-items:center;padding:10px 20px;}
     .menu-container h2 {color:white;margin:0;}
     .menu-btn {font-size:24px;color:white;background:none;border:none;cursor:pointer;}
@@ -22,8 +53,10 @@
     .menu-links a:hover {background:#FFD23F;color:#0B2C4A;}
     .menu-links.show {display:flex;}
 
-    section {padding:40px 20px;}
+    section {padding:40px 20px;position:relative;z-index:1;}
     h2 {text-align:center;margin-bottom:20px;color:#0B2C4A;}
+
+    /* Productos */
     .productos {display:flex;overflow-x:auto;gap:15px;scroll-snap-type:x mandatory;padding-bottom:15px;}
     .producto {flex:0 0 250px;background:white;border-radius:10px;padding:15px;text-align:center;
       box-shadow:0 2px 6px rgba(0,0,0,.1);scroll-snap-align:center;transition:.3s;}
@@ -45,9 +78,9 @@
 
     /* Carrito */
     #carrito-btn {position:fixed;bottom:20px;right:20px;background:#FFD23F;border:none;padding:15px;
-      border-radius:50%;cursor:pointer;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+      border-radius:50%;cursor:pointer;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:2;}
     #carrito-contenido {display:none;position:fixed;bottom:80px;right:20px;width:300px;background:white;
-      border:1px solid #ccc;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+      border:1px solid #ccc;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:2;}
     #carrito-contenido h3 {margin-top:0;text-align:center;}
     #finalizar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
       cursor:pointer;font-weight:bold;width:100%;}
@@ -56,7 +89,7 @@
     /* Instrucciones */
     .instrucciones {background:white;margin:30px;padding:20px;border-radius:10px;
       box-shadow:0 2px 6px rgba(0,0,0,.1);}
-    .instrucciones h2 {margin-bottom:15px;}
+    .instrucciones h2 {margin-bottom:15px;text-align:center;}
 
     /* Contacto */
     #contacto {text-align:center;padding:40px 20px;background:#87B4E3;color:white;}
@@ -135,6 +168,14 @@
   <button id="finalizar">Finalizar Compra</button>
 </div>
 
+<!-- Fondo de olas animadas -->
+<div class="olas">
+  <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
+    <path d="M0,120 C150,200 350,0 600,120 C850,240 1050,0 1200,120 V200 H0 Z" fill="#0B2C4A" opacity="0.7"></path>
+    <path d="M0,140 C200,220 400,20 600,140 C800,260 1000,20 1200,140 V200 H0 Z" fill="#FFD23F" opacity="0.4"></path>
+  </svg>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // Menú desplegable
@@ -209,6 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
