@@ -5,184 +5,50 @@
   <title>OCEAN STORE</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
   <style>
-    body {
-      margin: 0;
-      font-family: 'Oswald', sans-serif;
-      background-color: #f9f9f9;
-      color: #0B2C4A;
-    }
-
-    header {
-      background: white;
-      text-align: center;
-      padding: 20px;
-    }
-
-    header img {
-      max-width: 300px;
-      width: 100%;
-    }
-
-    nav {
-      background: #0B2C4A;
-      display: flex;
-      justify-content: center;
-      padding: 10px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      color: #FFD23F;
-    }
-
-    h2 {
-      margin: 30px 0 10px;
-      text-align: center;
-    }
-
-    .categoria {
-      padding: 20px;
-    }
-
-    .productos {
-      display: flex;
-      gap: 15px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 10px;
-    }
-    .productos::-webkit-scrollbar {
-      height: 8px;
-    }
-    .productos::-webkit-scrollbar-thumb {
-      background: #0B2C4A;
-      border-radius: 5px;
-    }
-
-    .producto {
-      flex: 0 0 220px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 15px;
-      text-align: center;
-      scroll-snap-align: start;
-      transition: transform 0.2s;
-    }
-    .producto:hover {
-      transform: scale(1.05);
-    }
-    .producto img {
-      width: 100%;
-      border-radius: 10px;
-    }
-    .producto h3 {
-      margin: 10px 0 5px;
-      font-size: 20px;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 8px 12px;
-      background: #FFD23F;
-      color: #0B2C4A;
-      border-radius: 5px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #87B4E3;
-      color: white;
-    }
-
-    #carrito {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #FFD23F;
-      padding: 12px 18px;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
-      font-weight: bold;
-    }
-
-    #contacto {
-      background: #87B4E3;
-      text-align: center;
-      padding: 40px 20px;
-      color: white;
-    }
-    .social-links a {
-      display: inline-block;
-      margin: 10px;
-      font-size: 24px;
-      color: white;
-      background: #0B2C4A;
-      padding: 12px;
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-    .social-links a:hover {
-      background: #FFD23F;
-      color: #0B2C4A;
-    }
-
-    footer {
-      background: #0B2C4A;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-
-    /* Modal carrito */
-    .modal {
-      display: none;
-      position: fixed;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-    }
-
-    /* Instrucciones compra */
-    .instrucciones {
-      padding: 30px;
-      text-align: center;
-    }
-    .instrucciones ol {
-      text-align: left;
-      display: inline-block;
-      margin: 0 auto;
-      padding: 0;
-    }
+    body {margin:0;font-family:'Oswald',sans-serif;background:#f9f9f9;color:#0B2C4A;}
+    header {background:white;text-align:center;padding:20px;}
+    header img {max-width:250px;width:100%;margin-bottom:10px;}
+    header h1 {margin:0;font-size:45px;color:#0B2C4A;}
+    header p {margin:5px 0 0;color:#FFD23F;font-size:22px;}
+    nav {background:#0B2C4A;display:flex;justify-content:center;padding:10px;}
+    nav a {color:white;text-decoration:none;margin:0 15px;font-size:18px;transition:.3s;}
+    nav a:hover {color:#FFD23F;}
+    section {padding:40px 20px;}
+    h2 {text-align:center;margin-bottom:20px;color:#0B2C4A;}
+    .productos {display:flex;overflow-x:auto;gap:15px;scroll-snap-type:x mandatory;padding-bottom:15px;}
+    .producto {flex:0 0 250px;background:white;border-radius:10px;padding:15px;text-align:center;
+      box-shadow:0 2px 6px rgba(0,0,0,.1);scroll-snap-align:center;transition:.3s;}
+    .producto:hover {transform:scale(1.05);}
+    .producto img {width:100%;border-radius:10px;}
+    .producto h3 {margin:10px 0 5px;font-size:20px;}
+    .producto p {margin:5px 0;font-size:16px;}
+    .btn {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;cursor:pointer;font-weight:bold;}
+    .btn:hover {background:#87B4E3;color:white;}
+    /* Carrito */
+    #carrito-btn {position:fixed;bottom:20px;right:20px;background:#FFD23F;border:none;padding:15px;
+      border-radius:50%;cursor:pointer;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+    #carrito-contenido {display:none;position:fixed;bottom:80px;right:20px;width:300px;background:white;
+      border:1px solid #ccc;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+    #carrito-contenido h3 {margin-top:0;text-align:center;}
+    /* Instrucciones */
+    .instrucciones {background:white;margin:30px;padding:20px;border-radius:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,.1);}
+    .instrucciones h2 {text-align:center;margin-bottom:15px;}
+    /* Contacto */
+    #contacto {text-align:center;padding:40px 20px;background:#87B4E3;color:white;}
+    .social-links a {margin:10px;font-size:24px;color:white;background:#0B2C4A;padding:12px;
+      border-radius:50%;display:inline-block;}
+    .social-links a:hover {background:#FFD23F;color:#0B2C4A;}
+    footer {background:#0B2C4A;color:white;text-align:center;padding:15px;margin-top:30px;}
   </style>
 </head>
 <body>
 
 <header>
-  <img src="img/logo.png" alt="Logo">
+  <img src="img/logo.png" alt="Ocean Store">
   <h1>OCEAN STORE</h1>
-  <p>Camisas y más con estampados únicos</p>
+  <p>Estampados únicos y de alta calidad</p>
 </header>
 
 <nav>
@@ -191,17 +57,66 @@
   <a href="#contacto">Contacto</a>
 </nav>
 
-<!-- Aquí irían todas las categorías (igual que antes) -->
+<!-- Secciones de productos -->
+<section id="productos">
+  <h2>Camisas</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/camisa.png"><h3>Naruto</h3><p>L500</p><button class="btn" data-producto="Camisa Naruto" data-precio="500">Agregar</button></div>
+    <div class="producto"><img src="img/camisa.png"><h3>Dragon Ball</h3><p>L500</p><button class="btn" data-producto="Camisa Dragon Ball" data-precio="500">Agregar</button></div>
+    <div class="producto"><img src="img/camisa.png"><h3>One Piece</h3><p>L500</p><button class="btn" data-producto="Camisa One Piece" data-precio="500">Agregar</button></div>
+    <div class="producto"><img src="img/camisa.png"><h3>Bleach</h3><p>L500</p><button class="btn" data-producto="Camisa Bleach" data-precio="500">Agregar</button></div>
+  </div>
 
+  <h2>Hoodies</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Anime</h3><p>L800</p><button class="btn" data-producto="Hoodie Anime" data-precio="800">Agregar</button></div>
+    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Logo</h3><p>L800</p><button class="btn" data-producto="Hoodie Logo" data-precio="800">Agregar</button></div>
+    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Edición</h3><p>L850</p><button class="btn" data-producto="Hoodie Edición" data-precio="850">Agregar</button></div>
+  </div>
+
+  <h2>Gorras</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/gorra.png"><h3>Gorra Negra</h3><p>L350</p><button class="btn" data-producto="Gorra Negra" data-precio="350">Agregar</button></div>
+    <div class="producto"><img src="img/gorra.png"><h3>Gorra Blanca</h3><p>L350</p><button class="btn" data-producto="Gorra Blanca" data-precio="350">Agregar</button></div>
+  </div>
+
+  <h2>Vasos</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/vaso.png"><h3>Vaso Personalizado</h3><p>L250</p><button class="btn" data-producto="Vaso Personalizado" data-precio="250">Agregar</button></div>
+    <div class="producto"><img src="img/vaso.png"><h3>Vaso Gamer</h3><p>L300</p><button class="btn" data-producto="Vaso Gamer" data-precio="300">Agregar</button></div>
+  </div>
+
+  <h2>Mousepads</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/mousepad.png"><h3>Mousepad XL</h3><p>L400</p><button class="btn" data-producto="Mousepad XL" data-precio="400">Agregar</button></div>
+    <div class="producto"><img src="img/mousepad.png"><h3>Mousepad Anime</h3><p>L450</p><button class="btn" data-producto="Mousepad Anime" data-precio="450">Agregar</button></div>
+  </div>
+
+  <h2>Decoración</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/decoracion.png"><h3>Globo Personalizado</h3><p>L150</p><button class="btn" data-producto="Globo Personalizado" data-precio="150">Agregar</button></div>
+    <div class="producto"><img src="img/decoracion.png"><h3>Caja de Regalo</h3><p>L200</p><button class="btn" data-producto="Caja de Regalo" data-precio="200">Agregar</button></div>
+  </div>
+
+  <h2>Regalos</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/regalo.png"><h3>Taza Especial</h3><p>L300</p><button class="btn" data-producto="Taza Especial" data-precio="300">Agregar</button></div>
+    <div class="producto"><img src="img/regalo.png"><h3>Cojín Personalizado</h3><p>L350</p><button class="btn" data-producto="Cojín Personalizado" data-precio="350">Agregar</button></div>
+  </div>
+</section>
+
+<!-- Instrucciones -->
 <section class="instrucciones">
-  <h2>🛒 Instrucciones para Comprar</h2>
+  <h2>🛒 Instrucciones de Compra</h2>
   <ol>
-    <li>Haz clic en <b>Agregar</b> en el producto que quieras.</li>
-    <li>Abre el carrito y confirma tu pedido.</li>
-    <li>Serás redirigido a WhatsApp con los detalles.</li>
+    <li>Agrega los productos que quieras al carrito.</li>
+    <li>Abre el carrito y revisa tu pedido.</li>
+    <li>Haz clic en "Finalizar Compra" y se abrirá WhatsApp con los detalles.</li>
     <li>Realiza la transferencia a nuestra cuenta BAC Credomatic:</li>
   </ol>
-  <p><b>Banco:</b> BAC Credomatic<br><b>Número de cuenta:</b> 751240361<br><b>Tipo:</b> Ahorros</p>
+  <p><b>Banco:</b> BAC Credomatic<br>
+     <b>Número de cuenta:</b> 751240361<br>
+     <b>Tipo:</b> Ahorros</p>
 </section>
 
 <!-- Contacto -->
@@ -219,76 +134,59 @@
 </footer>
 
 <!-- Carrito -->
-<div id="carrito">🛒 Carrito (0)</div>
-
-<div class="modal" id="modal-carrito">
-  <div class="modal-content">
-    <h3>Tu carrito</h3>
-    <ul id="lista-carrito"></ul>
-    <p id="total"></p>
-    <button class="btn" id="finalizar">Finalizar en WhatsApp</button>
-    <button class="btn" id="cerrar">Cerrar</button>
-  </div>
+<button id="carrito-btn"><i class="fas fa-shopping-cart"></i></button>
+<div id="carrito-contenido">
+  <h3>🛒 Tu Carrito</h3>
+  <ul id="lista-carrito"></ul>
+  <p id="total"></p>
+  <button class="btn" id="finalizar">Finalizar Compra</button>
 </div>
 
 <script>
-  const carritoBtn = document.getElementById('carrito');
-  const modalCarrito = document.getElementById('modal-carrito');
-  const listaCarrito = document.getElementById('lista-carrito');
-  const total = document.getElementById('total');
-  const cerrar = document.getElementById('cerrar');
-  const finalizar = document.getElementById('finalizar');
+  const carritoBtn = document.getElementById("carrito-btn");
+  const carritoContenido = document.getElementById("carrito-contenido");
+  const listaCarrito = document.getElementById("lista-carrito");
+  const total = document.getElementById("total");
   let carrito = [];
 
-  document.querySelectorAll('.comprar').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const producto = btn.dataset.producto;
-      const precio = parseInt(btn.dataset.precio);
-      const requiereTalla = btn.dataset.talla === "true";
-      let talla = "";
-      if (requiereTalla) {
-        talla = prompt("Elige talla: S, M, L, XL");
-      }
-      carrito.push({ producto, precio, talla });
-      actualizarCarrito();
+  document.querySelectorAll(".btn[data-producto]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      let nombre = btn.dataset.producto;
+      let precio = parseInt(btn.dataset.precio);
+      let item = carrito.find(p=>p.nombre===nombre);
+      if(item){item.cantidad++;}else{carrito.push({nombre,precio,cantidad:1});}
+      renderCarrito();
     });
   });
 
-  function actualizarCarrito() {
-    listaCarrito.innerHTML = "";
-    let totalPrecio = 0;
-    carrito.forEach((item) => {
-      const li = document.createElement('li');
-      li.textContent = item.producto + (item.talla ? " - Talla " + item.talla : "") + " - L" + item.precio;
+  carritoBtn.addEventListener("click",()=>{carritoContenido.style.display=carritoContenido.style.display==="block"?"none":"block";});
+
+  function renderCarrito(){
+    listaCarrito.innerHTML="";
+    let totalCompra=0;
+    carrito.forEach((p,i)=>{
+      totalCompra+=p.precio*p.cantidad;
+      let li=document.createElement("li");
+      li.textContent=`${p.nombre} x${p.cantidad} - L${p.precio*p.cantidad}`;
       listaCarrito.appendChild(li);
-      totalPrecio += item.precio;
     });
-    total.textContent = "Total: L" + totalPrecio;
-    carritoBtn.textContent = "🛒 Carrito (" + carrito.length + ")";
+    total.textContent="Total: L"+totalCompra;
   }
 
-  carritoBtn.addEventListener('click', () => {
-    modalCarrito.style.display = 'flex';
-  });
-  cerrar.addEventListener('click', () => {
-    modalCarrito.style.display = 'none';
-  });
-
-  finalizar.addEventListener('click', () => {
-    let mensaje = "Hola, quiero hacer este pedido:\n";
-    let totalPrecio = 0;
-    carrito.forEach(item => {
-      mensaje += "- " + item.producto + (item.talla ? " (Talla " + item.talla + ")" : "") + " L" + item.precio + "\n";
-      totalPrecio += item.precio;
+  document.getElementById("finalizar").addEventListener("click",()=>{
+    let mensaje="Hola, quiero ordenar:\n";
+    carrito.forEach(p=>{
+      mensaje+=`${p.nombre} x${p.cantidad} - L${p.precio*p.cantidad}\n`;
     });
-    mensaje += "Total: L" + totalPrecio;
-    const url = `https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank");
+    mensaje+=total.textContent;
+    window.open(`https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`,"_blank");
   });
 </script>
 
 </body>
 </html>
+
+
 
 
 
