@@ -6,441 +6,300 @@
   <title>OceanStoreHN</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f0f8ff;
-      color: #333;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
     }
+
     header {
-      background: #0077b6;
+      background: linear-gradient(to right, #00b4db, #0083b0);
       color: white;
-      padding: 1rem;
       text-align: center;
+      padding: 1rem;
       position: relative;
     }
+
     header h1 {
       margin: 0;
-      font-size: 2rem;
     }
+
+    /* Ola animada */
+    .ola {
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      width: 200%;
+      height: 100px;
+      background: url('img/ola.svg') repeat-x;
+      background-size: contain;
+      animation: moverOla 10s linear infinite;
+      z-index: 0;
+    }
+    .ola2 {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 200%;
+      height: 100px;
+      background: url('img/ola.svg') repeat-x;
+      background-size: contain;
+      opacity: 0.5;
+      animation: moverOla 15s linear infinite reverse;
+      z-index: 0;
+    }
+    @keyframes moverOla {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Menú */
     nav {
+      background: #006f8c;
+      color: white;
+      padding: 0.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .menu {
       display: flex;
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
     }
-    nav a {
+    .menu a {
       color: white;
       text-decoration: none;
       font-weight: bold;
     }
-    .menu-btn {
-      display: none;
-      font-size: 2rem;
-      background: none;
-      border: none;
-      color: white;
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      cursor: pointer;
+    @media(max-width:768px){
+      .menu { display: none; flex-direction: column; align-items: center; }
+      .menu.active { display: flex; }
+      .menu-toggle { display: block; }
     }
-    .menu {
-      display: none;
-      flex-direction: column;
-      background: rgba(0,0,0,0.9);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
+
+    /* Categorías */
+    section {
+      padding: 2rem 1rem;
     }
-    .menu a {
-      color: white;
-      font-size: 1.5rem;
-      margin: 1rem;
-      text-decoration: none;
-    }
-    .menu.show {
-      display: flex;
+    section h2 {
+      text-align: center;
+      color: #0083b0;
     }
     .productos {
-      padding: 2rem;
-    }
-    .categoria {
-      margin-bottom: 3rem;
-    }
-    .categoria h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .productos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      display: flex;
+      overflow-x: auto;
       gap: 1rem;
+      padding: 1rem;
     }
     .producto {
-      background: white;
+      min-width: 200px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
       padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       text-align: center;
+      background: #fff;
+      flex-shrink: 0;
     }
     .producto img {
       max-width: 100%;
       height: 150px;
       object-fit: contain;
     }
-    .carrito {
+
+    /* Carrito */
+    #carrito {
       position: fixed;
       top: 0;
-      right: 0;
-      background: white;
-      width: 320px;
+      right: -400px;
+      width: 300px;
       height: 100%;
-      box-shadow: -2px 0 6px rgba(0,0,0,0.2);
+      background: #f8f8f8;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.2);
       padding: 1rem;
       overflow-y: auto;
-      transform: translateX(100%);
-      transition: transform 0.3s;
-      z-index: 1100;
+      transition: right 0.3s ease;
+      z-index: 200;
     }
-    .carrito.show {
-      transform: translateX(0);
-    }
-    .carrito h2 {
-      text-align: center;
-    }
-    .carrito-item {
-      border-bottom: 1px solid #ccc;
-      padding: 0.5rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .carrito-item button {
-      background: red;
+    #carrito.active { right: 0; }
+    #carrito h2 { text-align: center; }
+    #carrito ul { list-style: none; padding: 0; }
+    #carrito li { margin: 0.5rem 0; font-size: 0.9rem; }
+    #carrito button { background: red; color: #fff; border: none; padding: 2px 6px; cursor: pointer; border-radius: 4px; }
+
+    .btn {
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #0083b0;
       color: white;
       border: none;
-      border-radius: 5px;
-      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
       cursor: pointer;
     }
-    .instrucciones {
+    .btn:hover { background: #005f73; }
+
+    /* Instrucciones */
+    #instrucciones {
+      background: #eafcff;
       padding: 2rem;
+    }
+    #instrucciones h2 {
       text-align: center;
-      background: #e0f7fa;
-      margin: 2rem 0;
+      margin-bottom: 1rem;
+      color: #0083b0;
     }
-    .ola {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 200%;
-      height: 150px;
-      background: url('img/ola.svg') repeat-x;
-      background-size: contain;
-      animation: moverOla 10s linear infinite;
-      z-index: -1;
-    }
-    .ola2 {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 200%;
-      height: 160px;
-      background: url('img/ola.svg') repeat-x;
-      background-size: contain;
-      opacity: 0.6;
-      animation: moverOla 15s linear infinite reverse;
-      z-index: -2;
-    }
-    @keyframes moverOla {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-    @media (max-width: 768px) {
-      nav { display: none; }
-      .menu-btn { display: block; }
+    #instrucciones p {
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>OceanStoreHN</h1>
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <nav>
-      <a href="#camisas">Camisas</a>
-      <a href="#hoodies">Hoodies</a>
-      <a href="#gorras">Gorras</a>
-      <a href="#mousepads">Mousepads</a>
-      <a href="#vasos">Vasos</a>
-      <a href="#decoracion">Decoración</a>
-      <a href="#regalos">Regalos</a>
-      <a href="#instrucciones">Instrucciones</a>
-      <a href="#" onclick="toggleCarrito()">Carrito 🛒</a>
-    </nav>
-    <div class="menu" id="menu">
-      <a href="#camisas" onclick="toggleMenu()">Camisas</a>
-      <a href="#hoodies" onclick="toggleMenu()">Hoodies</a>
-      <a href="#gorras" onclick="toggleMenu()">Gorras</a>
-      <a href="#mousepads" onclick="toggleMenu()">Mousepads</a>
-      <a href="#vasos" onclick="toggleMenu()">Vasos</a>
-      <a href="#decoracion" onclick="toggleMenu()">Decoración</a>
-      <a href="#regalos" onclick="toggleMenu()">Regalos</a>
-      <a href="#instrucciones" onclick="toggleMenu()">Instrucciones</a>
-      <a href="#" onclick="toggleCarrito()">Carrito 🛒</a>
-    </div>
-  </header>
 
-  <div class="productos">
-    <!-- Categorías generadas con JS -->
-    <div id="camisas" class="categoria">
-      <h2>Camisas</h2>
-      <div class="productos-grid">
-        <script>
-          for(let i=1;i<=10;i++){
-            document.write(`
-              <div class="producto">
-                <img src="img/camisa.png" alt="Camisa ${i}">
-                <h3>Camisa ${i}</h3>
-                <p>L500</p>
-                <label>Talla:
-                  <select id="talla-camisa${i}">
-                    <option>S</option><option>M</option><option>L</option>
-                  </select>
-                </label><br>
-                <label>Cantidad:
-                  <input type="number" id="cantidad-camisa${i}" value="1" min="1">
-                </label><br>
-                <button onclick="agregarAlCarrito('Camisa ${i}', 500, document.getElementById('talla-camisa${i}').value, document.getElementById('cantidad-camisa${i}').value)">Comprar</button>
-              </div>
-            `);
-          }
-        </script>
-      </div>
-    </div>
-
-    <!-- Hoodies -->
-    <div id="hoodies" class="categoria">
-      <h2>Hoodies</h2>
-      <div class="productos-grid">
-        <script>
-          for(let i=1;i<=10;i++){
-            document.write(`
-              <div class="producto">
-                <img src="img/hoodie.png" alt="Hoodie ${i}">
-                <h3>Hoodie ${i}</h3>
-                <p>L500</p>
-                <label>Talla:
-                  <select id="talla-hoodie${i}">
-                    <option>S</option><option>M</option><option>L</option>
-                  </select>
-                </label><br>
-                <label>Cantidad:
-                  <input type="number" id="cantidad-hoodie${i}" value="1" min="1">
-                </label><br>
-                <button onclick="agregarAlCarrito('Hoodie ${i}', 500, document.getElementById('talla-hoodie${i}').value, document.getElementById('cantidad-hoodie${i}').value)">Comprar</button>
-              </div>
-            `);
-          }
-        </script>
-      </div>
-    </div>
-
-    <!-- Gorras -->
-    <div id="gorras" class="categoria">
-      <h2>Gorras</h2>
-      <div class="productos-grid">
-        <script>
-          for(let i=1;i<=10;i++){
-            document.write(`
-              <div class="producto">
-                <img src="img/gorra.png" alt="Gorra ${i}">
-                <h3>Gorra ${i}</h3>
-                <p>L500</p>
-                <label>Talla:
-                  <select id="talla-gorra${i}">
-                    <option>S</option><option>M</option><option>L</option>
-                  </select>
-                </label><br>
-                <label>Cantidad:
-                  <input type="number" id="cantidad-gorra${i}" value="1" min="1">
-                </label><br>
-                <button onclick="agregarAlCarrito('Gorra ${i}', 500, document.getElementById('talla-gorra${i}').value, document.getElementById('cantidad-gorra${i}').value)">Comprar</button>
-              </div>
-            `);
-          }
-        </script>
-      </div>
-    </div>
-
-    <!-- Mousepads -->
-    <div id="mousepads" class="categoria">
-      <h2>Mousepads</h2>
-      <div class="productos-grid">
-        <script>
-          for(let i=1;i<=10;i++){
-            document.write(`
-              <div class="producto">
-                <img src="img/mousepad.png" alt="Mousepad ${i}">
-                <h3>Mousepad ${i}</h3>
-                <p>L500</p>
-                <label>Talla:
-                  <select id="talla-mousepad${i}">
-                    <option>S</option><option>M</option><option>L</option>
-                  </select>
-                </label><br>
-                <label>Cantidad:
-                  <input type="number" id="cantidad-mousepad${i}" value="1" min="1">
-                </label><br>
-                <button onclick="agregarAlCarrito('Mousepad ${i}', 500, document.getElementById('talla-mousepad${i}').value, document.getElementById('cantidad-mousepad${i}').value)">Comprar</button>
-              </div>
-            `);
-          }
-        </script>
-      </div>
-    </div>
-
-    <!-- Vasos -->
-    <div id="vasos" class="categoria">
-      <h2>Vasos</h2>
-      <div class="productos-grid">
-        <script>
-          for(let i=1;i<=10;i++){
-            document.write(`
-              <div class="producto">
-                <img src="img/vaso.png" alt="Vaso ${i}">
-                <h3>Vaso ${i}</h3>
-                <p>L500</p>
-                <label>Cantidad:
-                  <input type="number" id="cantidad-vaso${i}" value="1" min="1">
-                </label><br>
-                <button onclick="agregarAlCarrito('Vaso ${i}', 500, '', document.getElementById('cantidad-vaso${i}').value)">Comprar</button>
-              </div>
-            `);
-          }
-        </script>
-      </div>
-    </div>
-
-    <!-- Decoración -->
-    <div id="decoracion" class="categoria">
-      <h2>Decoración</h2>
-      <div class="productos-grid">
-        <script>
-          for(let i=1;i<=10;i++){
-            document.write(`
-              <div class="producto">
-                <img src="img/decoracion.png" alt="Decoración ${i}">
-                <h3>Decoración ${i}</h3>
-                <p>L500</p>
-                <label>Cantidad:
-                  <input type="number" id="cantidad-decoracion${i}" value="1" min="1">
-                </label><br>
-                <button onclick="agregarAlCarrito('Decoración ${i}', 500, '', document.getElementById('cantidad-decoracion${i}').value)">Comprar</button>
-              </div>
-            `);
-          }
-        </script>
-      </div>
-    </div>
-
-    <!-- Regalos -->
-    <div id="regalos" class="categoria">
-      <h2>Regalos</h2>
-      <div class="productos-grid">
-        <script>
-          for(let i=1;i<=10;i++){
-            document.write(`
-              <div class="producto">
-                <img src="img/regalo.png" alt="Regalo ${i}">
-                <h3>Regalo ${i}</h3>
-                <p>L500</p>
-                <label>Cantidad:
-                  <input type="number" id="cantidad-regalo${i}" value="1" min="1">
-                </label><br>
-                <button onclick="agregarAlCarrito('Regalo ${i}', 500, '', document.getElementById('cantidad-regalo${i}').value)">Comprar</button>
-              </div>
-            `);
-          }
-        </script>
-      </div>
-    </div>
-  </div>
-
-  <!-- Instrucciones -->
-  <div class="instrucciones" id="instrucciones">
-    <h2>🛒 Instrucciones de Compra</h2>
-    <p>Selecciona tus productos, agrégalos al carrito y finaliza tu pedido enviándonos un mensaje por WhatsApp o nuestras redes sociales.</p>
-  </div>
-
-  <!-- Carrito -->
-  <div class="carrito" id="carrito">
-    <h2>Carrito</h2>
-    <div id="carrito-items"></div>
-    <p id="total"></p>
-    <button onclick="finalizarCompra()">Finalizar Compra</button>
-  </div>
-
-  <!-- Olas animadas -->
+<header>
+  <h1>OceanStoreHN</h1>
   <div class="ola"></div>
   <div class="ola2"></div>
+</header>
 
-  <script>
-    let carrito = [];
+<nav>
+  <span class="menu-toggle">☰ Menú</span>
+  <div class="menu">
+    <a href="#camisas">Camisas</a>
+    <a href="#hoodies">Hoodies</a>
+    <a href="#gorras">Gorras</a>
+    <a href="#vasos">Vasos</a>
+    <a href="#mousepads">Mousepads</a>
+    <a href="#decoracion">Decoración</a>
+    <a href="#regalos">Regalos</a>
+    <a href="#instrucciones">Instrucciones</a>
+    <a href="javascript:void(0)" onclick="toggleCarrito()">🛒 Carrito</a>
+  </div>
+</nav>
 
-    function toggleMenu() {
-      document.getElementById('menu').classList.toggle('show');
-    }
+<!-- Categorías -->
+<section id="camisas"><h2>Camisas</h2><div class="productos"></div></section>
+<section id="hoodies"><h2>Hoodies</h2><div class="productos"></div></section>
+<section id="gorras"><h2>Gorras</h2><div class="productos"></div></section>
+<section id="vasos"><h2>Vasos</h2><div class="productos"></div></section>
+<section id="mousepads"><h2>Mousepads</h2><div class="productos"></div></section>
+<section id="decoracion"><h2>Decoración</h2><div class="productos"></div></section>
+<section id="regalos"><h2>Regalos</h2><div class="productos"></div></section>
 
-    function toggleCarrito() {
-      document.getElementById('carrito').classList.toggle('show');
-    }
+<!-- Instrucciones -->
+<section id="instrucciones">
+  <h2>Instrucciones de Compra</h2>
+  <p>Selecciona los productos que desees, agrégalos al carrito y cuando estés listo, presiona en "Finalizar compra". Te enviaremos a WhatsApp con tu pedido.</p>
+</section>
 
-    function agregarAlCarrito(nombre, precio, talla, cantidad) {
-      carrito.push({ nombre, precio, talla, cantidad });
-      mostrarCarrito();
-    }
+<!-- Carrito -->
+<div id="carrito">
+  <h2>Carrito</h2>
+  <ul id="listaCarrito"></ul>
+  <p id="total">Total: L0</p>
+  <button class="btn" onclick="finalizarCompra()">Finalizar compra</button>
+</div>
 
-    function eliminarDelCarrito(index) {
-      carrito.splice(index, 1);
-      mostrarCarrito();
-    }
+<script>
+  const productosData = {
+    camisas: { img: "img/camisa.png", cantidad: 10, tallas: true },
+    hoodies: { img: "img/hoodie.png", cantidad: 10, tallas: true },
+    gorras: { img: "img/gorra.png", cantidad: 10, tallas: true },
+    vasos: { img: "img/vaso.png", cantidad: 10, tallas: false },
+    mousepads: { img: "img/mousepad.png", cantidad: 10, tallas: true },
+    decoracion: { img: "img/decoracion.png", cantidad: 10, tallas: false },
+    regalos: { img: "img/regalo.png", cantidad: 10, tallas: false },
+  };
 
-    function mostrarCarrito() {
-      const contenedor = document.getElementById('carrito-items');
-      contenedor.innerHTML = '';
-      let total = 0;
-      carrito.forEach((item, index) => {
-        total += item.precio * item.cantidad;
-        contenedor.innerHTML += `
-          <div class="carrito-item">
-            <span>${item.nombre} ${item.talla ? '('+item.talla+')' : ''} x${item.cantidad} - L${item.precio * item.cantidad}</span>
-            <button onclick="eliminarDelCarrito(${index})">❌</button>
-          </div>
+  const carrito = [];
+  const precioBase = 500;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    for (let categoria in productosData) {
+      const { img, cantidad, tallas } = productosData[categoria];
+      const contenedor = document.querySelector(`#${categoria} .productos`);
+      for (let i = 1; i <= cantidad; i++) {
+        const div = document.createElement("div");
+        div.classList.add("producto");
+        div.innerHTML = `
+          <img src="${img}" alt="${categoria} ${i}">
+          <h3>${categoria.charAt(0).toUpperCase() + categoria.slice(1)} ${i}</h3>
+          <p>L${precioBase}</p>
+          ${tallas ? `
+            <label>Talla:
+              <select>
+                <option>S</option><option>M</option><option>L</option><option>XL</option>
+              </select>
+            </label>
+          ` : ""}
+          <label>Cantidad:
+            <input type="number" min="1" value="1">
+          </label>
+          <button class="btn" onclick="agregarAlCarrito(this, '${categoria} ${i}', ${precioBase}, ${tallas})">Comprar</button>
         `;
-      });
-      document.getElementById('total').innerText = "Total: L" + total;
-    }
-
-    function finalizarCompra() {
-      if(carrito.length === 0){
-        alert("Tu carrito está vacío.");
-        return;
+        contenedor.appendChild(div);
       }
-      let mensaje = "Hola, quiero comprar:\n";
-      carrito.forEach(item => {
-        mensaje += `${item.nombre} ${item.talla ? '('+item.talla+')' : ''} x${item.cantidad} - L${item.precio * item.cantidad}\n`;
-      });
-      const url = "https://wa.me/504XXXXXXXX?text=" + encodeURIComponent(mensaje);
-      window.open(url, "_blank");
     }
-  </script>
+  });
+
+  function agregarAlCarrito(boton, nombre, precio, tieneTalla) {
+    const productoDiv = boton.parentElement;
+    const talla = tieneTalla ? productoDiv.querySelector("select").value : "";
+    const cantidad = parseInt(productoDiv.querySelector("input").value);
+    carrito.push({ nombre, precio, talla, cantidad });
+    mostrarCarrito();
+  }
+
+  function mostrarCarrito() {
+    const lista = document.getElementById("listaCarrito");
+    lista.innerHTML = "";
+    let total = 0;
+    carrito.forEach((item, index) => {
+      total += item.precio * item.cantidad;
+      const li = document.createElement("li");
+      li.innerHTML = `
+        ${item.nombre} ${item.talla ? "(Talla: " + item.talla + ")" : ""} x${item.cantidad} - L${item.precio * item.cantidad}
+        <button onclick="eliminarDelCarrito(${index})">X</button>
+      `;
+      lista.appendChild(li);
+    });
+    document.getElementById("total").textContent = "Total: L" + total;
+  }
+
+  function eliminarDelCarrito(index) {
+    carrito.splice(index, 1);
+    mostrarCarrito();
+  }
+
+  function finalizarCompra() {
+    if (carrito.length === 0) { alert("Tu carrito está vacío."); return; }
+    let mensaje = "Hola, quiero comprar:\n";
+    carrito.forEach(item => {
+      mensaje += `- ${item.nombre} ${item.talla ? "(Talla " + item.talla + ")" : ""} x${item.cantidad} - L${item.precio * item.cantidad}\n`;
+    });
+    window.open("https://wa.me/50499999999?text=" + encodeURIComponent(mensaje));
+  }
+
+  function toggleCarrito() {
+    document.getElementById("carrito").classList.toggle("active");
+  }
+
+  document.querySelector(".menu-toggle").addEventListener("click", () => {
+    document.querySelector(".menu").classList.toggle("active");
+  });
+</script>
+
 </body>
 </html>
+
+
 
 
 
