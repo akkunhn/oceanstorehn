@@ -298,16 +298,26 @@
       background: var(--blanco);
     }
 
-    /* Sección categoría + carrusel */
-    .categoria{
-      max-width:1200px;
-      margin:28px auto;
-      padding:0 16px;
-      display: none; /* Oculta todas las categorías por defecto */
+    /* Secciones de contenido */
+    .content-section {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 16px;
     }
-    /* Muestra solo la categoría con la clase 'active' */
-    .categoria.active {
+
+    .categoria, .search-results-section {
+      display: none; /* Se ocultan por defecto */
+    }
+
+    .categoria.active, .search-results-section.active {
       display: block;
+    }
+    
+    .search-results-section .track {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
     }
 
     .no-results {
@@ -508,7 +518,17 @@
     </div>
   </aside>
 
-  <main id="categorias"></main>
+  <main id="categorias">
+    <section id="search-results-section" class="content-section search-results-section">
+      <div class="categoria-header">
+        <h2>Resultados de búsqueda</h2>
+      </div>
+      <div class="carrusel">
+        <div class="track"></div>
+      </div>
+      <div class="no-results" style="display:none">No se encontraron resultados que coincidan con la búsqueda.</div>
+    </section>
+  </main>
 
   <section id="instrucciones" class="instrucciones">
     <div class="card-ins">
@@ -590,32 +610,33 @@
       { id:"cat-decoracion",titulo:"decoracion",talla:false, base:400 },
       { id:"cat-regalos",   titulo:"regalo",   talla:false, base:300 },
     ];
-
-    // Genera 10 productos por categoría
+    
+    // Genera 10 productos por categoría y unifica en un solo array
     const productosPorCategoria = {};
+    const todosLosProductos = [];
     CATS.forEach(cat=>{
-      productosPorCategoria[cat.id] = Array.from({length:10}).map((_,i)=>({
+      const productos = Array.from({length:10}).map((_,i)=>({
         id:`${cat.id}-${i+1}`,
         nombre:`${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)} ${i+1}`,
         precio:cat.base,
         imagen:`img/${cat.titulo}.png`,
         requiereTalla:cat.talla
       }));
+      productosPorCategoria[cat.id] = productos;
+      todosLosProductos.push(...productos);
     });
 
     /* ==========
        Render de categorías y carruseles
        ========== */
     const main = document.getElementById('categorias');
-    const noResultsDiv = document.createElement('div');
-    noResultsDiv.className = 'no-results';
-    noResultsDiv.style.display = 'none';
-    noResultsDiv.textContent = 'No se encontraron resultados que coincidan con la búsqueda.';
-    main.appendChild(noResultsDiv);
+    const noResultsDiv = document.querySelector('.no-results');
+    const searchResultsSection = document.getElementById('search-results-section');
+    const searchResultsTrack = searchResultsSection.querySelector('.track');
 
     function crearSeccionCategoria(cat){
       const sec = document.createElement('section');
-      sec.className = 'categoria';
+      sec.className = 'content-section categoria';
       sec.id = cat.id;
 
       sec.innerHTML = `
@@ -635,18 +656,7 @@
       const lista = productosPorCategoria[cat.id];
 
       lista.forEach(prod=>{
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${prod.imagen}" alt="${prod.nombre}">
-          <div class="info">
-            <h3>${prod.nombre}</h3>
-            <p class="precio">L${prod.precio.toFixed(2)}</p>
-          </div>
-          <div class="acciones">
-            <button class="btn-add" data-id="${prod.id}">Comprar</button>
-          </div>
-        `;
+        const card = crearCardProducto(prod);
         track.appendChild(card);
       });
 
@@ -661,11 +671,27 @@
         const btn = e.target.closest('.btn-add');
         if(!btn) return;
         const id = btn.dataset.id;
-        const prod = lista.find(p=>p.id===id);
-        abrirModal(prod);
+        const prod = todosLosProductos.find(p=>p.id===id);
+        if (prod) abrirModal(prod);
       });
 
       return sec;
+    }
+
+    function crearCardProducto(prod) {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${prod.imagen}" alt="${prod.nombre}">
+          <div class="info">
+            <h3>${prod.nombre}</h3>
+            <p class="precio">L${prod.precio.toFixed(2)}</p>
+          </div>
+          <div class="acciones">
+            <button class="btn-add" data-id="${prod.id}">Comprar</button>
+          </div>
+        `;
+        return card;
     }
 
     function renderCategorias(){
@@ -673,75 +699,78 @@
         main.appendChild(crearSeccionCategoria(cat));
       });
       // Muestra la primera categoría al inicio
-      mostrarCategoria('cat-camisas');
+      mostrarSeccion('cat-camisas');
     }
 
     /* ==========
-       Lógica de pestañas para categorías
+       Lógica de pestañas y visibilidad
        ========== */
     const enlacesMenu = document.querySelectorAll('.menu-grid a');
     const seccionesCategorias = document.querySelectorAll('.categoria');
 
-    function mostrarCategoria(id){
+    function mostrarSeccion(id){
       seccionesCategorias.forEach(sec=>{
         sec.classList.remove('active');
-        // Reset card visibility on all categories
-        sec.querySelectorAll('.card').forEach(card => {
-          card.style.display = 'flex';
-        });
       });
-      document.getElementById(id).classList.add('active');
-      searchBar.value = ''; // Clear search bar on category change
-      noResultsDiv.style.display = 'none';
-
-      enlacesMenu.forEach(link=>{
-        link.classList.remove('active');
-        if(link.dataset.target === id){
-          link.classList.add('active');
-        }
-      });
-      // Desplazarse a la sección
-      document.getElementById(id).scrollIntoView({behavior: 'smooth', block: 'start'});
+      searchResultsSection.classList.remove('active');
+      
+      const targetSection = document.getElementById(id);
+      if(targetSection) {
+        targetSection.classList.add('active');
+        targetSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
     }
 
     enlacesMenu.forEach(link=>{
       link.addEventListener('click', (e)=>{
-        e.preventDefault(); // Evita el comportamiento por defecto del enlace
+        e.preventDefault();
         const targetId = e.currentTarget.dataset.target;
         if(targetId){
-          mostrarCategoria(targetId);
+          mostrarSeccion(targetId);
+          searchBar.value = ''; // Limpiar la barra de búsqueda
+          searchBar.blur(); // Quitar el foco
         }
-        toggleMenu(false); // Cierra el menú al seleccionar
+        toggleMenu(false);
       });
     });
 
     /* ==========
-       Funcionalidad de búsqueda
+       Funcionalidad de búsqueda global
        ========== */
     const searchBar = document.getElementById('searchBar');
 
     searchBar.addEventListener('keyup', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      const activeCategory = document.querySelector('.categoria.active');
-      if (!activeCategory) return;
-      
-      let foundCount = 0;
-      const cards = activeCategory.querySelectorAll('.card');
-      cards.forEach(card => {
-        const title = card.querySelector('h3').textContent.toLowerCase();
-        if (title.includes(searchTerm)) {
-          card.style.display = 'flex';
-          foundCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      const searchTerm = e.target.value.toLowerCase().trim();
+      searchResultsTrack.innerHTML = '';
+      noResultsDiv.style.display = 'none';
 
-      // Show no-results message if no cards are visible
-      if (foundCount === 0 && searchTerm.length > 0) {
-        noResultsDiv.style.display = 'block';
+      if (searchTerm.length === 0) {
+        mostrarSeccion(document.querySelector('.menu-grid a.active').dataset.target);
+        return;
+      }
+      
+      // Ocultar categorías y mostrar sección de resultados
+      seccionesCategorias.forEach(sec => sec.classList.remove('active'));
+      searchResultsSection.classList.add('active');
+
+      const resultados = todosLosProductos.filter(prod =>
+        prod.nombre.toLowerCase().includes(searchTerm)
+      );
+
+      if (resultados.length > 0) {
+        resultados.forEach(prod => {
+          const card = crearCardProducto(prod);
+          searchResultsTrack.appendChild(card);
+        });
+        searchResultsTrack.addEventListener('click', (e) => {
+            const btn = e.target.closest('.btn-add');
+            if(!btn) return;
+            const id = btn.dataset.id;
+            const prod = todosLosProductos.find(p=>p.id===id);
+            if(prod) abrirModal(prod);
+        });
       } else {
-        noResultsDiv.style.display = 'none';
+        noResultsDiv.style.display = 'block';
       }
     });
 
@@ -910,8 +939,8 @@
 
     // Render inicial
     renderCategorias();
+    document.querySelector('.menu-grid a').classList.add('active'); // Seleccionar primera categoría por defecto
     actualizarCarritoUI();
-
   </script>
 </body>
 </html>
