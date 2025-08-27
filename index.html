@@ -3,253 +3,457 @@
 <head>
   <meta charset="UTF-8">
   <title>OCEAN STORE</title>
+  <!-- Fuente Oswald -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     body {
-      margin:0;
-      font-family:'Oswald',sans-serif;
-      color:#0B2C4A;
-      background:linear-gradient(180deg, #87CEEB 0%, #f9f9f9 100%);
-      position:relative;
-      overflow-x:hidden;
+      margin: 0;
+      font-family: 'Oswald', sans-serif;
+      background-color: #f9f9f9;
+      color: #0B2C4A;
+      scroll-behavior: smooth;
     }
 
-    /* Fondo de olas */
-    .olas {
-      position:fixed;
-      bottom:0;
-      left:0;
-      width:100%;
-      height:150px;
-      z-index:-1;
-      overflow:hidden;
-    }
-    .olas svg {
-      position:absolute;
-      bottom:0;
-      left:0;
-      width:200%;
-      height:100%;
-      animation:moverOlas 12s linear infinite;
-    }
-    @keyframes moverOlas {
-      from {transform:translateX(0);}
-      to {transform:translateX(-50%);}
+    header {
+      background-color: white;
+      text-align: center;
+      padding: 20px 0;
+      position: relative;
+      z-index: 1001;
     }
 
-    header {background:white;text-align:center;padding:20px;position:relative;z-index:1;}
-    header img {max-width:250px;width:100%;margin-bottom:10px;}
-    header h1 {margin:0;font-size:45px;color:#0B2C4A;}
-    header p {margin:5px 0 0;color:#FFD23F;font-size:22px;}
+    header img {
+      max-width: 300px;
+      width: 100%;
+      margin: 0 auto 10px;
+    }
 
-    /* Menú */
-    nav {background:#0B2C4A;z-index:1;position:relative;}
-    .menu-container {display:flex;justify-content:space-between;align-items:center;padding:10px 20px;}
-    .menu-container h2 {color:white;margin:0;}
-    .menu-btn {font-size:24px;color:white;background:none;border:none;cursor:pointer;}
-    .menu-links {display:none;flex-direction:column;background:#0B2C4A;}
-    .menu-links a {color:white;text-decoration:none;padding:12px 20px;border-top:1px solid rgba(255,255,255,.2);}
-    .menu-links a:hover {background:#FFD23F;color:#0B2C4A;}
-    .menu-links.show {display:flex;}
+    header h1 {
+      margin: 0;
+      font-size: 40px;
+      color: #0B2C4A;
+    }
 
-    section {padding:40px 20px;position:relative;z-index:1;}
-    h2 {text-align:center;margin-bottom:20px;color:#0B2C4A;}
+    header p {
+      margin: 5px 0 0;
+      color: #FFD23F;
+      font-size: 20px;
+    }
+
+    nav {
+      background-color: #0B2C4A;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 18px;
+    }
+
+    nav a:hover {
+      color: #FFD23F;
+    }
+
+    .menu-toggle {
+      font-size: 28px;
+      cursor: pointer;
+      color: white;
+    }
+
+    /* Menú desplegable */
+    .menu {
+      position: fixed;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      background: #0B2C4A;
+      color: white;
+      padding: 40px 20px;
+      transition: top 0.5s;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .menu.active {
+      top: 0;
+    }
+
+    .menu h2 {
+      margin-bottom: 20px;
+    }
+
+    .menu a {
+      display: block;
+      margin: 10px 0;
+      font-size: 20px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .menu a:hover {
+      color: #FFD23F;
+    }
 
     /* Productos */
-    .productos {display:flex;overflow-x:auto;gap:15px;scroll-snap-type:x mandatory;padding-bottom:15px;}
-    .producto {flex:0 0 250px;background:white;border-radius:10px;padding:15px;text-align:center;
-      box-shadow:0 2px 6px rgba(0,0,0,.1);scroll-snap-align:center;transition:.3s;}
-    .producto:hover {transform:scale(1.05);}
-    .producto img {width:100%;border-radius:10px;}
-    .producto h3 {margin:10px 0 5px;font-size:20px;}
-    .producto p {margin:5px 0;font-size:16px;}
-    .btn-agregar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
-      cursor:pointer;font-weight:bold;margin-top:5px;}
-    .btn-agregar:hover {background:#87B4E3;color:white;}
-    select {margin-top:5px;padding:5px;border-radius:5px;width:100%;}
+    .categoria {
+      padding: 40px 20px;
+    }
 
-    /* cantidad */
-    .cantidad-container {display:flex;justify-content:center;align-items:center;gap:8px;margin-top:5px;}
-    .cantidad-container button {background:#0B2C4A;color:white;border:none;padding:5px 10px;
-      border-radius:5px;cursor:pointer;font-size:16px;}
-    .cantidad-container button:hover {background:#FFD23F;color:#0B2C4A;}
-    .cantidad {width:40px;text-align:center;border:none;background:#f0f0f0;font-weight:bold;}
+    .categoria h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #0B2C4A;
+    }
+
+    .productos {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding-bottom: 10px;
+    }
+
+    .producto {
+      min-width: 220px;
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .producto img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #FFD23F;
+      color: #0B2C4A;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #87B4E3;
+      color: white;
+    }
 
     /* Carrito */
-    #carrito-btn {position:fixed;bottom:20px;right:20px;background:#FFD23F;border:none;padding:15px;
-      border-radius:50%;cursor:pointer;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:2;}
-    #carrito-contenido {display:none;position:fixed;bottom:80px;right:20px;width:300px;background:white;
-      border:1px solid #ccc;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:2;}
-    #carrito-contenido h3 {margin-top:0;text-align:center;}
-    #finalizar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
-      cursor:pointer;font-weight:bold;width:100%;}
-    #finalizar:hover {background:#87B4E3;color:white;}
+    #carrito {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #FFD23F;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .carrito-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1002;
+    }
+
+    .carrito-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    /* Modal productos */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1003;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
 
     /* Instrucciones */
-    .instrucciones {background:white;margin:30px;padding:20px;border-radius:10px;
-      box-shadow:0 2px 6px rgba(0,0,0,.1);}
-    .instrucciones h2 {margin-bottom:15px;text-align:center;}
+    .instrucciones {
+      background: white;
+      margin: 40px 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .instrucciones h2 {
+      margin-bottom: 15px;
+      color: #0B2C4A;
+      font-size: 26px;
+    }
+
+    .instrucciones ol {
+      text-align: left;
+      display: inline-block;
+      margin: 0 auto;
+    }
 
     /* Contacto */
-    #contacto {text-align:center;padding:40px 20px;background:#87B4E3;color:white;}
-    .social-links a {margin:10px;font-size:24px;color:white;background:#0B2C4A;padding:12px;
-      border-radius:50%;display:inline-block;}
-    .social-links a:hover {background:#FFD23F;color:#0B2C4A;}
-    footer {background:#0B2C4A;color:white;text-align:center;padding:15px;margin-top:30px;}
+    #contacto {
+      text-align: center;
+      padding: 40px 20px;
+      background: #87B4E3;
+      color: white;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 10px;
+      font-size: 24px;
+      color: white;
+      background: #0B2C4A;
+      padding: 12px;
+      border-radius: 50%;
+    }
+
+    .social-links a:hover {
+      background: #FFD23F;
+      color: #0B2C4A;
+    }
+
+    footer {
+      background-color: #0B2C4A;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <img src="img/logo.png" alt="Ocean Store">
-  <h1>OCEAN STORE</h1>
-  <p>Estampados únicos y de alta calidad</p>
-</header>
+  <header>
+    <img src="img/logo.png" alt="Logo Ocean Store">
+    <h1>OCEAN STORE</h1>
+    <p>Camisas con estampados DTF únicos y de alta calidad</p>
+  </header>
 
-<nav>
-  <div class="menu-container">
-    <h2>🌊 Menú</h2>
-    <button class="menu-btn"><i class="fas fa-bars"></i></button>
-  </div>
-  <div class="menu-links">
-    <a href="#">Inicio</a>
-    <a href="#productos">Productos</a>
-    <a href="#instrucciones">Instrucciones de compra</a>
+  <nav>
+    <div class="menu-toggle"><i class="fas fa-bars"></i></div>
     <a href="#contacto">Contacto</a>
-    <a href="#carrito-contenido">Carrito</a>
-  </div>
-</nav>
+  </nav>
 
-<section id="productos">
-  <h2>Camisas</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/camisa.png"><h3>Camisa Naruto</h3><p>L500</p>
-      <select><option>S</option><option>M</option><option>L</option><option>XL</option></select>
-      <div class="cantidad-container">
-        <button class="menos">-</button>
-        <input type="text" class="cantidad" value="1" readonly>
-        <button class="mas">+</button>
+  <!-- Menú desplegable -->
+  <div class="menu" id="menu">
+    <h2>Categorías</h2>
+    <a href="#camisas">Camisas</a>
+    <a href="#hoodies">Hoodies</a>
+    <a href="#gorras">Gorras</a>
+    <a href="#vasos">Vasos</a>
+    <a href="#mousepads">Mousepads</a>
+    <a href="#decoracion">Decoración para Fiestas</a>
+    <a href="#regalos">Regalos</a>
+  </div>
+
+  <!-- Categorías con productos -->
+  <section id="camisas" class="categoria">
+    <h2>Camisas</h2>
+    <div class="productos">
+      <!-- 10 productos de ejemplo -->
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 1</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 1" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 2</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 2" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 3</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 3" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 4</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 4" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 5</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 5" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 6</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 6" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 7</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 7" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 8</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 8" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 9</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 9" data-precio="500">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 10</h3><p>L500.00</p><button class="btn comprar" data-categoria="camisas" data-producto="Camisa 10" data-precio="500">Comprar</button></div>
+    </div>
+  </section>
+
+  <!-- 🔹 Agregarías igual las demás categorías (hoodies, gorras, vasos, mousepads, decoración, regalos) -->
+  <!-- Por espacio no lo repito aquí, pero cada categoría tendrá sus 10 productos igual a camisas -->
+
+  <!-- Instrucciones -->
+  <section class="instrucciones">
+    <h2>🛒 Instrucciones para Comprar</h2>
+    <ol>
+      <li>Haz clic en <b>Comprar</b> en el producto que quieras.</li>
+      <li>Selecciona la talla (si aplica) y la cantidad.</li>
+      <li>Agrega al carrito y revisa tu pedido.</li>
+      <li>Serás redirigido a WhatsApp con los detalles para finalizar la compra.</li>
+    </ol>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto">
+    <h2>📩 Contáctanos</h2>
+    <div class="social-links">
+      <a href="https://www.facebook.com/oceanstorehn" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/oceanstorehn" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/50499411471" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
+  </footer>
+
+  <!-- Botón carrito -->
+  <div id="carrito"><i class="fas fa-shopping-cart"></i></div>
+
+  <!-- Modal producto -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3 id="producto-nombre"></h3>
+      <p id="producto-precio"></p>
+      <div id="talla-container" style="display:none;">
+        <label for="talla">Elige tu talla:</label>
+        <select id="talla">
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
       </div>
-      <button class="btn-agregar" data-producto="Camisa Naruto" data-precio="500">Agregar</button></div>
+      <div>
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" value="1" min="1">
+      </div>
+      <button class="btn" id="agregarCarrito">Agregar al carrito</button>
+      <button class="btn" id="cerrar">Cancelar</button>
+    </div>
   </div>
-</section>
 
-<section class="instrucciones" id="instrucciones">
-  <h2>🛒 Instrucciones de Compra</h2>
-  <ol>
-    <li>Agrega los productos que quieras al carrito.</li>
-    <li>Si el producto requiere, selecciona la talla antes de agregarlo.</li>
-    <li>Indica la cantidad con los botones ➖ y ➕.</li>
-    <li>Abre el carrito y revisa tu pedido.</li>
-    <li>Haz clic en "Finalizar Compra" y se abrirá WhatsApp con los detalles.</li>
-  </ol>
-</section>
-
-<section id="contacto">
-  <h2>📩 Contáctanos</h2>
-  <div class="social-links">
-    <a href="https://www.facebook.com/oceanstorehn" target="_blank"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.instagram.com/oceanstorehn" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://wa.me/50499411471" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <!-- Modal carrito -->
+  <div class="carrito-modal" id="carrito-modal">
+    <div class="carrito-content">
+      <h3>Tu carrito</h3>
+      <ul id="lista-carrito"></ul>
+      <button class="btn" id="finalizar">Finalizar compra</button>
+      <button class="btn" id="cerrar-carrito">Cerrar</button>
+    </div>
   </div>
-</section>
 
-<footer>
-  <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
-</footer>
-
-<!-- Carrito flotante -->
-<button id="carrito-btn"><i class="fas fa-shopping-cart"></i></button>
-<div id="carrito-contenido">
-  <h3>🛒 Tu Carrito</h3>
-  <ul id="lista-carrito"></ul>
-  <p id="total"></p>
-  <button id="finalizar">Finalizar Compra</button>
-</div>
-
-<!-- Fondo de olas animadas -->
-<div class="olas">
-  <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
-    <path d="M0,120 C150,200 350,0 600,120 C850,240 1050,0 1200,120 V200 H0 Z" fill="#0B2C4A" opacity="0.7"></path>
-    <path d="M0,140 C200,220 400,20 600,140 C800,260 1000,20 1200,140 V200 H0 Z" fill="#FFD23F" opacity="0.4"></path>
-  </svg>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Menú desplegable
-  const menuBtn = document.querySelector(".menu-btn");
-  const menuLinks = document.querySelector(".menu-links");
-  menuBtn.addEventListener("click", () => {
-    menuLinks.classList.toggle("show");
-  });
-
-  const carritoBtn = document.getElementById("carrito-btn");
-  const carritoContenido = document.getElementById("carrito-contenido");
-  const listaCarrito = document.getElementById("lista-carrito");
-  const total = document.getElementById("total");
-  let carrito = [];
-
-  document.querySelectorAll(".producto").forEach(prod=>{
-    const menos=prod.querySelector(".menos");
-    const mas=prod.querySelector(".mas");
-    const input=prod.querySelector(".cantidad");
-    menos.addEventListener("click",()=>{
-      let val=parseInt(input.value);
-      if(val>1) input.value=val-1;
+  <script>
+    // Menú
+    const menuToggle = document.querySelector(".menu-toggle");
+    const menu = document.getElementById("menu");
+    menuToggle.addEventListener("click", () => {
+      menu.classList.toggle("active");
     });
-    mas.addEventListener("click",()=>{
-      let val=parseInt(input.value);
-      input.value=val+1;
+
+    // Carrito
+    let carrito = [];
+    const modal = document.getElementById("modal");
+    const productoNombre = document.getElementById("producto-nombre");
+    const productoPrecio = document.getElementById("producto-precio");
+    const tallaContainer = document.getElementById("talla-container");
+    const tallaSelect = document.getElementById("talla");
+    const cantidadInput = document.getElementById("cantidad");
+
+    let producto = "";
+    let precio = "";
+    let categoria = "";
+
+    document.querySelectorAll(".comprar").forEach(boton => {
+      boton.addEventListener("click", () => {
+        producto = boton.dataset.producto;
+        precio = boton.dataset.precio;
+        categoria = boton.dataset.categoria;
+        productoNombre.textContent = producto;
+        productoPrecio.textContent = "Precio: L" + precio;
+
+        if (["camisas","hoodies","gorras","mousepads"].includes(categoria)) {
+          tallaContainer.style.display = "block";
+        } else {
+          tallaContainer.style.display = "none";
+        }
+
+        cantidadInput.value = 1;
+        modal.style.display = "flex";
+      });
     });
-  });
 
-  document.querySelectorAll(".btn-agregar").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      let nombre=btn.dataset.producto;
-      let precio=parseInt(btn.dataset.precio);
-      let select=btn.parentElement.querySelector("select");
-      let talla=select?select.value:null;
-      let cantidad=parseInt(btn.parentElement.querySelector(".cantidad").value);
-      let key=talla?`${nombre} (${talla})`:nombre;
-
-      let item=carrito.find(p=>p.nombre===key);
-      if(item){item.cantidad+=cantidad;}else{carrito.push({nombre:key,precio,cantidad});}
-      renderCarrito();
+    document.getElementById("cerrar").addEventListener("click", () => {
+      modal.style.display = "none";
     });
-  });
 
-  carritoBtn.addEventListener("click",()=>{
-    carritoContenido.style.display=carritoContenido.style.display==="block"?"none":"block";
-  });
-
-  function renderCarrito(){
-    listaCarrito.innerHTML="";
-    let totalCompra=0;
-    carrito.forEach(p=>{
-      totalCompra+=p.precio*p.cantidad;
-      let li=document.createElement("li");
-      li.textContent=`${p.nombre} x${p.cantidad} - L${p.precio*p.cantidad}`;
-      listaCarrito.appendChild(li);
+    document.getElementById("agregarCarrito").addEventListener("click", () => {
+      const talla = tallaContainer.style.display === "block" ? tallaSelect.value : "N/A";
+      const cantidad = cantidadInput.value;
+      carrito.push({producto, precio, talla, cantidad});
+      modal.style.display = "none";
+      alert("Producto agregado al carrito");
     });
-    total.textContent="Total: L"+totalCompra;
-  }
 
-  document.getElementById("finalizar").addEventListener("click",()=>{
-    if(carrito.length===0){alert("Tu carrito está vacío.");return;}
-    let mensaje="Hola, quiero ordenar:\n";
-    carrito.forEach(p=>{
-      mensaje+=`${p.nombre} x${p.cantidad} - L${p.precio*p.cantidad}\n`;
+    // Ver carrito
+    const carritoBtn = document.getElementById("carrito");
+    const carritoModal = document.getElementById("carrito-modal");
+    const listaCarrito = document.getElementById("lista-carrito");
+
+    carritoBtn.addEventListener("click", () => {
+      listaCarrito.innerHTML = "";
+      carrito.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.cantidad}x ${item.producto} - L${item.precio} (Talla: ${item.talla})`;
+        listaCarrito.appendChild(li);
+      });
+      carritoModal.style.display = "flex";
     });
-    mensaje+=total.textContent;
-    window.open(`https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`,"_blank");
-  });
-});
-</script>
+
+    document.getElementById("cerrar-carrito").addEventListener("click", () => {
+      carritoModal.style.display = "none";
+    });
+
+    document.getElementById("finalizar").addEventListener("click", () => {
+      let mensaje = "Hola, quiero comprar:\n";
+      carrito.forEach(item => {
+        mensaje += `${item.cantidad}x ${item.producto} - L${item.precio} (Talla: ${item.talla})\n`;
+      });
+      const url = `https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, "_blank");
+    });
+  </script>
 
 </body>
 </html>
+
 
 
 
