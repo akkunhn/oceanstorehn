@@ -379,7 +379,7 @@
 
     document.getElementById('confirmar').addEventListener('click', () => {
       const talla = tallaSelect.value;
-      const mensaje = `Hola, quiero comprar la ${producto} en talla ${talla} por $${precio}.`;
+      const mensaje = `Hola, quiero comprar la L{producto} en talla L{talla} por L{precio}.`;
       const url = `https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
       modal.style.display = 'none';
@@ -394,5 +394,6 @@
 
 </body>
 </html>
+
 
 
