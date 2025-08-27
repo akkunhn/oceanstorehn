@@ -198,7 +198,12 @@
       transition:.2s transform;
     }
     .card:hover{transform:translateY(-3px)}
-    .card img{width:100%;height:160px;object-fit:contain;background:#fafafa}
+    .card img{
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+      background: #fafafa;
+    }
     .card .info{padding:10px}
     .card h3{margin:4px 0 2px;font-size:18px}
     .precio{margin:0;font-size:16px;color:#0c6d3d}
@@ -419,19 +424,16 @@
   <script>
     /* ==========
        Datos de productos (10 por categoría)
-       Imagen: usando la que ya tienes -> img/camisa.png
        ========== */
-    const IMG = "img/camisa.png"; // puedes reemplazar por imágenes específicas luego
-
     const CATS = [
-      { id:"cat-camisas",   titulo:"Camisas",   talla:true,  base:500 },
-      { id:"cat-hoodies",   titulo:"Hoodies",   talla:true,  base:800 },
-      { id:"cat-gorras",    titulo:"Gorras",    talla:true,  base:350 },
-      { id:"cat-mousepads", titulo:"Mousepads", talla:true,  base:250 },
-      { id:"cat-vasos",     titulo:"Vasos",     talla:false, base:200 },
-      { id:"cat-tazas",     titulo:"Tazas",     talla:false, base:220 },
-      { id:"cat-decoracion",titulo:"Decoración para fiestas", talla:false, base:400 },
-      { id:"cat-regalos",   titulo:"Regalos",   talla:false, base:300 },
+      { id:"cat-camisas",   titulo:"Camisas",   imagen:"img/camisa.png",   talla:true,  base:500 },
+      { id:"cat-hoodies",   titulo:"Hoodies",   imagen:"img/hoodie.png",   talla:true,  base:800 },
+      { id:"cat-gorras",    titulo:"Gorras",    imagen:"img/gorra.png",    talla:true,  base:350 },
+      { id:"cat-mousepads", titulo:"Mousepads", imagen:"img/mousepad.png", talla:true,  base:250 },
+      { id:"cat-vasos",     titulo:"Vasos",     imagen:"img/vaso.png",     talla:false, base:200 },
+      { id:"cat-tazas",     titulo:"Tazas",     imagen:"img/taza.png",     talla:false, base:220 },
+      { id:"cat-decoracion",titulo:"Decoración para fiestas", imagen:"img/decoracion.png", talla:false, base:400 },
+      { id:"cat-regalos",   titulo:"Regalos",   imagen:"img/regalo.png",   talla:false, base:300 },
     ];
 
     // Genera 10 productos por categoría
@@ -441,7 +443,7 @@
         id:`${cat.id}-${i+1}`,
         nombre:`${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)} ${i+1}`,
         precio:cat.base,
-        imagen:IMG,
+        imagen:cat.imagen, // Usamos la imagen específica de la categoría
         requiereTalla:cat.talla
       }));
     });
@@ -693,6 +695,5 @@
   </script>
 </body>
 </html>
-
 
 
