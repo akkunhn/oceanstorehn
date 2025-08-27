@@ -3,284 +3,219 @@
 <head>
   <meta charset="UTF-8">
   <title>OCEAN STORE</title>
-  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Oswald', sans-serif;
-      background-color: #f9f9f9;
-      color: #0B2C4A;
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Oswald', sans-serif; background: #f9f9f9; color: #0B2C4A; }
 
-    /* Header */
     header {
       position: relative;
-      background: white; /* Fondo blanco bajo el logo */
       text-align: center;
-      padding: 40px 20px 100px;
+      padding: 20px 0 60px;
+      background: white;
+      overflow: hidden;
     }
+    header img { max-width: 300px; width: 100%; margin: 0 auto 10px; display: block; }
+    header h1 { font-size: 50px; margin: 0; color: #0B2C4A; }
+    header p { font-size: 22px; color: #FFD23F; margin-top: 5px; }
 
-    header img {
-      max-width: 250px;
-      display: block;
-      margin: 0 auto 10px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 50px;
-      color: #0B2C4A;
-    }
-
-    header p {
-      margin: 5px 0 0;
-      font-size: 20px;
-      color: #FFD23F;
-    }
-
-    /* Olas animadas puras en CSS */
+    /* Olas animadas */
     .wave {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 200%;
-      height: 100px;
-      background: rgba(135,180,227,0.6);
-      border-radius: 100%;
-      animation: wave 6s linear infinite;
+      left: 0; bottom: 0;
+      width: 200%; height: 100px;
+      background: url('img/ola.svg') repeat-x;
+      background-size: 1000px 100px;
+      animation: wave 8s linear infinite;
+      opacity: 0.6;
     }
-    .wave:nth-child(2) {
-      background: rgba(135,180,227,0.3);
-      height: 120px;
-      animation-duration: 10s;
-    }
-    @keyframes wave {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    @keyframes wave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-    /* Menu */
-    nav {
-      background-color: #0B2C4A;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    nav .logo {
+    /* Botones fijos */
+    .menu-btn, .cart-btn {
+      position: fixed;
+      top: 15px;
+      z-index: 1100;
+      background: #0B2C4A;
       color: white;
+      border: none;
       font-size: 22px;
-      font-weight: bold;
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer;
     }
+    .menu-btn { left: 15px; }
+    .cart-btn { right: 15px; }
 
-    nav .menu {
-      display: flex;
-      gap: 15px;
+    /* Menú lateral */
+    .menu-panel {
+      position: fixed; top: 0; left: -260px;
+      width: 250px; height: 100%;
+      background: #0B2C4A; color: white;
+      padding: 20px; transition: left 0.3s ease;
+      z-index: 1200;
     }
-
-    nav .menu a {
-      color: white;
-      text-decoration: none;
-      font-size: 16px;
+    .menu-panel.active { left: 0; }
+    .menu-panel h3 { margin-bottom: 15px; }
+    .menu-panel a {
+      display: block; padding: 10px;
+      color: white; text-decoration: none;
       transition: 0.3s;
     }
+    .menu-panel a:hover { background: #FFD23F; color: #0B2C4A; }
 
-    nav .menu a:hover {
-      color: #FFD23F;
+    /* Overlay */
+    .overlay {
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.6);
+      display: none; z-index: 1150;
     }
+    .overlay.active { display: block; }
 
     /* Productos */
-    .categoria {
-      padding: 40px 20px;
-    }
-
-    .categoria h2 {
-      text-align: center;
-      font-size: 28px;
-      color: #0B2C4A;
-      margin-bottom: 20px;
-    }
-
+    section { padding: 40px 20px; }
+    h2.section-title { text-align: center; font-size: 28px; margin-bottom: 20px; }
     .productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      display: flex; overflow-x: auto; gap: 20px;
+      scroll-behavior: smooth; padding-bottom: 10px;
     }
-
     .producto {
-      background: white;
-      border-radius: 10px;
-      padding: 15px;
+      min-width: 220px; background: white;
+      border-radius: 10px; padding: 15px;
       text-align: center;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-
-    .producto:hover {
-      transform: scale(1.05);
-    }
-
-    .producto img {
-      width: 100%;
-      max-height: 200px;
-      object-fit: contain;
-      border-radius: 10px;
-    }
-
-    .producto h3 {
-      margin: 10px 0 5px;
-      font-size: 18px;
-      color: #0B2C4A;
-    }
-
-    .producto p {
-      margin: 5px 0;
-      font-size: 16px;
-    }
-
+    .producto img { width: 100%; border-radius: 10px; }
+    .producto h3 { margin: 10px 0 5px; }
+    .producto p { margin: 5px 0; }
     .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: #FFD23F;
-      color: #0B2C4A;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
+      display: inline-block; margin-top: 8px;
+      padding: 8px 12px; background: #FFD23F;
+      color: #0B2C4A; font-weight: bold;
+      border-radius: 5px; cursor: pointer;
       transition: 0.3s;
-      cursor: pointer;
     }
-
-    .btn:hover {
-      background: #87B4E3;
-      color: white;
-    }
+    .btn:hover { background: #87B4E3; color: white; }
 
     /* Carrito */
-    #carrito {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #FFD23F;
-      padding: 12px 18px;
-      border-radius: 50px;
-      color: #0B2C4A;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 200;
+    .cart-panel {
+      position: fixed; right: -320px; top: 0;
+      width: 300px; height: 100%;
+      background: white; box-shadow: -2px 0 6px rgba(0,0,0,0.2);
+      padding: 20px; transition: right 0.3s ease;
+      z-index: 1200;
+    }
+    .cart-panel.active { right: 0; }
+    .cart-item { margin-bottom: 10px; font-size: 14px; }
+    .cart-total { font-weight: bold; margin-top: 15px; }
+
+    /* Modal */
+    .modal {
+      display: none; position: fixed; z-index: 1300;
+      top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.6);
+      justify-content:center; align-items:center;
+    }
+    .modal-content {
+      background: white; padding: 20px;
+      border-radius: 10px; text-align:center;
+      max-width: 320px; width: 90%;
     }
 
     /* Instrucciones */
     .instrucciones {
-      background: white;
-      margin: 30px auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-      max-width: 800px;
+      background: white; margin: 30px auto;
+      padding: 20px; border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 700px;
     }
-
-    .instrucciones h2 {
-      text-align: center;
-      margin-bottom: 15px;
-      font-size: 26px;
-      color: #0B2C4A;
-    }
-
-    .instrucciones ol {
-      padding-left: 20px;
-    }
-
-    .instrucciones li {
-      margin-bottom: 10px;
-      font-size: 16px;
-      color: #0B2C4A;
-    }
+    .instrucciones h2 { text-align: center; margin-bottom: 15px; }
+    .instrucciones ol { margin-left: 20px; text-align: left; }
 
     /* Contacto */
-    #contacto {
-      text-align: center;
-      padding: 40px 20px;
-      background: #87B4E3;
-      color: white;
-    }
-
+    #contacto { background: #87B4E3; color: white; text-align: center; padding: 40px 20px; }
     .social-links a {
-      display: inline-block;
-      margin: 10px;
-      font-size: 22px;
-      color: white;
-      background: #0B2C4A;
-      padding: 12px;
-      border-radius: 50%;
-      transition: 0.3s;
+      display: inline-block; margin: 10px;
+      font-size: 24px; background: #0B2C4A;
+      color: white; padding: 12px;
+      border-radius: 50%; transition: 0.3s;
     }
+    .social-links a:hover { background: #FFD23F; color: #0B2C4A; }
 
-    .social-links a:hover {
-      background: #FFD23F;
-      color: #0B2C4A;
-      transform: scale(1.1);
-    }
-
-    footer {
-      background-color: #0B2C4A;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 30px;
-    }
+    footer { background: #0B2C4A; color: white; text-align: center; padding: 15px; margin-top: 30px; }
   </style>
 </head>
 <body>
 
+  <!-- Botones fijos -->
+  <button class="menu-btn"><i class="fas fa-bars"></i></button>
+  <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+
+  <!-- Menú lateral -->
+  <div class="menu-panel" id="menuPanel">
+    <h3>Menú</h3>
+    <a href="#camisas">Camisas</a>
+    <a href="#hoodies">Hoodies</a>
+    <a href="#gorras">Gorras</a>
+    <a href="#vasos">Vasos</a>
+    <a href="#tazas">Tazas</a>
+    <a href="#mousepads">Mousepads</a>
+    <a href="#decoracion">Decoración</a>
+    <a href="#regalos">Regalos</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Carrito -->
+  <div class="cart-panel" id="cartPanel">
+    <h3>🛒 Carrito</h3>
+    <div id="cartItems"></div>
+    <p class="cart-total">Total: L<span id="cartTotal">0</span></p>
+    <button class="btn" id="checkoutBtn">Finalizar Compra</button>
+  </div>
+
   <header>
     <img src="img/logo.png" alt="Logo Ocean Store">
     <h1>OCEAN STORE</h1>
-    <p>Camisas, Hoodies, Gorras y mucho más con estilo único</p>
-    <div class="wave"></div>
+    <p>Camisas con estampados DTF únicos y de alta calidad</p>
     <div class="wave"></div>
   </header>
 
-  <!-- Menu -->
-  <nav>
-    <div class="logo">🌊 Ocean Store</div>
-    <div class="menu">
-      <a href="#camisas">Camisas</a>
-      <a href="#hoodies">Hoodies</a>
-      <a href="#gorras">Gorras</a>
-      <a href="#tazas">Tazas</a>
-      <a href="#vasos">Vasos</a>
-      <a href="#mousepads">Mousepads</a>
-      <a href="#decoracion">Decoración</a>
-      <a href="#regalos">Regalos</a>
-      <a href="#contacto">Contacto</a>
+  <!-- Categorías -->
+  <section id="camisas">
+    <h2 class="section-title">👕 Camisas</h2>
+    <div class="productos">
+      <!-- 10 productos ejemplo -->
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 1</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 1" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 2</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 2" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 3</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 3" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 4</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 4" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 5</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 5" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 6</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 6" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 7</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 7" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 8</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 8" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 9</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 9" data-precio="500" data-categoria="ropa">Comprar</button></div>
+      <div class="producto"><img src="img/camisa.png"><h3>Camisa 10</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa 10" data-precio="500" data-categoria="ropa">Comprar</button></div>
     </div>
-  </nav>
+  </section>
 
-  <!-- Carrito -->
-  <div id="carrito">🛒 (0)</div>
+  <!-- Aquí repites para hoodies, gorras, vasos, tazas, mousepads, decoracion, regalos (cambiando solo id e imágenes). -->
 
   <!-- Instrucciones -->
   <section class="instrucciones">
     <h2>🛒 Instrucciones para Comprar</h2>
     <ol>
-      <li>Haz clic en <b>Agregar al carrito</b> en el producto que quieras.</li>
-      <li>Selecciona cantidad y talla (si aplica).</li>
-      <li>Revisa tu carrito y confirma.</li>
-      <li>Serás redirigido a WhatsApp con los detalles de tu pedido.</li>
+      <li>Haz clic en <b>Comprar</b> en el producto que quieras.</li>
+      <li>Selecciona tu talla (si aplica) y cantidad.</li>
+      <li>Agrega al carrito todos los productos que desees.</li>
+      <li>Finaliza la compra y serás redirigido a WhatsApp con los detalles de tu pedido.</li>
       <li>Realiza la transferencia a nuestra cuenta BAC Credomatic:</li>
     </ol>
     <p><b>Banco:</b> BAC Credomatic<br>
-       <b>Número de cuenta:</b> 751240361<br>
-       <b>Tipo:</b> Ahorros</p>
+    <b>Número de cuenta:</b> 751240361<br>
+    <b>Tipo:</b> Ahorros</p>
   </section>
 
   <!-- Contacto -->
@@ -293,12 +228,85 @@
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
-  </footer>
+  <footer><p>© 2025 OCEAN STORE - Todos los derechos reservados</p></footer>
 
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3 id="producto-nombre"></h3>
+      <p id="producto-precio"></p>
+      <div id="tallaDiv">
+        <label for="talla">Elige tu talla:</label>
+        <select id="talla">
+          <option value="S">S</option><option value="M">M</option>
+          <option value="L">L</option><option value="XL">XL</option>
+        </select>
+      </div>
+      <div>
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" value="1" min="1">
+      </div>
+      <button class="btn" id="confirmar">Agregar al Carrito</button>
+      <button class="btn" id="cerrar">Cancelar</button>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn=document.querySelector('.menu-btn'),cartBtn=document.querySelector('.cart-btn');
+    const menuPanel=document.getElementById('menuPanel'),overlay=document.getElementById('overlay');
+    const cartPanel=document.getElementById('cartPanel');
+    const modal=document.getElementById('modal'),productoNombre=document.getElementById('producto-nombre');
+    const productoPrecio=document.getElementById('producto-precio'),tallaDiv=document.getElementById('tallaDiv');
+    const tallaSelect=document.getElementById('talla'),cantidadInput=document.getElementById('cantidad');
+    let producto='',precio='',categoria='';let cart=[];
+
+    menuBtn.addEventListener('click',()=>{menuPanel.classList.add('active');overlay.classList.add('active');});
+    overlay.addEventListener('click',()=>{menuPanel.classList.remove('active');overlay.classList.remove('active');cartPanel.classList.remove('active');});
+    cartBtn.addEventListener('click',()=>{cartPanel.classList.toggle('active');});
+
+    document.querySelectorAll('.comprar').forEach(boton=>{
+      boton.addEventListener('click',()=>{
+        producto=boton.dataset.producto;precio=boton.dataset.precio;categoria=boton.dataset.categoria;
+        productoNombre.textContent=producto;
+        productoPrecio.textContent="Precio: L"+precio;
+        cantidadInput.value=1;
+        tallaDiv.style.display=(categoria==="ropa")?"block":"none";
+        modal.style.display='flex';
+      });
+    });
+
+    document.getElementById('cerrar').addEventListener('click',()=>{modal.style.display='none';});
+    document.getElementById('confirmar').addEventListener('click',()=>{
+      const talla=tallaSelect.value,cantidad=parseInt(cantidadInput.value);
+      cart.push({producto,precio:parseInt(precio),talla:(categoria==="ropa")?talla:null,cantidad});
+      actualizarCarrito();modal.style.display='none';
+    });
+
+    function actualizarCarrito(){
+      const cartItems=document.getElementById('cartItems');cartItems.innerHTML='';
+      let total=0;
+      cart.forEach(item=>{
+        total+=item.precio*item.cantidad;
+        cartItems.innerHTML+=`<div class="cart-item">${item.cantidad}x ${item.producto} ${item.talla?`(Talla ${item.talla})`:""} - L${item.precio*item.cantidad}</div>`;
+      });
+      document.getElementById('cartTotal').textContent=total;
+    }
+
+    document.getElementById('checkoutBtn').addEventListener('click',()=>{
+      if(cart.length===0){alert("Tu carrito está vacío");return;}
+      let mensaje="Hola, quiero comprar:\n";
+      cart.forEach(item=>{
+        mensaje+=`${item.cantidad}x ${item.producto} ${item.talla?`(Talla ${item.talla})`:""} - L${item.precio*item.cantidad}\n`;
+      });
+      mensaje+=`Total: L${document.getElementById('cartTotal').textContent}`;
+      window.open(`https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`,'_blank');
+    });
+
+    window.addEventListener('click',(e)=>{if(e.target===modal)modal.style.display='none';});
+  </script>
 </body>
 </html>
+
 
 
 
