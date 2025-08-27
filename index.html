@@ -16,13 +16,12 @@
       scroll-behavior: smooth;
     }
 
-    /* Header con olas */
+    /* Header */
     header {
       position: relative;
-      background: #0B2C4A;
-      color: white;
+      background: white; /* Fondo blanco bajo el logo */
       text-align: center;
-      padding: 50px 20px 120px;
+      padding: 40px 20px 100px;
     }
 
     header img {
@@ -34,32 +33,31 @@
     header h1 {
       margin: 0;
       font-size: 50px;
-      color: #FFD23F;
+      color: #0B2C4A;
     }
 
     header p {
       margin: 5px 0 0;
       font-size: 20px;
+      color: #FFD23F;
     }
 
-    /* Animación de olas */
+    /* Olas animadas puras en CSS */
     .wave {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 200%;
-      height: 120px;
-      background: url('img/wave.png') repeat-x;
-      background-size: 1000px 120px;
-      animation: wave 8s linear infinite;
-      opacity: 0.7;
+      height: 100px;
+      background: rgba(135,180,227,0.6);
+      border-radius: 100%;
+      animation: wave 6s linear infinite;
     }
-
     .wave:nth-child(2) {
-      animation: wave 12s linear infinite reverse;
-      opacity: 0.5;
+      background: rgba(135,180,227,0.3);
+      height: 120px;
+      animation-duration: 10s;
     }
-
     @keyframes wave {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
@@ -188,13 +186,22 @@
       border-radius: 10px;
       box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
       max-width: 800px;
-      text-align: left;
     }
 
     .instrucciones h2 {
       text-align: center;
       margin-bottom: 15px;
       font-size: 26px;
+      color: #0B2C4A;
+    }
+
+    .instrucciones ol {
+      padding-left: 20px;
+    }
+
+    .instrucciones li {
+      margin-bottom: 10px;
+      font-size: 16px;
       color: #0B2C4A;
     }
 
@@ -261,112 +268,6 @@
   <!-- Carrito -->
   <div id="carrito">🛒 (0)</div>
 
-  <!-- CATEGORÍAS -->
-  <section class="categoria" id="camisas">
-    <h2>Camisas</h2>
-    <div class="productos">
-      <!-- 10 camisas -->
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/camisa.png" alt="Camisa ${i+1}">
-        <h3>Camisa ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Camisa ${i+1}" data-precio="500" data-talla="true">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
-  <section class="categoria" id="hoodies">
-    <h2>Hoodies</h2>
-    <div class="productos">
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/hoodie.png" alt="Hoodie ${i+1}">
-        <h3>Hoodie ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Hoodie ${i+1}" data-precio="500" data-talla="true">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
-  <section class="categoria" id="gorras">
-    <h2>Gorras</h2>
-    <div class="productos">
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/gorra.png" alt="Gorra ${i+1}">
-        <h3>Gorra ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Gorra ${i+1}" data-precio="500" data-talla="true">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
-  <section class="categoria" id="tazas">
-    <h2>Tazas</h2>
-    <div class="productos">
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/taza.png" alt="Taza ${i+1}">
-        <h3>Taza ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Taza ${i+1}" data-precio="500">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
-  <section class="categoria" id="vasos">
-    <h2>Vasos</h2>
-    <div class="productos">
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/vaso.png" alt="Vaso ${i+1}">
-        <h3>Vaso ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Vaso ${i+1}" data-precio="500">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
-  <section class="categoria" id="mousepads">
-    <h2>Mousepads</h2>
-    <div class="productos">
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/mousepad.png" alt="Mousepad ${i+1}">
-        <h3>Mousepad ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Mousepad ${i+1}" data-precio="500" data-talla="true">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
-  <section class="categoria" id="decoracion">
-    <h2>Decoración</h2>
-    <div class="productos">
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/decoracion.png" alt="Decoración ${i+1}">
-        <h3>Decoración ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Decoración ${i+1}" data-precio="500">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
-  <section class="categoria" id="regalos">
-    <h2>Regalos</h2>
-    <div class="productos">
-      ${Array.from({length:10}).map((_,i)=>`
-      <div class="producto">
-        <img src="img/regalo.png" alt="Regalo ${i+1}">
-        <h3>Regalo ${i+1}</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Regalo ${i+1}" data-precio="500">Agregar al carrito</button>
-      </div>`).join('')}
-    </div>
-  </section>
-
   <!-- Instrucciones -->
   <section class="instrucciones">
     <h2>🛒 Instrucciones para Comprar</h2>
@@ -396,52 +297,8 @@
     <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
   </footer>
 
-  <!-- Script -->
-  <script>
-    let carrito = [];
-    const carritoBtn = document.getElementById('carrito');
-    const botones = document.querySelectorAll('.comprar');
-
-    botones.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const producto = btn.dataset.producto;
-        const precio = parseInt(btn.dataset.precio);
-        let talla = '';
-        let cantidad = 1;
-
-        if(btn.dataset.talla){
-          talla = prompt("Elige tu talla (S, M, L, XL):") || 'M';
-        }
-
-        cantidad = parseInt(prompt("¿Cuántas unidades quieres?")) || 1;
-
-        carrito.push({producto, precio, talla, cantidad});
-        carritoBtn.textContent = `🛒 (${carrito.length})`;
-        alert(producto + " añadido al carrito.");
-      });
-    });
-
-    carritoBtn.addEventListener('click', () => {
-      if(carrito.length === 0){
-        alert("Tu carrito está vacío.");
-        return;
-      }
-
-      let resumen = "🛍️ Tu carrito:\n\n";
-      carrito.forEach((item,i) => {
-        resumen += `${i+1}. ${item.producto} x${item.cantidad} ${item.talla ? "(Talla: "+item.talla+")" : ""} - L${item.precio*item.cantidad}\n`;
-      });
-
-      resumen += "\nConfirma tu pedido en WhatsApp.";
-
-      const url = `https://wa.me/50499411471?text=${encodeURIComponent(resumen)}`;
-      window.open(url, '_blank');
-    });
-  </script>
 </body>
 </html>
-
-
 
 
 
