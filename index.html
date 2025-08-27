@@ -278,6 +278,26 @@
       cursor: pointer;
     }
 
+    /* Barra de búsqueda */
+    #searchBar{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      width: 200px;
+      transition: width 0.3s ease;
+      font-size: 16px;
+      background: rgba(255,255,255,0.9);
+      color: var(--azul);
+    }
+    #searchBar::placeholder {
+      color: #999;
+    }
+    #searchBar:focus{
+      outline: none;
+      width: 250px;
+      background: var(--blanco);
+    }
+
     /* Sección categoría + carrusel */
     .categoria{
       max-width:1200px;
@@ -414,6 +434,16 @@
         left: 10px;
         max-width: 250px;
       }
+      .topbar .acciones {
+        flex-grow: 1;
+        justify-content: flex-end;
+      }
+      #searchBar {
+        width: 120px;
+      }
+      #searchBar:focus {
+        width: 150px;
+      }
     }
   </style>
 </head>
@@ -437,7 +467,7 @@
   <div class="topbar">
     <a class="brand" href="#top"><img src="img/logo.png" alt="logo"><span>OCEAN STORE</span></a>
     <div class="acciones">
-      <a href="#categorias" class="btn-prim">Productos</a>
+      <input type="search" id="searchBar" placeholder="Buscar productos...">
       <button id="btnCart" class="icon-btn" aria-label="Abrir carrito">
         <i class="fa-solid fa-cart-shopping"></i>
         <span id="cartCount" class="badge">0</span>
@@ -663,6 +693,27 @@
           mostrarCategoria(targetId);
         }
         toggleMenu(false); // Cierra el menú al seleccionar
+      });
+    });
+
+    /* ==========
+       Funcionalidad de búsqueda
+       ========== */
+    const searchBar = document.getElementById('searchBar');
+
+    searchBar.addEventListener('keyup', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const activeCategory = document.querySelector('.categoria.active');
+      if (!activeCategory) return;
+      
+      const cards = activeCategory.querySelectorAll('.card');
+      cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        if (title.includes(searchTerm)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
       });
     });
 
