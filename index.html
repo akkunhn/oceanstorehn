@@ -1,286 +1,308 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>OCEAN STORE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Fuente Oswald -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Iconos -->
+  <!-- Iconos de redes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Oswald', sans-serif;
-      background-color: #f9f9f9;
-      color: #0B2C4A;
-      scroll-behavior: smooth;
+    :root{
+      --azul:#0B2C4A;
+      --azul-claro:#87B4E3;
+      --amarillo:#FFD23F;
+      --gris:#f5f7fb;
+      --blanco:#fff;
+      --sombra:0 6px 18px rgba(0,0,0,.08);
+      --radio:16px;
+      --card-w:200px; /* ancho de tarjeta en carrusel */
     }
-    header {
-      background-color: white;
-      text-align: center;
-      padding: 20px 0;
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:'Oswald',sans-serif;
+      color:var(--azul);
+      background:var(--gris);
+      scroll-behavior:smooth;
     }
-    header img {
-      max-width: 300px;
-      width: 100%;
-      display: block;
-      margin: 0 auto 10px;
+
+    /* Header con olas fijas */
+    header{
+      position:relative;
+      background:linear-gradient(180deg,#ffffff 0%, #eaf4ff 100%);
+      padding:24px 16px 80px;
+      text-align:center;
+      overflow:hidden;
     }
-    header h1 {
-      margin: 0;
-      font-size: 45px;
-      color: #0B2C4A;
+    header img{
+      max-width:380px;width:90%;display:block;margin:0 auto 8px;
     }
-    header p {
-      margin: 5px 0 0;
-      color: #FFD23F;
-      font-size: 22px;
+    header h1{margin:6px 0 0;font-size:48px;color:var(--azul)}
+    header p{margin:6px 0 0;color:var(--amarillo);font-size:22px}
+
+    /* Olas decorativas (fijas en header) */
+    .olas{
+      position:absolute;left:0;right:0;bottom:0;height:80px;pointer-events:none;
     }
-    nav {
-      background-color: #0B2C4A;
-      display: flex;
-      justify-content: space-around;
-      padding: 10px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    .olas svg{display:block;width:100%;height:100%}
+
+    /* Topbar + menú hamburguesa */
+    .topbar{
+      position:sticky;top:0;z-index:1000;
+      background:var(--azul);color:#fff;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 14px;
+      box-shadow:var(--sombra);
     }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-      font-size: 16px;
-      transition: 0.3s;
+    .topbar .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
+    .topbar .brand img{height:36px;width:auto}
+    .topbar .brand span{font-size:20px;letter-spacing:.5px}
+
+    .acciones{
+      display:flex;align-items:center;gap:10px;
     }
-    nav a:hover {
-      color: #FFD23F;
+    .btn-prim{
+      background:var(--amarillo);color:var(--azul);
+      border:none;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;
+      transition:.25s transform,.25s opacity;
     }
-    .categoria {
-      padding: 40px 20px;
+    .btn-prim:active{transform:scale(.97)}
+    .icon-btn{
+      background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;padding:6px 8px;position:relative;
     }
-    .categoria h2 {
-      text-align: center;
-      color: #0B2C4A;
-      margin-bottom: 20px;
-      font-size: 28px;
+    .badge{
+      position:absolute;top:0;right:-4px;background:#ff4d4f;color:#fff;border-radius:999px;
+      font-size:12px;line-height:1;padding:3px 7px;min-width:18px;text-align:center;
     }
-    .productos {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 10px;
+
+    /* Menú desplegable desde arriba */
+    .menu-overlay{
+      position:fixed;left:0;right:0;top:0;background:rgba(0,0,0,.35);
+      height:0;overflow:hidden;z-index:999;transition:height .35s ease;
     }
-    .producto {
-      flex: 0 0 250px;
-      background: white;
-      border-radius: 10px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-      scroll-snap-align: start;
+    .menu{
+      background:#fff;border-bottom:3px solid var(--azul);box-shadow:var(--sombra);
+      border-radius:0 0 var(--radio) var(--radio);
+      max-width:1100px;margin:0 auto;padding:14px 16px;
     }
-    .producto:hover {
-      transform: scale(1.05);
+    .menu h3{margin:8px 0 12px}
+    .menu-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;
     }
-    .producto img {
-      width: 100%;
-      border-radius: 10px;
+    .menu a{
+      display:block;text-decoration:none;color:var(--azul);
+      background:#f0f6ff;border:1px solid #e1edff;border-radius:12px;padding:10px 12px;text-align:center;
+      transition:.2s transform,.2s background;
     }
-    .producto h3 {
-      margin: 10px 0 5px;
-      font-size: 18px;
-      color: #0B2C4A;
+    .menu a:hover{background:#e6f0ff;transform:translateY(-2px)}
+    .menu-footer{
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px
     }
-    .producto p {
-      margin: 5px 0;
-      font-size: 15px;
+    .menu-footer a{
+      text-decoration:none;color:#fff;background:var(--azul);padding:8px 12px;border-radius:999px
     }
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: #FFD23F;
-      color: #0B2C4A;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: background 0.3s, transform 0.3s;
-      cursor: pointer;
-      font-size: 14px;
+
+    /* Sección categoría + carrusel */
+    .categoria{
+      max-width:1200px;margin:28px auto;padding:0 16px;
     }
-    .btn:hover {
-      background: #87B4E3;
-      color: white;
-      transform: scale(1.05);
+    .categoria-header{
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;
     }
-    #contacto {
-      text-align: center;
-      padding: 40px 20px;
-      background: #87B4E3;
-      color: white;
+    .categoria-header h2{margin:0;font-size:26px}
+    .scroll-ctrls{display:flex;gap:8px}
+    .scroll-ctrls button{
+      background:var(--azul);color:#fff;border:none;border-radius:10px;padding:8px 10px;cursor:pointer
     }
-    #contacto h2 {
-      margin-bottom: 20px;
-      font-size: 24px;
+
+    .carrusel{
+      position:relative;overflow:hidden;border-radius:14px;background:#fff;box-shadow:var(--sombra);padding:12px;
     }
-    .social-links a {
-      display: inline-block;
-      margin: 10px;
-      font-size: 22px;
-      color: white;
-      background: #0B2C4A;
-      padding: 12px;
-      border-radius: 50%;
-      transition: 0.3s;
+    .track{
+      display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;
     }
-    .social-links a:hover {
-      background: #FFD23F;
-      color: #0B2C4A;
-      transform: scale(1.1);
+    .track::-webkit-scrollbar{display:none}
+    .card{
+      flex:0 0 var(--card-w);
+      background:#ffffff;border:1px solid #eef2f7;border-radius:14px;box-shadow:var(--sombra);
+      display:flex;flex-direction:column;overflow:hidden;
+      transition:.2s transform;
     }
-    footer {
-      background-color: #0B2C4A;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 30px;
+    .card:hover{transform:translateY(-3px)}
+    .card img{width:100%;height:160px;object-fit:contain;background:#fafafa}
+    .card .info{padding:10px}
+    .card h3{margin:4px 0 2px;font-size:18px}
+    .precio{margin:0;font-size:16px;color:#0c6d3d}
+    .card .acciones{
+      padding:10px;display:flex;gap:8px;justify-content:space-between
     }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
+    .btn-add{
+      flex:1;background:var(--amarillo);color:var(--azul);border:none;border-radius:10px;padding:8px 10px;font-weight:700;cursor:pointer
     }
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      max-width: 320px;
-      width: 90%;
+
+    /* Instrucciones de compra (título centrado junto al bloque) */
+    .instrucciones{
+      max-width:900px;margin:32px auto;padding:0 16px;
     }
-    .modal h3 {
-      margin-bottom: 10px;
+    .instrucciones .card-ins{
+      background:#fff;border-radius:16px;box-shadow:var(--sombra);padding:18px 18px;
     }
-    .tallas select, .cantidad input {
-      padding: 6px;
-      font-size: 14px;
-      margin: 8px 0;
-      width: 100%;
+    .instrucciones .card-ins h2{
+      margin:0 0 8px;text-align:center;font-size:26px;color:var(--azul);
     }
-    .modal .btn {
-      margin: 5px;
+    .instrucciones .card-ins ol{margin:0;padding-left:22px}
+    .instrucciones .card-ins p{margin:10px 0 0}
+
+    /* Contacto */
+    #contacto{
+      text-align:center;padding:40px 16px;background:var(--azul-claro);color:#fff;margin-top:28px
     }
-    .instrucciones {
-      background: white;
-      margin: 30px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    .social-links a{
+      display:inline-block;margin:8px;font-size:24px;color:#fff;background:var(--azul);
+      padding:12px;border-radius:50%;transition:.3s transform,.3s background
     }
-    .instrucciones h2 {
-      text-align: center;
-      color: #0B2C4A;
-      margin-bottom: 15px;
+    .social-links a:hover{background:var(--amarillo);color:var(--azul);transform:scale(1.1)}
+
+    footer{
+      background:var(--azul);color:#fff;text-align:center;padding:16px;margin-top:0
     }
-    .instrucciones p, .instrucciones li {
-      font-size: 16px;
-      margin-bottom: 8px;
+
+    /* Modal compra */
+    .modal{
+      display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.55);
+      align-items:center;justify-content:center;padding:16px;
     }
-    #carrito {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #FFD23F;
-      color: #0B2C4A;
-      padding: 10px 15px;
-      border-radius: 50px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 1500;
+    .modal-content{
+      width:100%;max-width:360px;background:#fff;border-radius:16px;padding:16px;box-shadow:var(--sombra)
+    }
+    .modal-content h3{margin:0 0 6px}
+    .modal-row{display:flex;gap:10px;margin:8px 0}
+    .modal select,.modal input[type="number"]{
+      flex:1;padding:10px;border:1px solid #e1e5ef;border-radius:10px;font-size:16px
+    }
+    .modal .btn-bar{display:flex;gap:8px;margin-top:10px}
+    .modal .btn{flex:1}
+    .btn{
+      display:inline-block;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700
+    }
+    .btn-confirm{background:var(--amarillo);color:var(--azul)}
+    .btn-cancel{background:#e9eef7;color:#2a2a2a}
+
+    /* Carrito lateral */
+    .cart-panel{
+      position:fixed;top:0;right:-420px;width:360px;max-width:90vw;height:100%;
+      background:#fff;box-shadow: -10px 0 24px rgba(0,0,0,.12);
+      z-index:1800;padding:16px;transition:right .3s ease;
+      display:flex;flex-direction:column;gap:10px;
+    }
+    .cart-panel.open{right:0}
+    .cart-header{display:flex;justify-content:space-between;align-items:center}
+    .cart-items{flex:1;overflow:auto;border-top:1px solid #eef2f7;border-bottom:1px solid #eef2f7;padding:8px 0}
+    .cart-item{
+      display:grid;grid-template-columns:56px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed #eef2f7
+    }
+    .cart-item img{width:56px;height:56px;object-fit:contain;background:#fafafa;border-radius:8px}
+    .cart-item h4{margin:0;font-size:15px}
+    .muted{font-size:12px;color:#64748b;margin-top:2px}
+    .qty-row{display:flex;align-items:center;gap:6px;margin-top:6px}
+    .qty-row input{width:60px;padding:6px;border:1px solid #e1e5ef;border-radius:8px}
+    .remove{background:transparent;border:none;color:#d10c2f;cursor:pointer}
+    .cart-footer .total{display:flex;justify-content:space-between;align-items:center;font-size:18px;margin:8px 0}
+    .cart-footer .cta{display:flex;gap:8px}
+    .btn-wa{flex:1;background:#25D366;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+    .btn-clear{background:#ffe8e8;color:#b30021;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+
+    /* Responsive ajustes */
+    @media (max-width:700px){
+      header h1{font-size:40px}
+      .card img{height:140px}
     }
   </style>
 </head>
 <body>
 
+  <!-- Encabezado con olas fijas -->
   <header>
     <img src="img/logo.png" alt="Logo Ocean Store">
     <h1>OCEAN STORE</h1>
     <p>Camisas con estampados DTF únicos y de alta calidad</p>
+
+    <div class="olas" aria-hidden="true">
+      <!-- Olas SVG decorativas -->
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0,40 C240,100 480,-10 720,40 C960,90 1200,10 1440,60 L1440,120 L0,120 Z" fill="#87B4E3" opacity="0.25"></path>
+        <path d="M0,60 C240,120 480,10 720,60 C960,110 1200,30 1440,80 L1440,120 L0,120 Z" fill="#0B2C4A" opacity="0.2"></path>
+        <path d="M0,85 C240,125 480,40 720,85 C960,130 1200,60 1440,100 L1440,120 L0,120 Z" fill="#87B4E3" opacity="0.35"></path>
+      </svg>
+    </div>
   </header>
 
-  <nav>
-    <a href="#camisas">Camisas</a>
-    <a href="#hoodies">Hoodies</a>
-    <a href="#gorras">Gorras</a>
-    <a href="#vasos">Vasos</a>
-    <a href="#mousepads">Mousepads</a>
-    <a href="#decoracion">Decoración</a>
-    <a href="#regalos">Regalos</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-
-  <div id="carrito">🛒 Carrito (0)</div>
-
-  <!-- CATEGORÍAS -->
-  <section id="camisas" class="categoria">
-    <h2>Camisas</h2>
-    <div class="productos">
-      <div class="producto">
-        <img src="img/camisa.png" alt="Camisa 1">
-        <h3>Camisa Naruto</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Camisa Naruto" data-precio="500" data-talla="true">Comprar</button>
-      </div>
-      <div class="producto">
-        <img src="img/camisa.png" alt="Camisa 2">
-        <h3>Camisa Dragon Ball</h3>
-        <p>L500.00</p>
-        <button class="btn comprar" data-producto="Camisa Dragon Ball" data-precio="500" data-talla="true">Comprar</button>
-      </div>
-      <!-- Agrego 8 más de ejemplo -->
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa One Piece</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa One Piece" data-precio="500" data-talla="true">Comprar</button></div>
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa Demon Slayer</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Demon Slayer" data-precio="500" data-talla="true">Comprar</button></div>
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa Tokyo Revengers</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Tokyo Revengers" data-precio="500" data-talla="true">Comprar</button></div>
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa Bleach</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Bleach" data-precio="500" data-talla="true">Comprar</button></div>
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa Death Note</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Death Note" data-precio="500" data-talla="true">Comprar</button></div>
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa Jujutsu Kaisen</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Jujutsu Kaisen" data-precio="500" data-talla="true">Comprar</button></div>
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa Black Clover</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Black Clover" data-precio="500" data-talla="true">Comprar</button></div>
-      <div class="producto"><img src="img/camisa.png"><h3>Camisa Hunter x Hunter</h3><p>L500.00</p><button class="btn comprar" data-producto="Camisa Hunter x Hunter" data-precio="500" data-talla="true">Comprar</button></div>
+  <!-- Topbar / menú -->
+  <div class="topbar">
+    <a class="brand" href="#top"><img src="img/logo.png" alt="logo"><span>OCEAN STORE</span></a>
+    <div class="acciones">
+      <button id="btnMenu" class="icon-btn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+      <a href="#categorias" class="btn-prim">Productos</a>
+      <button id="btnCart" class="icon-btn" aria-label="Abrir carrito">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cartCount" class="badge">0</span>
+      </button>
     </div>
-  </section>
+  </div>
 
-  <!-- REPITO IGUAL LA ESTRUCTURA PARA HOODIES, GORRAS, VASOS, MOUSEPADS, DECORACIÓN, REGALOS -->
-  <!-- 👆 Aquí ya está hecho para camisas, pero sigue igual con los otros 6 apartados con 10 productos cada uno -->
-  <!-- Para ahorrar espacio, si quieres, te paso el resto lleno con todos los productos 👌 -->
+  <!-- Overlay del menú desplegable -->
+  <div id="menuOverlay" class="menu-overlay">
+    <div class="menu">
+      <h3>Categorías</h3>
+      <div class="menu-grid">
+        <a href="#cat-camisas">Camisas</a>
+        <a href="#cat-hoodies">Hoodies</a>
+        <a href="#cat-gorras">Gorras</a>
+        <a href="#cat-mousepads">Mousepads</a>
+        <a href="#cat-vasos">Vasos</a>
+        <a href="#cat-tazas">Tazas</a>
+        <a href="#cat-decoracion">Decoración para fiestas</a>
+        <a href="#cat-regalos">Regalos</a>
+      </div>
+      <div class="menu-footer">
+        <a href="#instrucciones">Instrucciones</a>
+        <a href="#contacto">Contacto</a>
+        <a href="https://wa.me/50499411471" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
 
-  <!-- Instrucciones -->
-  <section class="instrucciones">
-    <h2>🛒 Instrucciones para Comprar</h2>
-    <ol>
-      <li>Haz clic en <b>Comprar</b> en el producto que te guste.</li>
-      <li>Selecciona tu talla (si aplica), la cantidad y confirma.</li>
-      <li>Serás redirigido a WhatsApp con los detalles de tu pedido.</li>
-      <li>Realiza la transferencia a nuestra cuenta BAC Credomatic:</li>
-    </ol>
-    <p><b>Banco:</b> BAC Credomatic<br>
-       <b>Número de cuenta:</b> 751240361<br>
-       <b>Tipo:</b> Ahorros</p>
+  <!-- Contenedor de categorías -->
+  <main id="categorias"></main>
+
+  <!-- Instrucciones de compra -->
+  <section id="instrucciones" class="instrucciones">
+    <div class="card-ins">
+      <h2>🛒 Instrucciones para Comprar</h2>
+      <ol>
+        <li>Haz clic en <b>Comprar</b> en el producto que te guste.</li>
+        <li>Selecciona <b>talla</b> (si aplica) y <b>cantidad</b>.</li>
+        <li>Agrega al <b>carrito</b> o finaliza desde el carrito.</li>
+        <li>Serás redirigido a <b>WhatsApp</b> con los detalles de tu pedido.</li>
+        <li>Realiza la transferencia a nuestra cuenta <b>BAC Credomatic</b> y envía el comprobante.</li>
+      </ol>
+      <p><b>Banco:</b> BAC Credomatic<br>
+        <b>Número de cuenta:</b> 751240361<br>
+        <b>Tipo:</b> Ahorros</p>
+    </div>
   </section>
 
   <!-- Contacto -->
   <section id="contacto">
     <h2>📩 Contáctanos</h2>
     <div class="social-links">
-      <a href="https://www.facebook.com/oceanstorehn" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.instagram.com/oceanstorehn" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://wa.me/50499411471" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.facebook.com/oceanstorehn" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/oceanstorehn" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/50499411471" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
     </div>
   </section>
 
@@ -288,86 +310,312 @@
     <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
   </footer>
 
-  <!-- Modal -->
-  <div class="modal" id="modal">
+  <!-- Panel Carrito -->
+  <aside id="cartPanel" class="cart-panel" aria-label="Carrito de compras">
+    <div class="cart-header">
+      <h3>Tu carrito</h3>
+      <button id="closeCart" class="icon-btn" aria-label="Cerrar carrito"><i class="fa-solid fa-xmark" style="color:#0B2C4A"></i></button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-footer">
+      <div class="total"><span>Total:</span><strong id="cartTotal">L0.00</strong></div>
+      <div class="cta">
+        <button id="clearCart" class="btn-clear">Vaciar</button>
+        <button id="checkoutWA" class="btn-wa"><i class="fa-brands fa-whatsapp"></i> Pedir</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Modal Compra -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal">
     <div class="modal-content">
-      <h3 id="producto-nombre"></h3>
-      <p id="producto-precio"></p>
-      <div class="tallas" id="tallas-container" style="display:none;">
-        <label for="talla">Elige tu talla:</label>
-        <select id="talla">
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
+      <h3 id="titulo-modal"></h3>
+      <p id="precio-modal" class="muted"></p>
+      <div id="fila-talla" class="modal-row" style="display:none">
+        <select id="selectTalla" aria-label="Selecciona talla">
+          <option value="S">Talla S</option>
+          <option value="M">Talla M</option>
+          <option value="L">Talla L</option>
+          <option value="XL">Talla XL</option>
         </select>
       </div>
-      <div class="cantidad">
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" value="1" min="1">
+      <div class="modal-row">
+        <input id="inputCantidad" type="number" min="1" value="1" aria-label="Cantidad">
       </div>
-      <button class="btn" id="confirmar">Confirmar</button>
-      <button class="btn" id="cerrar">Cancelar</button>
+      <div class="btn-bar">
+        <button id="btnConfirmar" class="btn btn-confirm">Agregar al carrito</button>
+        <button id="btnCancelar" class="btn btn-cancel">Cancelar</button>
+      </div>
     </div>
   </div>
 
   <script>
+    /* ==========
+       Datos de productos (10 por categoría)
+       Imagen: usando la que ya tienes -> img/camisa.png
+       ========== */
+    const IMG = "img/camisa.png"; // puedes reemplazar por imágenes específicas luego
+
+    const CATS = [
+      { id:"cat-camisas",   titulo:"Camisas",   talla:true,  base:500 },
+      { id:"cat-hoodies",   titulo:"Hoodies",   talla:true,  base:800 },
+      { id:"cat-gorras",    titulo:"Gorras",    talla:true,  base:350 },
+      { id:"cat-mousepads", titulo:"Mousepads", talla:true,  base:250 },
+      { id:"cat-vasos",     titulo:"Vasos",     talla:false, base:200 },
+      { id:"cat-tazas",     titulo:"Tazas",     talla:false, base:220 },
+      { id:"cat-decoracion",titulo:"Decoración para fiestas", talla:false, base:400 },
+      { id:"cat-regalos",   titulo:"Regalos",   talla:false, base:300 },
+    ];
+
+    // Genera 10 productos por categoría
+    const productosPorCategoria = {};
+    CATS.forEach(cat=>{
+      productosPorCategoria[cat.id] = Array.from({length:10}).map((_,i)=>({
+        id:`${cat.id}-${i+1}`,
+        nombre:`${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)} ${i+1}`,
+        precio:cat.base,
+        imagen:IMG,
+        requiereTalla:cat.talla
+      }));
+    });
+
+    /* ==========
+       Render de categorías y carruseles
+       ========== */
+    const main = document.getElementById('categorias');
+
+    function crearSeccionCategoria(cat){
+      const sec = document.createElement('section');
+      sec.className = 'categoria';
+      sec.id = cat.id;
+
+      sec.innerHTML = `
+        <div class="categoria-header">
+          <h2>${cat.titulo}</h2>
+          <div class="scroll-ctrls">
+            <button class="prev" aria-label="Deslizar a la izquierda"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="next" aria-label="Deslizar a la derecha"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+        <div class="carrusel">
+          <div class="track"></div>
+        </div>
+      `;
+
+      const track = sec.querySelector('.track');
+      const lista = productosPorCategoria[cat.id];
+
+      lista.forEach(prod=>{
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${prod.imagen}" alt="${prod.nombre}">
+          <div class="info">
+            <h3>${prod.nombre}</h3>
+            <p class="precio">L${prod.precio.toFixed(2)}</p>
+          </div>
+          <div class="acciones">
+            <button class="btn-add" data-id="${prod.id}">Comprar</button>
+          </div>
+        `;
+        track.appendChild(card);
+      });
+
+      // Controles scroll
+      const prev = sec.querySelector('.prev');
+      const next = sec.querySelector('.next');
+      prev.addEventListener('click', ()=> track.scrollBy({left: - (window.innerWidth*0.8), behavior:'smooth'}));
+      next.addEventListener('click', ()=> track.scrollBy({left: (window.innerWidth*0.8), behavior:'smooth'}));
+
+      // Delegación para abrir modal
+      track.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.btn-add');
+        if(!btn) return;
+        const id = btn.dataset.id;
+        const prod = lista.find(p=>p.id===id);
+        abrirModal(prod);
+      });
+
+      return sec;
+    }
+
+    function renderCategorias(){
+      CATS.forEach(cat=>{
+        main.appendChild(crearSeccionCategoria(cat));
+      });
+    }
+
+    /* ==========
+       Menú desplegable
+       ========== */
+    const btnMenu = document.getElementById('btnMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    let menuAbierto = false;
+    function toggleMenu(open){
+      menuAbierto = (open!==undefined) ? open : !menuAbierto;
+      menuOverlay.style.height = menuAbierto ? '100%' : '0';
+    }
+    btnMenu.addEventListener('click',()=>toggleMenu());
+    menuOverlay.addEventListener('click',(e)=>{ if(e.target===menuOverlay) toggleMenu(false); });
+
+    /* ==========
+       Modal compra
+       ========== */
     const modal = document.getElementById('modal');
-    const productoNombre = document.getElementById('producto-nombre');
-    const productoPrecio = document.getElementById('producto-precio');
-    const tallaSelect = document.getElementById('talla');
-    const cantidadInput = document.getElementById('cantidad');
-    const tallasContainer = document.getElementById('tallas-container');
-    const carritoBtn = document.getElementById('carrito');
-    let producto = '';
-    let precio = '';
-    let requiereTalla = false;
-    let carrito = [];
+    const tituloModal = document.getElementById('titulo-modal');
+    const precioModal = document.getElementById('precio-modal');
+    const filaTalla = document.getElementById('fila-talla');
+    const selectTalla = document.getElementById('selectTalla');
+    const inputCantidad = document.getElementById('inputCantidad');
+    const btnConfirmar = document.getElementById('btnConfirmar');
+    const btnCancelar = document.getElementById('btnCancelar');
 
-    document.querySelectorAll('.comprar').forEach(boton => {
-      boton.addEventListener('click', () => {
-        producto = boton.dataset.producto;
-        precio = boton.dataset.precio;
-        requiereTalla = boton.dataset.talla === "true";
-        productoNombre.textContent = producto;
-        productoPrecio.textContent = "Precio: L" + precio;
-        cantidadInput.value = 1;
-        tallasContainer.style.display = requiereTalla ? "block" : "none";
-        modal.style.display = 'flex';
+    let productoActual = null;
+
+    function abrirModal(prod){
+      productoActual = prod;
+      tituloModal.textContent = prod.nombre;
+      precioModal.textContent = `Precio: L${prod.precio.toFixed(2)}`;
+      filaTalla.style.display = prod.requiereTalla ? 'flex' : 'none';
+      selectTalla.value = 'M';
+      inputCantidad.value = 1;
+      modal.style.display = 'flex';
+    }
+    function cerrarModal(){ modal.style.display = 'none'; productoActual = null; }
+
+    btnCancelar.addEventListener('click', cerrarModal);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) cerrarModal(); });
+
+    btnConfirmar.addEventListener('click', ()=>{
+      if(!productoActual) return;
+      const qty = Math.max(1, parseInt(inputCantidad.value || '1',10));
+      const talla = productoActual.requiereTalla ? selectTalla.value : null;
+      agregarAlCarrito({...productoActual}, qty, talla);
+      cerrarModal();
+      abrirCarrito(true);
+    });
+
+    /* ==========
+       Carrito
+       ========== */
+    const btnCart = document.getElementById('btnCart');
+    const cartPanel = document.getElementById('cartPanel');
+    const closeCart = document.getElementById('closeCart');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCount = document.getElementById('cartCount');
+    const clearCart = document.getElementById('clearCart');
+    const checkoutWA = document.getElementById('checkoutWA');
+
+    let carrito = []; // {id, nombre, precio, imagen, requiereTalla, talla?, qty}
+
+    function abrirCarrito(open){
+      cartPanel.classList.toggle('open', open!==undefined ? open : !cartPanel.classList.contains('open'));
+    }
+
+    btnCart.addEventListener('click', ()=>abrirCarrito());
+    closeCart.addEventListener('click', ()=>abrirCarrito(false));
+
+    function actualizarCarritoUI(){
+      cartItems.innerHTML = '';
+      let total = 0;
+      let count = 0;
+
+      carrito.forEach((item, idx)=>{
+        const li = document.createElement('div');
+        li.className = 'cart-item';
+        const sub = item.precio * item.qty;
+        total += sub;
+        count += item.qty;
+
+        li.innerHTML = `
+          <img src="${item.imagen}" alt="${item.nombre}">
+          <div>
+            <h4>${item.nombre}</h4>
+            <div class="muted">
+              ${item.requiereTalla && item.talla ? `Talla: ${item.talla} · ` : ''}Precio: L${item.precio.toFixed(2)}
+            </div>
+            <div class="qty-row">
+              <label>Cant.</label>
+              <input type="number" min="1" value="${item.qty}" data-idx="${idx}">
+              <button class="remove" data-idx="${idx}"><i class="fa-solid fa-trash"></i> Quitar</button>
+            </div>
+          </div>
+          <div><strong>L${sub.toFixed(2)}</strong></div>
+        `;
+        cartItems.appendChild(li);
       });
-    });
 
-    document.getElementById('cerrar').addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
+      cartTotal.textContent = `L${total.toFixed(2)}`;
+      cartCount.textContent = count;
 
-    document.getElementById('confirmar').addEventListener('click', () => {
-      const talla = requiereTalla ? tallaSelect.value : '';
-      const cantidad = parseInt(cantidadInput.value);
-      carrito.push({ producto, precio, talla, cantidad });
-      carritoBtn.textContent = `🛒 Carrito (${carrito.length})`;
-      modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
-    });
-
-    carritoBtn.addEventListener('click', () => {
-      let mensaje = "Hola, quiero comprar:\n";
-      carrito.forEach(item => {
-        mensaje += `- ${item.cantidad} x ${item.producto} ${item.talla ? "Talla " + item.talla : ""} a L${item.precio}\n`;
+      // Eventos qty/remove
+      cartItems.querySelectorAll('input[type="number"]').forEach(inp=>{
+        inp.addEventListener('change', (e)=>{
+          const i = parseInt(e.target.dataset.idx,10);
+          const val = Math.max(1, parseInt(e.target.value||'1',10));
+          carrito[i].qty = val;
+          actualizarCarritoUI();
+        });
       });
-      const url = `https://wa.me/50499411471?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
+      cartItems.querySelectorAll('.remove').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          const i = parseInt(e.currentTarget.dataset.idx,10);
+          carrito.splice(i,1);
+          actualizarCarritoUI();
+        });
+      });
+    }
+
+    function agregarAlCarrito(prod, qty=1, talla=null){
+      // combinar por (id + talla)
+      const keyMatch = (it)=> it.id===prod.id && (it.talla||null)===(talla||null);
+      const existente = carrito.find(keyMatch);
+      if(existente){
+        existente.qty += qty;
+      }else{
+        carrito.push({
+          id:prod.id,
+          nombre:prod.nombre,
+          precio:prod.precio,
+          imagen:prod.imagen,
+          requiereTalla:prod.requiereTalla,
+          talla,
+          qty
+        });
+      }
+      actualizarCarritoUI();
+    }
+
+    clearCart.addEventListener('click', ()=>{
+      carrito = [];
+      actualizarCarritoUI();
     });
+
+    checkoutWA.addEventListener('click', ()=>{
+      if(carrito.length===0) return;
+      let lineas = carrito.map(it=>{
+        const tallaTxt = it.requiereTalla && it.talla ? ` (Talla ${it.talla})` : '';
+        const sub = (it.precio*it.qty).toFixed(2);
+        return `• ${it.nombre}${tallaTxt} x${it.qty} = L${sub}`;
+      }).join('%0A');
+      const total = carrito.reduce((a,b)=>a+b.precio*b.qty,0).toFixed(2);
+      const mensaje = `Hola, quiero realizar este pedido:%0A%0A${lineas}%0A%0ATotal: L${total}`;
+      const url = `https://wa.me/50499411471?text=${mensaje}`;
+      window.open(url,'_blank');
+    });
+
+    // Render inicial
+    renderCategorias();
+
+    // Cerrar menú al navegar en anclas dentro del mismo
+    document.querySelectorAll('.menu a').forEach(a=>{
+      a.addEventListener('click', ()=>toggleMenu(false));
+    });
+
   </script>
 </body>
 </html>
-
-
-
-
 
 
 
