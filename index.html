@@ -981,11 +981,21 @@
     // Render inicial
     renderCategorias();
 
-    // Cerrar menú al navegar en anclas dentro del mismo
-    document.querySelectorAll('.menu-grid a').forEach(a=>{
-      a.addEventListener('click', ()=>toggleMenu(false));
-    });
+    // Arreglo para el menu
+    document.querySelectorAll('.menu-grid a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
 
+        const targetId = link.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        toggleMenu(false);
+      });
+    });
   </script>
 </body>
 </html>
