@@ -7,13 +7,21 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {margin:0;font-family:'Oswald',sans-serif;background:#f9f9f9;color:#0B2C4A;}
-    header {background:white;text-align:center;padding:20px;}
+    header {background:white;text-align:center;padding:20px;position:relative;}
     header img {max-width:250px;width:100%;margin-bottom:10px;}
     header h1 {margin:0;font-size:45px;color:#0B2C4A;}
     header p {margin:5px 0 0;color:#FFD23F;font-size:22px;}
-    nav {background:#0B2C4A;display:flex;justify-content:center;padding:10px;}
-    nav a {color:white;text-decoration:none;margin:0 15px;font-size:18px;transition:.3s;}
-    nav a:hover {color:#FFD23F;}
+
+    /* Menú */
+    nav {background:#0B2C4A;}
+    .menu-container {display:flex;justify-content:space-between;align-items:center;padding:10px 20px;}
+    .menu-container h2 {color:white;margin:0;}
+    .menu-btn {font-size:24px;color:white;background:none;border:none;cursor:pointer;}
+    .menu-links {display:none;flex-direction:column;background:#0B2C4A;}
+    .menu-links a {color:white;text-decoration:none;padding:12px 20px;border-top:1px solid rgba(255,255,255,.2);}
+    .menu-links a:hover {background:#FFD23F;color:#0B2C4A;}
+    .menu-links.show {display:flex;}
+
     section {padding:40px 20px;}
     h2 {text-align:center;margin-bottom:20px;color:#0B2C4A;}
     .productos {display:flex;overflow-x:auto;gap:15px;scroll-snap-type:x mandatory;padding-bottom:15px;}
@@ -26,8 +34,15 @@
     .btn-agregar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
       cursor:pointer;font-weight:bold;margin-top:5px;}
     .btn-agregar:hover {background:#87B4E3;color:white;}
-    select, .cantidad {margin-top:5px;padding:5px;border-radius:5px;width:100%;}
-    .cantidad {width:80px;text-align:center;}
+    select {margin-top:5px;padding:5px;border-radius:5px;width:100%;}
+
+    /* cantidad */
+    .cantidad-container {display:flex;justify-content:center;align-items:center;gap:8px;margin-top:5px;}
+    .cantidad-container button {background:#0B2C4A;color:white;border:none;padding:5px 10px;
+      border-radius:5px;cursor:pointer;font-size:16px;}
+    .cantidad-container button:hover {background:#FFD23F;color:#0B2C4A;}
+    .cantidad {width:40px;text-align:center;border:none;background:#f0f0f0;font-weight:bold;}
+
     /* Carrito */
     #carrito-btn {position:fixed;bottom:20px;right:20px;background:#FFD23F;border:none;padding:15px;
       border-radius:50%;cursor:pointer;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
@@ -37,10 +52,12 @@
     #finalizar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
       cursor:pointer;font-weight:bold;width:100%;}
     #finalizar:hover {background:#87B4E3;color:white;}
+
     /* Instrucciones */
     .instrucciones {background:white;margin:30px;padding:20px;border-radius:10px;
       box-shadow:0 2px 6px rgba(0,0,0,.1);}
     .instrucciones h2 {margin-bottom:15px;}
+
     /* Contacto */
     #contacto {text-align:center;padding:40px 20px;background:#87B4E3;color:white;}
     .social-links a {margin:10px;font-size:24px;color:white;background:#0B2C4A;padding:12px;
@@ -58,63 +75,39 @@
 </header>
 
 <nav>
-  <a href="#">Inicio</a>
-  <a href="#productos">Productos</a>
-  <a href="#contacto">Contacto</a>
+  <div class="menu-container">
+    <h2>🌊 Menú</h2>
+    <button class="menu-btn"><i class="fas fa-bars"></i></button>
+  </div>
+  <div class="menu-links">
+    <a href="#">Inicio</a>
+    <a href="#productos">Productos</a>
+    <a href="#instrucciones">Instrucciones de compra</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#carrito-contenido">Carrito</a>
+  </div>
 </nav>
 
 <section id="productos">
-  <!-- CAMISAS -->
   <h2>Camisas</h2>
   <div class="productos">
     <div class="producto"><img src="img/camisa.png"><h3>Camisa Naruto</h3><p>L500</p>
       <select><option>S</option><option>M</option><option>L</option><option>XL</option></select>
-      <input type="number" class="cantidad" value="1" min="1">
+      <div class="cantidad-container">
+        <button class="menos">-</button>
+        <input type="text" class="cantidad" value="1" readonly>
+        <button class="mas">+</button>
+      </div>
       <button class="btn-agregar" data-producto="Camisa Naruto" data-precio="500">Agregar</button></div>
-  </div>
-
-  <!-- HOODIES -->
-  <h2>Hoodies</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Anime</h3><p>L800</p>
-      <select><option>S</option><option>M</option><option>L</option><option>XL</option></select>
-      <input type="number" class="cantidad" value="1" min="1">
-      <button class="btn-agregar" data-producto="Hoodie Anime" data-precio="800">Agregar</button></div>
-  </div>
-
-  <!-- GORRAS -->
-  <h2>Gorras</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/gorra.png"><h3>Gorra Negra</h3><p>L350</p>
-      <select><option>S</option><option>M</option><option>L</option></select>
-      <input type="number" class="cantidad" value="1" min="1">
-      <button class="btn-agregar" data-producto="Gorra Negra" data-precio="350">Agregar</button></div>
-  </div>
-
-  <!-- MOUSEPADS -->
-  <h2>Mousepads</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/mousepad.png"><h3>Mousepad Gamer</h3><p>L250</p>
-      <select><option>Pequeño</option><option>Mediano</option><option>Grande</option></select>
-      <input type="number" class="cantidad" value="1" min="1">
-      <button class="btn-agregar" data-producto="Mousepad Gamer" data-precio="250">Agregar</button></div>
-  </div>
-
-  <!-- VASOS -->
-  <h2>Vasos</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/vaso.png"><h3>Vaso Personalizado</h3><p>L150</p>
-      <input type="number" class="cantidad" value="1" min="1">
-      <button class="btn-agregar" data-producto="Vaso Personalizado" data-precio="150">Agregar</button></div>
   </div>
 </section>
 
-<section class="instrucciones">
+<section class="instrucciones" id="instrucciones">
   <h2>🛒 Instrucciones de Compra</h2>
   <ol>
     <li>Agrega los productos que quieras al carrito.</li>
     <li>Si el producto requiere, selecciona la talla antes de agregarlo.</li>
-    <li>Indica la cantidad que desees.</li>
+    <li>Indica la cantidad con los botones ➖ y ➕.</li>
     <li>Abre el carrito y revisa tu pedido.</li>
     <li>Haz clic en "Finalizar Compra" y se abrirá WhatsApp con los detalles.</li>
   </ol>
@@ -133,6 +126,7 @@
   <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
 </footer>
 
+<!-- Carrito flotante -->
 <button id="carrito-btn"><i class="fas fa-shopping-cart"></i></button>
 <div id="carrito-contenido">
   <h3>🛒 Tu Carrito</h3>
@@ -143,23 +137,43 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  // Menú desplegable
+  const menuBtn = document.querySelector(".menu-btn");
+  const menuLinks = document.querySelector(".menu-links");
+  menuBtn.addEventListener("click", () => {
+    menuLinks.classList.toggle("show");
+  });
+
   const carritoBtn = document.getElementById("carrito-btn");
   const carritoContenido = document.getElementById("carrito-contenido");
   const listaCarrito = document.getElementById("lista-carrito");
   const total = document.getElementById("total");
   let carrito = [];
 
-  // Agregar al carrito
+  document.querySelectorAll(".producto").forEach(prod=>{
+    const menos=prod.querySelector(".menos");
+    const mas=prod.querySelector(".mas");
+    const input=prod.querySelector(".cantidad");
+    menos.addEventListener("click",()=>{
+      let val=parseInt(input.value);
+      if(val>1) input.value=val-1;
+    });
+    mas.addEventListener("click",()=>{
+      let val=parseInt(input.value);
+      input.value=val+1;
+    });
+  });
+
   document.querySelectorAll(".btn-agregar").forEach(btn=>{
     btn.addEventListener("click",()=>{
-      let nombre = btn.dataset.producto;
-      let precio = parseInt(btn.dataset.precio);
-      let select = btn.parentElement.querySelector("select");
-      let talla = select ? select.value : null;
-      let cantidad = parseInt(btn.parentElement.querySelector(".cantidad").value);
-      let key = talla ? `${nombre} (${talla})` : nombre;
+      let nombre=btn.dataset.producto;
+      let precio=parseInt(btn.dataset.precio);
+      let select=btn.parentElement.querySelector("select");
+      let talla=select?select.value:null;
+      let cantidad=parseInt(btn.parentElement.querySelector(".cantidad").value);
+      let key=talla?`${nombre} (${talla})`:nombre;
 
-      let item = carrito.find(p=>p.nombre===key);
+      let item=carrito.find(p=>p.nombre===key);
       if(item){item.cantidad+=cantidad;}else{carrito.push({nombre:key,precio,cantidad});}
       renderCarrito();
     });
@@ -195,6 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
+
 
 
 
