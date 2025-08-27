@@ -23,8 +23,9 @@
     .producto img {width:100%;border-radius:10px;}
     .producto h3 {margin:10px 0 5px;font-size:20px;}
     .producto p {margin:5px 0;font-size:16px;}
-    .btn {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;cursor:pointer;font-weight:bold;}
-    .btn:hover {background:#87B4E3;color:white;}
+    .btn-agregar, #finalizar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
+      cursor:pointer;font-weight:bold;}
+    .btn-agregar:hover, #finalizar:hover {background:#87B4E3;color:white;}
     /* Carrito */
     #carrito-btn {position:fixed;bottom:20px;right:20px;background:#FFD23F;border:none;padding:15px;
       border-radius:50%;cursor:pointer;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
@@ -61,47 +62,14 @@
 <section id="productos">
   <h2>Camisas</h2>
   <div class="productos">
-    <div class="producto"><img src="img/camisa.png"><h3>Naruto</h3><p>L500</p><button class="btn" data-producto="Camisa Naruto" data-precio="500">Agregar</button></div>
-    <div class="producto"><img src="img/camisa.png"><h3>Dragon Ball</h3><p>L500</p><button class="btn" data-producto="Camisa Dragon Ball" data-precio="500">Agregar</button></div>
-    <div class="producto"><img src="img/camisa.png"><h3>One Piece</h3><p>L500</p><button class="btn" data-producto="Camisa One Piece" data-precio="500">Agregar</button></div>
-    <div class="producto"><img src="img/camisa.png"><h3>Bleach</h3><p>L500</p><button class="btn" data-producto="Camisa Bleach" data-precio="500">Agregar</button></div>
+    <div class="producto"><img src="img/camisa.png"><h3>Naruto</h3><p>L500</p><button class="btn-agregar" data-producto="Camisa Naruto" data-precio="500">Agregar</button></div>
+    <div class="producto"><img src="img/camisa.png"><h3>Dragon Ball</h3><p>L500</p><button class="btn-agregar" data-producto="Camisa Dragon Ball" data-precio="500">Agregar</button></div>
   </div>
 
   <h2>Hoodies</h2>
   <div class="productos">
-    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Anime</h3><p>L800</p><button class="btn" data-producto="Hoodie Anime" data-precio="800">Agregar</button></div>
-    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Logo</h3><p>L800</p><button class="btn" data-producto="Hoodie Logo" data-precio="800">Agregar</button></div>
-    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Edición</h3><p>L850</p><button class="btn" data-producto="Hoodie Edición" data-precio="850">Agregar</button></div>
-  </div>
-
-  <h2>Gorras</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/gorra.png"><h3>Gorra Negra</h3><p>L350</p><button class="btn" data-producto="Gorra Negra" data-precio="350">Agregar</button></div>
-    <div class="producto"><img src="img/gorra.png"><h3>Gorra Blanca</h3><p>L350</p><button class="btn" data-producto="Gorra Blanca" data-precio="350">Agregar</button></div>
-  </div>
-
-  <h2>Vasos</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/vaso.png"><h3>Vaso Personalizado</h3><p>L250</p><button class="btn" data-producto="Vaso Personalizado" data-precio="250">Agregar</button></div>
-    <div class="producto"><img src="img/vaso.png"><h3>Vaso Gamer</h3><p>L300</p><button class="btn" data-producto="Vaso Gamer" data-precio="300">Agregar</button></div>
-  </div>
-
-  <h2>Mousepads</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/mousepad.png"><h3>Mousepad XL</h3><p>L400</p><button class="btn" data-producto="Mousepad XL" data-precio="400">Agregar</button></div>
-    <div class="producto"><img src="img/mousepad.png"><h3>Mousepad Anime</h3><p>L450</p><button class="btn" data-producto="Mousepad Anime" data-precio="450">Agregar</button></div>
-  </div>
-
-  <h2>Decoración</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/decoracion.png"><h3>Globo Personalizado</h3><p>L150</p><button class="btn" data-producto="Globo Personalizado" data-precio="150">Agregar</button></div>
-    <div class="producto"><img src="img/decoracion.png"><h3>Caja de Regalo</h3><p>L200</p><button class="btn" data-producto="Caja de Regalo" data-precio="200">Agregar</button></div>
-  </div>
-
-  <h2>Regalos</h2>
-  <div class="productos">
-    <div class="producto"><img src="img/regalo.png"><h3>Taza Especial</h3><p>L300</p><button class="btn" data-producto="Taza Especial" data-precio="300">Agregar</button></div>
-    <div class="producto"><img src="img/regalo.png"><h3>Cojín Personalizado</h3><p>L350</p><button class="btn" data-producto="Cojín Personalizado" data-precio="350">Agregar</button></div>
+    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Anime</h3><p>L800</p><button class="btn-agregar" data-producto="Hoodie Anime" data-precio="800">Agregar</button></div>
+    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Logo</h3><p>L800</p><button class="btn-agregar" data-producto="Hoodie Logo" data-precio="800">Agregar</button></div>
   </div>
 </section>
 
@@ -139,7 +107,7 @@
   <h3>🛒 Tu Carrito</h3>
   <ul id="lista-carrito"></ul>
   <p id="total"></p>
-  <button class="btn" id="finalizar">Finalizar Compra</button>
+  <button id="finalizar">Finalizar Compra</button>
 </div>
 
 <script>
@@ -149,7 +117,8 @@
   const total = document.getElementById("total");
   let carrito = [];
 
-  document.querySelectorAll(".btn[data-producto]").forEach(btn=>{
+  // Agregar al carrito
+  document.querySelectorAll(".btn-agregar").forEach(btn=>{
     btn.addEventListener("click",()=>{
       let nombre = btn.dataset.producto;
       let precio = parseInt(btn.dataset.precio);
@@ -159,12 +128,16 @@
     });
   });
 
-  carritoBtn.addEventListener("click",()=>{carritoContenido.style.display=carritoContenido.style.display==="block"?"none":"block";});
+  // Mostrar / ocultar carrito
+  carritoBtn.addEventListener("click",()=>{
+    carritoContenido.style.display=carritoContenido.style.display==="block"?"none":"block";
+  });
 
+  // Renderizar carrito
   function renderCarrito(){
     listaCarrito.innerHTML="";
     let totalCompra=0;
-    carrito.forEach((p,i)=>{
+    carrito.forEach(p=>{
       totalCompra+=p.precio*p.cantidad;
       let li=document.createElement("li");
       li.textContent=`${p.nombre} x${p.cantidad} - L${p.precio*p.cantidad}`;
@@ -173,7 +146,9 @@
     total.textContent="Total: L"+totalCompra;
   }
 
+  // Finalizar compra
   document.getElementById("finalizar").addEventListener("click",()=>{
+    if(carrito.length===0){alert("Tu carrito está vacío.");return;}
     let mensaje="Hola, quiero ordenar:\n";
     carrito.forEach(p=>{
       mensaje+=`${p.nombre} x${p.cantidad} - L${p.precio*p.cantidad}\n`;
@@ -185,6 +160,7 @@
 
 </body>
 </html>
+
 
 
 
