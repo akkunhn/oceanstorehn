@@ -309,6 +309,14 @@
     .categoria.active {
       display: block;
     }
+
+    .no-results {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+      font-size: 1.2em;
+    }
+
     .categoria-header{
       display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;
     }
@@ -599,6 +607,11 @@
        Render de categorías y carruseles
        ========== */
     const main = document.getElementById('categorias');
+    const noResultsDiv = document.createElement('div');
+    noResultsDiv.className = 'no-results';
+    noResultsDiv.style.display = 'none';
+    noResultsDiv.textContent = 'No se encontraron resultados que coincidan con la búsqueda.';
+    main.appendChild(noResultsDiv);
 
     function crearSeccionCategoria(cat){
       const sec = document.createElement('section');
@@ -672,8 +685,14 @@
     function mostrarCategoria(id){
       seccionesCategorias.forEach(sec=>{
         sec.classList.remove('active');
+        // Reset card visibility on all categories
+        sec.querySelectorAll('.card').forEach(card => {
+          card.style.display = 'flex';
+        });
       });
       document.getElementById(id).classList.add('active');
+      searchBar.value = ''; // Clear search bar on category change
+      noResultsDiv.style.display = 'none';
 
       enlacesMenu.forEach(link=>{
         link.classList.remove('active');
@@ -706,15 +725,24 @@
       const activeCategory = document.querySelector('.categoria.active');
       if (!activeCategory) return;
       
+      let foundCount = 0;
       const cards = activeCategory.querySelectorAll('.card');
       cards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
         if (title.includes(searchTerm)) {
           card.style.display = 'flex';
+          foundCount++;
         } else {
           card.style.display = 'none';
         }
       });
+
+      // Show no-results message if no cards are visible
+      if (foundCount === 0 && searchTerm.length > 0) {
+        noResultsDiv.style.display = 'block';
+      } else {
+        noResultsDiv.style.display = 'none';
+      }
     });
 
     /* ==========
