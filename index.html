@@ -88,6 +88,27 @@
       transition:.25s transform,.25s opacity;
     }
     .btn-prim:active{transform:scale(.97)}
+    /* Botón de menú hamburguesa ahora fijo en la esquina */
+    #btnMenu {
+      position: fixed;
+      top: 15px; /* Ajusta según sea necesario */
+      left: 15px; /* Ajusta según sea necesario */
+      z-index: 1001; /* Asegura que esté por encima del topbar si es necesario */
+      background: var(--azul); /* Fondo azul para que resalte */
+      color: #fff;
+      border: none;
+      border-radius: 50%; /* Hace que el botón sea redondo */
+      font-size: 22px;
+      cursor: pointer;
+      padding: 12px 14px; /* Aumenta el padding para un botón más grande */
+      box-shadow: var(--sombra);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    #btnMenu:hover {
+      background: var(--amarillo);
+      color: var(--azul);
+      transform: scale(1.05);
+    }
     .icon-btn{
       background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;padding:6px 8px;position:relative;
     }
@@ -96,23 +117,50 @@
       font-size:12px;line-height:1;padding:3px 7px;min-width:18px;text-align:center;
     }
 
-    /* Menú desplegable desde arriba */
+    /* Menú desplegable desde la esquina superior izquierda con animación */
     .menu-overlay{
-      position:fixed;left:0;right:0;top:0;background:rgba(0,0,0,.35);
-      height:0;overflow:hidden;z-index:999;transition:height .35s ease;
+      position:fixed;
+      top:0;
+      left:0;
+      width:0; /* Inicialmente 0 */
+      height:0; /* Inicialmente 0 */
+      background:rgba(0,0,0,.35);
+      z-index:999;
+      overflow:hidden;
+      transition:width .4s ease-out, height .4s ease-out; /* Animación de expansión */
+      border-bottom-right-radius: 100%; /* Para el efecto de expansión circular */
     }
+    .menu-overlay.open {
+      width: 100%;
+      height: 100%;
+      border-bottom-right-radius: 0; /* Deshacer el radio cuando está abierto */
+    }
+
     .menu{
-      background:#fff;border-bottom:3px solid var(--azul);box-shadow:var(--sombra);
-      border-radius:0 0 var(--radio) var(--radio);
-      max-width:1100px;margin:0 auto;padding:14px 16px;
+      position:absolute;
+      top:15px; /* Misma posición que el botón, para que parezca que sale de ahí */
+      left:15px;
+      background:#fff;
+      border-bottom:3px solid var(--azul);
+      box-shadow:var(--sombra);
+      border-radius:var(--radio); /* Redondear bordes del menú */
+      max-width:300px; /* Ancho máximo para el menú */
+      padding:14px 16px;
+      opacity:0; /* Inicialmente oculto */
+      transform:translateX(-20px); /* Desplazado a la izquierda */
+      transition:opacity .3s ease .3s, transform .3s ease .3s; /* Retraso para que aparezca después del overlay */
+    }
+    .menu-overlay.open .menu {
+      opacity:1; /* Aparece */
+      transform:translateX(0); /* Se desliza a su posición */
     }
     .menu h3{margin:8px 0 12px}
     .menu-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;
+      display:grid;grid-template-columns:1fr;gap:8px; /* Una columna para el menú */
     }
     .menu a{
       display:block;text-decoration:none;color:var(--azul);
-      background:#f0f6ff;border:1px solid #e1edff;border-radius:12px;padding:10px 12px;text-align:center;
+      background:#f0f6ff;border:1px solid #e1edff;border-radius:12px;padding:10px 12px;text-align:left; /* Alineación izquierda */
       transition:.2s transform,.2s background;
     }
     .menu a:hover{background:#e6f0ff;transform:translateY(-2px)}
@@ -237,6 +285,16 @@
     @media (max-width:700px){
       header h1{font-size:40px}
       .card img{height:140px}
+      #btnMenu {
+        top: 10px;
+        left: 10px;
+        padding: 10px 12px;
+      }
+      .menu {
+        top: 10px;
+        left: 10px;
+        max-width: 250px;
+      }
     }
   </style>
 </head>
@@ -259,7 +317,6 @@
   <div class="topbar">
     <a class="brand" href="#top"><img src="img/logo.png" alt="logo"><span>OCEAN STORE</span></a>
     <div class="acciones">
-      <button id="btnMenu" class="icon-btn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
       <a href="#categorias" class="btn-prim">Productos</a>
       <button id="btnCart" class="icon-btn" aria-label="Abrir carrito">
         <i class="fa-solid fa-cart-shopping"></i>
@@ -267,6 +324,8 @@
       </button>
     </div>
   </div>
+
+  <button id="btnMenu" class="icon-btn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
 
   <div id="menuOverlay" class="menu-overlay">
     <div class="menu">
@@ -458,13 +517,25 @@
        ========== */
     const btnMenu = document.getElementById('btnMenu');
     const menuOverlay = document.getElementById('menuOverlay');
+    const menuContent = menuOverlay.querySelector('.menu'); // El contenido del menú
     let menuAbierto = false;
+
     function toggleMenu(open){
       menuAbierto = (open!==undefined) ? open : !menuAbierto;
-      menuOverlay.style.height = menuAbierto ? '100%' : '0';
+      if(menuAbierto){
+        menuOverlay.classList.add('open');
+        // El contenido del menú ya tiene su propia transición de opacidad y transform
+      } else {
+        menuOverlay.classList.remove('open');
+      }
     }
     btnMenu.addEventListener('click',()=>toggleMenu());
-    menuOverlay.addEventListener('click',(e)=>{ if(e.target===menuOverlay) toggleMenu(false); });
+    // Cerrar menú si se hace clic en el overlay o en un enlace
+    menuOverlay.addEventListener('click',(e)=>{ 
+      if(e.target === menuOverlay || e.target.closest('.menu a')) {
+        toggleMenu(false); 
+      }
+    });
 
     /* ==========
        Modal compra
@@ -616,13 +687,12 @@
     // Render inicial
     renderCategorias();
 
-    // Cerrar menú al navegar en anclas dentro del mismo
-    document.querySelectorAll('.menu a').forEach(a=>{
-      a.addEventListener('click', ()=>toggleMenu(false));
-    });
+    // Actualizar el carrito al cargar la página
+    actualizarCarritoUI();
 
   </script>
 </body>
 </html>
+
 
 
