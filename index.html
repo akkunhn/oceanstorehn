@@ -458,14 +458,14 @@
        Datos de productos (10 por categoría)
        ========== */
     const CATS = [
-      { id:"cat-camisas",   titulo:"Camisas",   imagen:"img/camisa.png",   talla:true,  base:500 },
-      { id:"cat-hoodies",   titulo:"Hoodies",   imagen:"img/hoodie.png",   talla:true,  base:800 },
-      { id:"cat-gorras",    titulo:"Gorras",    imagen:"img/gorra.png",    talla:true,  base:350 },
-      { id:"cat-mousepads", titulo:"Mousepads", imagen:"img/mousepad.png", talla:true,  base:250 },
-      { id:"cat-vasos",     titulo:"Vasos",     imagen:"img/vaso.png",     talla:false, base:200 },
-      { id:"cat-tazas",     titulo:"Tazas",     imagen:"img/taza.png",     talla:false, base:220 },
-      { id:"cat-decoracion",titulo:"Decoración para fiestas", imagen:"img/decoracion.png", talla:false, base:400 },
-      { id:"cat-regalos",   titulo:"Regalos",   imagen:"img/regalo.png",   talla:false, base:300 },
+      { id:"cat-camisas",   titulo:"Camisas",   talla:true,  base:500 },
+      { id:"cat-hoodies",   titulo:"Hoodies",   talla:true,  base:800 },
+      { id:"cat-gorras",    titulo:"Gorras",    talla:true,  base:350 },
+      { id:"cat-mousepads", titulo:"Mousepads", talla:true,  base:250 },
+      { id:"cat-vasos",     titulo:"Vasos",     talla:false, base:200 },
+      { id:"cat-tazas",     titulo:"Tazas",     talla:false, base:220 },
+      { id:"cat-decoracion",titulo:"Decoración para fiestas", talla:false, base:400 },
+      { id:"cat-regalos",   titulo:"Regalos",   talla:false, base:300 },
     ];
 
     // Genera 10 productos por categoría
@@ -475,7 +475,7 @@
         id:`${cat.id}-${i+1}`,
         nombre:`${cat.titulo.slice(0,1).toUpperCase()+cat.titulo.slice(1)} ${i+1}`,
         precio:cat.base,
-        imagen:cat.imagen, // Usamos la imagen específica de la categoría
+        imagen:"img/camisa.png",
         requiereTalla:cat.talla
       }));
     });
