@@ -23,19 +23,24 @@
     .producto img {width:100%;border-radius:10px;}
     .producto h3 {margin:10px 0 5px;font-size:20px;}
     .producto p {margin:5px 0;font-size:16px;}
-    .btn-agregar, #finalizar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
-      cursor:pointer;font-weight:bold;}
-    .btn-agregar:hover, #finalizar:hover {background:#87B4E3;color:white;}
+    .btn-agregar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
+      cursor:pointer;font-weight:bold;margin-top:5px;}
+    .btn-agregar:hover {background:#87B4E3;color:white;}
+    select, .cantidad {margin-top:5px;padding:5px;border-radius:5px;width:100%;}
+    .cantidad {width:80px;text-align:center;}
     /* Carrito */
     #carrito-btn {position:fixed;bottom:20px;right:20px;background:#FFD23F;border:none;padding:15px;
       border-radius:50%;cursor:pointer;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
     #carrito-contenido {display:none;position:fixed;bottom:80px;right:20px;width:300px;background:white;
       border:1px solid #ccc;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.2);}
     #carrito-contenido h3 {margin-top:0;text-align:center;}
+    #finalizar {padding:8px 12px;background:#FFD23F;color:#0B2C4A;border:none;border-radius:5px;
+      cursor:pointer;font-weight:bold;width:100%;}
+    #finalizar:hover {background:#87B4E3;color:white;}
     /* Instrucciones */
     .instrucciones {background:white;margin:30px;padding:20px;border-radius:10px;
       box-shadow:0 2px 6px rgba(0,0,0,.1);}
-    .instrucciones h2 {text-align:left;margin-bottom:15px;}
+    .instrucciones h2 {margin-bottom:15px;}
     /* Contacto */
     #contacto {text-align:center;padding:40px 20px;background:#87B4E3;color:white;}
     .social-links a {margin:10px;font-size:24px;color:white;background:#0B2C4A;padding:12px;
@@ -58,36 +63,63 @@
   <a href="#contacto">Contacto</a>
 </nav>
 
-<!-- Secciones de productos -->
 <section id="productos">
+  <!-- CAMISAS -->
   <h2>Camisas</h2>
   <div class="productos">
-    <div class="producto"><img src="img/camisa.png"><h3>Naruto</h3><p>L500</p><button class="btn-agregar" data-producto="Camisa Naruto" data-precio="500">Agregar</button></div>
-    <div class="producto"><img src="img/camisa.png"><h3>Dragon Ball</h3><p>L500</p><button class="btn-agregar" data-producto="Camisa Dragon Ball" data-precio="500">Agregar</button></div>
+    <div class="producto"><img src="img/camisa.png"><h3>Camisa Naruto</h3><p>L500</p>
+      <select><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+      <input type="number" class="cantidad" value="1" min="1">
+      <button class="btn-agregar" data-producto="Camisa Naruto" data-precio="500">Agregar</button></div>
   </div>
 
+  <!-- HOODIES -->
   <h2>Hoodies</h2>
   <div class="productos">
-    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Anime</h3><p>L800</p><button class="btn-agregar" data-producto="Hoodie Anime" data-precio="800">Agregar</button></div>
-    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Logo</h3><p>L800</p><button class="btn-agregar" data-producto="Hoodie Logo" data-precio="800">Agregar</button></div>
+    <div class="producto"><img src="img/hoodie.png"><h3>Hoodie Anime</h3><p>L800</p>
+      <select><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+      <input type="number" class="cantidad" value="1" min="1">
+      <button class="btn-agregar" data-producto="Hoodie Anime" data-precio="800">Agregar</button></div>
+  </div>
+
+  <!-- GORRAS -->
+  <h2>Gorras</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/gorra.png"><h3>Gorra Negra</h3><p>L350</p>
+      <select><option>S</option><option>M</option><option>L</option></select>
+      <input type="number" class="cantidad" value="1" min="1">
+      <button class="btn-agregar" data-producto="Gorra Negra" data-precio="350">Agregar</button></div>
+  </div>
+
+  <!-- MOUSEPADS -->
+  <h2>Mousepads</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/mousepad.png"><h3>Mousepad Gamer</h3><p>L250</p>
+      <select><option>Pequeño</option><option>Mediano</option><option>Grande</option></select>
+      <input type="number" class="cantidad" value="1" min="1">
+      <button class="btn-agregar" data-producto="Mousepad Gamer" data-precio="250">Agregar</button></div>
+  </div>
+
+  <!-- VASOS -->
+  <h2>Vasos</h2>
+  <div class="productos">
+    <div class="producto"><img src="img/vaso.png"><h3>Vaso Personalizado</h3><p>L150</p>
+      <input type="number" class="cantidad" value="1" min="1">
+      <button class="btn-agregar" data-producto="Vaso Personalizado" data-precio="150">Agregar</button></div>
   </div>
 </section>
 
-<!-- Instrucciones -->
 <section class="instrucciones">
   <h2>🛒 Instrucciones de Compra</h2>
   <ol>
     <li>Agrega los productos que quieras al carrito.</li>
+    <li>Si el producto requiere, selecciona la talla antes de agregarlo.</li>
+    <li>Indica la cantidad que desees.</li>
     <li>Abre el carrito y revisa tu pedido.</li>
     <li>Haz clic en "Finalizar Compra" y se abrirá WhatsApp con los detalles.</li>
-    <li>Realiza la transferencia a nuestra cuenta BAC Credomatic:</li>
   </ol>
-  <p><b>Banco:</b> BAC Credomatic<br>
-     <b>Número de cuenta:</b> 751240361<br>
-     <b>Tipo:</b> Ahorros</p>
 </section>
 
-<!-- Contacto -->
 <section id="contacto">
   <h2>📩 Contáctanos</h2>
   <div class="social-links">
@@ -101,7 +133,6 @@
   <p>© 2025 OCEAN STORE - Todos los derechos reservados</p>
 </footer>
 
-<!-- Carrito -->
 <button id="carrito-btn"><i class="fas fa-shopping-cart"></i></button>
 <div id="carrito-contenido">
   <h3>🛒 Tu Carrito</h3>
@@ -123,18 +154,21 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click",()=>{
       let nombre = btn.dataset.producto;
       let precio = parseInt(btn.dataset.precio);
-      let item = carrito.find(p=>p.nombre===nombre);
-      if(item){item.cantidad++;}else{carrito.push({nombre,precio,cantidad:1});}
+      let select = btn.parentElement.querySelector("select");
+      let talla = select ? select.value : null;
+      let cantidad = parseInt(btn.parentElement.querySelector(".cantidad").value);
+      let key = talla ? `${nombre} (${talla})` : nombre;
+
+      let item = carrito.find(p=>p.nombre===key);
+      if(item){item.cantidad+=cantidad;}else{carrito.push({nombre:key,precio,cantidad});}
       renderCarrito();
     });
   });
 
-  // Mostrar / ocultar carrito
   carritoBtn.addEventListener("click",()=>{
     carritoContenido.style.display=carritoContenido.style.display==="block"?"none":"block";
   });
 
-  // Renderizar carrito
   function renderCarrito(){
     listaCarrito.innerHTML="";
     let totalCompra=0;
@@ -147,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
     total.textContent="Total: L"+totalCompra;
   }
 
-  // Finalizar compra
   document.getElementById("finalizar").addEventListener("click",()=>{
     if(carrito.length===0){alert("Tu carrito está vacío.");return;}
     let mensaje="Hola, quiero ordenar:\n";
@@ -162,8 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
-
 
 
 
